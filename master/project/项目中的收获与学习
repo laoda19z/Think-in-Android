@@ -27,3 +27,7 @@
    而LinearLayout是最好的选择。但如果我仍想继续使用已经定义好的Adater呢？我们只需要自定义一个类继承自LinearLayout，为其加上对BaseAdapter的适配。
  3、使用单个ListView取代ScrollView中所有内容
     即让前几个item展示为所需的内容，真正listview中的内容在适配器定位时，改变一下position即可。
+ 4、在解决listview的item和item内部的button点击事件冲突时，发下了一个简便的方法，及其好用： 
+  （1）在listview布局文件的根元素上中添加属性android:descendantFocusability="blocksDescendants"
+  （2）在Button中添加属性android:focusable="false"和android:clickable="true"
+   这样就可以及其方便的实现了item的点击事件和item内部的button点击事件。
