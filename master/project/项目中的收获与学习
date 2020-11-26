@@ -1,0 +1,29 @@
+11月26日：
+  苗龙龙，解决scrollview中嵌套listview而引起的滑动问题
+  解决方案： 重写onMeasure方法
+  1、重写listview，然后使用该自定义的listview即可
+    public class MyListView extends ListView {
+      public MyListView(Context context) {
+          super(context);
+      }
+
+      public MyListView(Context context, AttributeSet attrs) {
+          super(context, attrs);
+      }
+
+      public MyListView(Context context, AttributeSet attrs, int defStyleAttr) {
+          super(context, attrs, defStyleAttr);
+      }
+
+      @Override
+      protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+          int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2,
+                  MeasureSpec.AT_MOST);
+          super.onMeasure(widthMeasureSpec, expandSpec);
+      }
+    }
+ 2、使用LinearLayout取代ListView  
+   既然ListView不能适应ScrollView，那就换一个可以适应ScrollView的控件，干嘛非要吊死在ListView这一棵树上呢？
+   而LinearLayout是最好的选择。但如果我仍想继续使用已经定义好的Adater呢？我们只需要自定义一个类继承自LinearLayout，为其加上对BaseAdapter的适配。
+ 3、使用单个ListView取代ScrollView中所有内容
+    即让前几个item展示为所需的内容，真正listview中的内容在适配器定位时，改变一下position即可。
