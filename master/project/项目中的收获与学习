@@ -39,5 +39,7 @@
       最后改用FragmentActivity才得以解决，
       （1）fragement的onCreateView方法  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
       （2）fragmentActivity的onCreateView方法 public View onCreateView(@NonNull String name, @NonNull final Context context, @NonNull AttributeSet attrs)
-      正是由于这个context的原因，所以导致我们在实现fragment中有点击等等事件时，会报错
+      正是由于这个context的原因，所以导致我们在实现fragment中有点击等等事件时，会报错、
+  3、在小组项目整合时，将其他人的工程复制过来，记得要在AndroidManifest.xml文件中修改Activity等等的包名。
+  
       
