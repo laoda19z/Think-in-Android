@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+不设置共享器
+  fromXScale 属性为动画起始时 X坐标上的伸缩尺寸
+  toXScale   属性为动画结束时 X坐标上的伸缩尺寸
+  fromYScale 属性为动画起始时Y坐标上的伸缩尺寸
+  toYScale   属性为动画结束时Y坐标上的伸缩尺寸
+  0.0表示收缩到没有
+  1.0表示正常无伸缩
+  值小于1.0表示收缩
+  值大于1.0表示放大
+   pivotX     属性为动画相对于物件的X坐标的开始位置
+            pivotY     属性为动画相对于物件的Y坐标的开始位置
+-->
+<set xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shareInterpolator="false">
+    <scale
+        android:fillAfter="false"
+        android:fromXScale="0.0"
+        android:fromYScale="0.0"
+        android:pivotX="50%"
+        android:pivotY="50%"
+        android:toXScale="1.0"
+        android:toYScale="1.0" />
+</set>
