@@ -31,3 +31,6 @@
   （1）在listview布局文件的根元素上中添加属性android:descendantFocusability="blocksDescendants"
   （2）在Button中添加属性android:focusable="false"和android:clickable="true"
    这样就可以及其方便的实现了item的点击事件和item内部的button点击事件。
+11月30日：
+  1、在使用listview，adapter的时候，一定要注意要引入正确的布局，listview布局和adapter布局是不同的，注意区分，有时候空指针也代表着你根本就没有获取到布局，因为这个当前布局中根本就没有这样的一个控件，自然就找不到了。
+  Attempt to invoke virtual method 'void android.widget.TextView.setText
