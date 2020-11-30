@@ -34,3 +34,10 @@
 11月30日：
   1、在使用listview，adapter的时候，一定要注意要引入正确的布局，listview布局和adapter布局是不同的，注意区分，有时候空指针也代表着你根本就没有获取到布局，因为这个当前布局中根本就没有这样的一个控件，自然就找不到了。
   Attempt to invoke virtual method 'void android.widget.TextView.setText
+  2、这段时间一直在使用viewPager来实现界面的切换，从而也出现了一系列的问题，viewPager中包含的fragment，出现了一堆的问题，主要原因还是出现在viewpager加载fragemnt.......
+      待补充:
+      最后改用FragmentActivity才得以解决，
+      （1）fragement的onCreateView方法  public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState)
+      （2）fragmentActivity的onCreateView方法 public View onCreateView(@NonNull String name, @NonNull final Context context, @NonNull AttributeSet attrs)
+      正是由于这个context的原因，所以导致我们在实现fragment中有点击等等事件时，会报错
+      
