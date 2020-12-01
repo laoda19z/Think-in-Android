@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@mipmap/record6"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <ImageView
+        android:layout_marginTop="50dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:background="@mipmap/a8"
+        android:layout_toLeftOf="@+id/run"
+        android:id="@+id/img"/>
+
+    <TextView
+        android:id="@+id/run"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="85dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="运动更健康!!!"
+        android:textColor="@color/black"
+        android:textSize="20dp" />
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="50dp"
+        android:background="@mipmap/a7"
+        android:layout_toRightOf="@+id/run"
+        android:id="@+id/sun" />
+    <com.github.mikephil.charting.charts.PieChart
+        android:layout_width="280dp"
+        android:layout_height="280dp"
+        android:layout_marginTop="320dp"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/pie"/>
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:id="@+id/htext"
+        android:text="打卡运动时间统计"
+        android:gravity="center"
+        android:layout_width="30dp"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:layout_height="280dp"
+        android:layout_toRightOf="@+id/pie"
+        android:layout_alignTop="@+id/pie" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text=""
+        android:layout_below="@+id/sun"
+        android:textColor="@color/purple_500"
+        android:layout_centerHorizontal="true"
+        android:textSize="30dp"/>
+    <TextView
+        android:background="@drawable/text_view_background"
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:text="       这是你运动打卡的最长时间，继续努力吧！"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:layout_below="@+id/time"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"/>
+</RelativeLayout>
