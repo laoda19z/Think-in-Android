@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:layout_height="match_parent"
+    android:layout_width="match_parent"
+    android:background="@mipmap/record6"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:autoLink="all"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="测评各项得分统计图"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"/>
+    <com.github.mikephil.charting.charts.LineChart
+        android:layout_marginTop="120dp"
+        android:id="@+id/linechart"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"/>
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_marginTop="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_below="@+id/linechart"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/gif"
+        android:background="@mipmap/timg"/>
+    <TextView
+        android:id="@+id/see"
+        android:background="@drawable/text_view_background"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:text="        几次测评显示，您的孩子的成绩稳步上升，继续加油吧！"
+        android:layout_marginLeft="5dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_toRightOf="@id/gif"
+        android:layout_alignTop="@+id/gif"/>
+</RelativeLayout>

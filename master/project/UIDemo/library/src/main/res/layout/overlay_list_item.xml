@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--简介界面
+用于动画变换
+RevealFrameLayout：向下逐层嵌套，下面的在最上层-->
+<io.codetail.widget.RevealFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ECF732">
+
+<!--  include在最下层  -->
+    <include
+        layout="@layout/list_item"
+        android:id="@+id/wrapper_list_item" />
+
+
+<!--设置为不可见，遇到特定的事件再做填充-->
+    <LinearLayout
+        android:id="@+id/wrapper_list_item_reveal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@+id/wrapper_list_item"
+        android:layout_alignBottom="@+id/wrapper_list_item"
+        android:orientation="vertical"
+        android:visibility="invisible"
+        android:background="#ECF732">
+
+
+        <ImageView
+            android:id="@+id/image_view_reveal_avatar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/height_profile_image"
+            android:clickable="true"
+            tools:src="@drawable/nicolas_cage" />
+
+    </LinearLayout>
+
+
+</io.codetail.widget.RevealFrameLayout>

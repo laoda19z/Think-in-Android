@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Profile Interface</string>
+
+<!--  简短描述  -->
+    <string name="lorem_ipsum_short"> 点击查看更多课程详情 </string>
+<!--    详细描述-->
+    <string name="lorem_ipsum_long">老师与孩子面对面，手把手，近距离进行教学。使孩子眼、脑、四肢、肌肉、神经、心理等均衡发展，重点培养孩子的动作速度和肌肉耐力，改善身体姿态。培养孩子的自信心、进取心、形成勇于拼搏的精神。</string>
+
+<!--  title  -->
+    <string name="title_following">优质少年运动课程</string>
+
+<!--  个人经历  -->
+    <string name="toolbar_bio">Bio</string>
+
+<!--  详细  -->
+    <string name="toolbar_details">Details</string>
+</resources>
