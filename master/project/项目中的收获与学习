@@ -41,5 +41,10 @@
       （2）fragmentActivity的onCreateView方法 public View onCreateView(@NonNull String name, @NonNull final Context context, @NonNull AttributeSet attrs)
       正是由于这个context的原因，所以导致我们在实现fragment中有点击等等事件时，会报错、
   3、在小组项目整合时，将其他人的工程复制过来，记得要在AndroidManifest.xml文件中修改Activity等等的包名。
-  
-      
+12月1日：
+   1、要深入理解final和static的用法
+   final修饰的才是常数，创建后不能修改
+   static 静态的，本人理解可以跨类来进行调用。如项目中的登录，登录成功后，可以把该用户所需要的必要信息设置为static，这样这个项目中的其他类就可以直接访问了（相当于一个全局变量）。
+   2、这里突然想到，数据库中的用户密码字段不应该直接存储，而是应该通过某种加密的方式。这项工作放在后期测试阶段再进行完善吧。
+12月2日:
+  1、今天有学习到了新东西，关于OkHttp以表单形式来上传文件，数据等。之前后台不会使用，发现它可以结合jsp中的操作，fileupload。
