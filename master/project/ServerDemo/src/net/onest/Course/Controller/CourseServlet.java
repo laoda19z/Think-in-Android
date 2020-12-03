@@ -1,4 +1,4 @@
-package net.onest.zzz.sport.controller;
+package net.onest.Course.Controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -12,10 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import net.onest.zzz.sport.entity.Course;
-import net.onest.zzz.sport.service.CourseService;
-
+import net.onest.Course.*;
+import net.onest.entity.*;
+import net.onest.Course.Service.*;
 
 
 /**

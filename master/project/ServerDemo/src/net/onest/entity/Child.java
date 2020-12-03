@@ -1,4 +1,4 @@
-package net.onest.zzz.sport.entity;
+package net.onest.entity;
 
 public class Child {
     private int childId;        //º¢×ÓID

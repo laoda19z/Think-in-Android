@@ -1,9 +1,8 @@
-package net.onest.zzz.sport.service;
-
+package net.onest.Course.Service;
 import java.util.List;
+import net.onest.entity.*;
+import net.onest.Course.Dao.*;
 
-import net.onest.zzz.sport.dao.CourseDao;
-import net.onest.zzz.sport.entity.Course;
 
 
 public class CourseService {

@@ -1,4 +1,4 @@
-package net.onest.zzz.sport.entity;
+package net.onest.entity;
 
 import java.util.List;
 

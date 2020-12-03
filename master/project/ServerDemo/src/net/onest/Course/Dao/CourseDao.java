@@ -1,5 +1,4 @@
-package net.onest.zzz.sport.dao;
-
+package net.onest.Course.Dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,8 +6,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import net.onest.zzz.sport.entity.Course;
-import net.onest.zzz.sport.util.DbUtil;
+import net.onest.entity.Course;
+import net.onest.util.DBUtil;
+
+
 
 
 public class CourseDao {
@@ -18,7 +19,7 @@ public class CourseDao {
 		ResultSet rs = null;
 		List<Course> courses = new ArrayList<Course>();
 		try {
-			con = DbUtil.getCon();
+			con = DBUtil.getConn();
 			pstm = con.prepareStatement("select * from course");
 			rs = pstm.executeQuery();
 			while(rs.next()) {
