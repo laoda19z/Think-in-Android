@@ -22,6 +22,9 @@ import com.example.uidemo.beans.Dynamic;
 import com.example.uidemo.beans.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -38,6 +41,7 @@ import java.util.Map;
 
 public class CommunicityFragment2 extends FragmentActivity {
     private View view;
+    private SmartRefreshLayout srl;
     private List<Dynamic> dynamics = new ArrayList<>();
     private List<User> users = new ArrayList<>();
     private DynamicAdapter adapter;
@@ -50,6 +54,7 @@ public class CommunicityFragment2 extends FragmentActivity {
         view = LayoutInflater.from(context).inflate(R.layout.communicity_fragment2, null);
         listView = view.findViewById(R.id.trends_listview);
         btnPublishTrend = view.findViewById(R.id.btn_publishtrends);
+        srl = view.findViewById(R.id.all_trend_srl);
         initData();
         handler = new Handler(Looper.myLooper()) {
             @Override
@@ -78,6 +83,15 @@ public class CommunicityFragment2 extends FragmentActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(context.getApplicationContext(), PublishTrendsActivity.class);
                 context.startActivity(intent);
+            }
+        });
+        //给智能刷新控件注册下拉刷新事件监听器
+        srl.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                showDynamic(ConfigUtil.SERVER_ADDR + "ShowDynamicServlet");
+                //通知刷新完毕
+                srl.finishRefresh();
             }
         });
 

@@ -59,7 +59,7 @@ public class CommunicityFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 viewPager.setCurrentItem(0);
-                cardTab.setBackgroundColor(Color.rgb(138,138,138));
+                cardTab.setBackgroundColor(Color.rgb(198,224,245));
                 commTab.setBackgroundColor(Color.rgb(247,247,247));
             }
         });
@@ -67,7 +67,7 @@ public class CommunicityFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 viewPager.setCurrentItem(1);
-                commTab.setBackgroundColor(Color.rgb(138,138,138));
+                commTab.setBackgroundColor(Color.rgb(198,224,245));
                 cardTab.setBackgroundColor(Color.rgb(247,247,247));
 
             }
@@ -94,7 +94,7 @@ public class CommunicityFragment extends Fragment {
     private void initTab() {
 
         commTab.setChecked(true);
-        cardTab.setBackgroundColor(Color.rgb(138,138,138));
+        cardTab.setBackgroundColor(Color.rgb(198,224,245));
         commTab.setBackgroundColor(Color.rgb(247,247,247));
         lsViews = new ArrayList<>();
         lsViews.add(new CommunicityFragment1().onCreateView(null,viewPager.getContext(),null));
@@ -114,15 +114,14 @@ public class CommunicityFragment extends Fragment {
                 switch (position){
                     case 0://打卡
                         cardTab.setChecked(true);
-                        Log.i("mll","打卡");
-                        cardTab.setBackgroundColor(Color.rgb(138,138,138));
+                        cardTab.setBackgroundColor(Color.rgb(198,224,245));
                         commTab.setBackgroundColor(Color.rgb(247,247,247));
 
                         break;
                     case 1://动态
                         commTab.setChecked(true);
                         Log.i("mll","dongtai");
-                        commTab.setBackgroundColor(Color.rgb(138,138,138));
+                        commTab.setBackgroundColor(Color.rgb(198,224,245));
                         cardTab.setBackgroundColor(Color.rgb(247,247,247));
                         break;
                 }

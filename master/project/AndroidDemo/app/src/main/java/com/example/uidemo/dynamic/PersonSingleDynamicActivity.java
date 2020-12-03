@@ -24,6 +24,10 @@ import com.example.uidemo.beans.Dynamic;
 import com.example.uidemo.beans.User;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -44,6 +48,7 @@ public class PersonSingleDynamicActivity extends AppCompatActivity {
     private DynamicAdapter adapter;
     private List<User> users = new ArrayList<>();
     private List<Dynamic> dynamics = new ArrayList<>();
+    private SmartRefreshLayout srl;
     private Handler handler;
     private int userid;
     @Override
@@ -85,12 +90,39 @@ public class PersonSingleDynamicActivity extends AppCompatActivity {
         }
         adapter = new DynamicAdapter(this, dynamics, R.layout.trends_item);
         myListView.setAdapter(adapter);
+        //给智能刷新控件注册下拉刷新事件监听器
+        srl.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                showDynamic(ConfigUtil.SERVER_ADDR+"ShowOwnerDynamicServlet"+requestParam);
+                //通知刷新完毕
+                srl.finishRefresh();
+            }
+        });
+        //给智能刷新控件注册上拉加载更多事件监听器
+        srl.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                //假设超过10条数据加载完毕（不可以一直加载数据库里的）
+//                if(dynamics.size()<10){
+//                    String requestParam = "?userid="+userid+"&page="+currentpage;
+//                    currentpage++;
+//                    showDynamic(ConfigUtil.SERVER_ADDR+"ShowOwnerDynamicServlet"+requestParam);
+//                    //通知加载完毕，通知srl
+//                    srl.finishLoadMore();
+//                }else{
+//                    //通知没有更多数据加载，数据库里没有更多文件了
+//                    srl.finishLoadMoreWithNoMoreData();
+//                }
+            }
+        });
     }
 
     private void findViews() {
         iv_head = findViewById(R.id.trend_person_head);
         tv_name = findViewById(R.id.trend_person_user);
         myListView = findViewById(R.id.trend_person_listview);
+        srl = findViewById(R.id.person_trend_srl);
     }
 
     public void clickIntoChat(View view) {
