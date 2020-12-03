@@ -30,7 +30,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Call;
@@ -47,9 +46,9 @@ public class DynamicAdapter extends BaseAdapter {
     private int layout;
     private OkHttpClient okHttpClient;
     private Handler handler;
-    private User user = new User();
+    private User user;
     private ViewHolder holder;
-    private List<User> users = new ArrayList<>();
+    private List<User> users;
     private Dynamic currentdynamic;
     public DynamicAdapter(Context context, List<Dynamic> lists, int layout) {
         this.context = context;
@@ -91,7 +90,7 @@ public class DynamicAdapter extends BaseAdapter {
 //                        holder.tv_name.setText(user.getUsername());
 //                        Log.e("mll",ConfigUtil.SERVER_ADDR+user.getHeadImg());
 //                        Glide.with(context).load(ConfigUtil.SERVER_ADDR+user.getHeadImg()).override(50, 50).circleCrop().into(holder.iv_head);
-                        break;
+                    break;
                     case 2:
                         Log.e("mll","OK");
                         break;
@@ -143,7 +142,6 @@ public class DynamicAdapter extends BaseAdapter {
 //                                textView.setText(comment.getPublisherId()+"发布了"+comment.getContent()+"接收者为"+comment.getReceiverId());
                                 textView.setText("当前用户："+tvComm.getText().toString());
                                 holder.trend_comment_list.addView(textView);
-                                notifyDataSetChanged();
                             }
                             dialog.dismiss();
                         }
@@ -166,7 +164,6 @@ public class DynamicAdapter extends BaseAdapter {
             TextView textView = new TextView(context);
             textView.setText(comment.getPublisherId()+"："+comment.getContent());
             holder.trend_comment_list.addView(textView);
-            notifyDataSetChanged();
         }
         SimpleDateFormat fo = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
         holder.tv_time.setText(fo.format(currentdynamic.getTime()));
@@ -188,28 +185,28 @@ public class DynamicAdapter extends BaseAdapter {
      * 发送评论
      */
     private void sendComment(String str) {
-        //创建Request对象
-        //获取待传输数据的MIME类型
-        MediaType type = MediaType.parse("text/plain;charset=utf-8");
-        //创建RequestBody对象
-        RequestBody requestBody = RequestBody.create(str,type);
-        Request request = new Request.Builder().url(ConfigUtil.SERVER_ADDR+"AddCommentServlet").post(requestBody).build();
-        Call call = okHttpClient.newCall(request);
-        call.enqueue(new Callback() {
-            //如果是同步的话会导致线程阻塞接收响应，异步则不会产生线程阻塞，而是当响应返回时调用两个回调方法
-            @Override
-            public void onFailure(@NotNull Call call, @NotNull IOException e) {
-                Log.e("mll","请求失败");
-            }
+            //创建Request对象
+            //获取待传输数据的MIME类型
+            MediaType type = MediaType.parse("text/plain;charset=utf-8");
+            //创建RequestBody对象
+            RequestBody requestBody = RequestBody.create(str,type);
+            Request request = new Request.Builder().url(ConfigUtil.SERVER_ADDR+"AddCommentServlet").post(requestBody).build();
+            Call call = okHttpClient.newCall(request);
+            call.enqueue(new Callback() {
+                //如果是同步的话会导致线程阻塞接收响应，异步则不会产生线程阻塞，而是当响应返回时调用两个回调方法
+                @Override
+                public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    Log.e("mll","请求失败");
+                }
 
-            @Override
-            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-                String res = response.body().string();
-                Message msg = new Message();
-                msg.what = 2;
-                handler.sendMessage(msg);
-            }
-        });
+                @Override
+                public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                    String res = response.body().string();
+                    Message msg = new Message();
+                    msg.what = 2;
+                    handler.sendMessage(msg);
+                }
+            });
     }
 
     static class ViewHolder {

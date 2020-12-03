@@ -2,14 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#ceddf2"
-        android:text="联系人"
-        android:textSize="30sp"
-        android:layout_marginBottom="10dp"
-        android:gravity="center"/>
     <ListView
         android:id="@+id/contact_listview"
         android:layout_width="match_parent"

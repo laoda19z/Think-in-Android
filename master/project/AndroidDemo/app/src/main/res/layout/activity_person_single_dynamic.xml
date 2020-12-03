@@ -8,15 +8,16 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
-            android:alpha="0.5"
-            android:background="@mipmap/a8"/>
+            android:alpha="0.8"
+            android:background="@mipmap/trendsbackground" />
+
         <View
             android:id="@+id/dynamic_white"
             android:layout_width="match_parent"
             android:layout_height="500dp"
-            android:background="@color/white"
-            android:alpha="0.8"
-            android:layout_alignParentBottom="true" />
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="200dp"
+            android:background="@android:color/white" />
 
         <RelativeLayout
             android:id="@+id/trends_item_top"
@@ -43,7 +44,6 @@
                 android:textSize="19sp" />
         </RelativeLayout>
         <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:id="@+id/person_trend_srl"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/trends_item_top">

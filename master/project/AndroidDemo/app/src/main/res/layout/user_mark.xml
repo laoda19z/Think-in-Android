@@ -62,16 +62,17 @@
         android:layout_alignBottom="@id/iv_backgrounds"
         android:layout_alignLeft="@id/iv_backgrounds"
         android:background="#c0c0c0"
-        android:layout_width="155dp"
-        android:layout_height="60dp">
+        android:alpha="0.8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:textColor="#ffffff"
                 android:id="@+id/need_to_write_impression"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="虽然麻辣香锅属于麻辣口味，但颇受全国食客喜爱。味道十分美味，而且口味多种多样，多种食材可任意搭配，可以满足大多数人的胃口喜好，烹饪时间短，4~7分钟即可出锅食用，是很多年轻人偏爱的一种微餐饮。"/>
+                android:layout_height="wrap_content"/>
         </ScrollView>
 
     </LinearLayout>
@@ -100,6 +101,7 @@
             android:layout_width="250dp"
             android:layout_height="match_parent">
             <Button
+                android:background="@drawable/button_circle_shape"
                 android:id="@+id/btn_remark"
                 android:text="打卡"
                 android:layout_width="250dp"
