@@ -1,16 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:layout_height="wrap_content"
-    android:layout_width="300dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-    <ImageView
-        android:layout_width="match_parent"
+    android:layout_width="320dp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <com.xuexiang.xui.widget.imageview.RadiusImageView
+        android:id="@+id/img"
+        android:clickable="false"
+        android:layout_width="290dp"
         android:layout_height="150dp"
-        android:id="@+id/img"/>
+        app:riv_corner_radius="20dp" />
     <TextView
+        android:layout_marginTop="5dp"
+        android:gravity="center"
         android:id="@+id/text1"
         android:layout_below="@+id/img"
-        android:layout_width="match_parent"
+        android:layout_width="290dp"
         android:layout_height="wrap_content"
-        android:textColor="@color/black"
+        android:textColor="	#363636"
         android:textSize="15dp"/>
+    <TextView
+        android:id="@+id/text2"
+        android:layout_width="30dp"
+        android:height="150dp"
+        android:gravity="center"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/text1"/>
 </RelativeLayout>
