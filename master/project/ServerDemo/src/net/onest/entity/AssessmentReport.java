@@ -1,5 +1,4 @@
 package net.onest.entity;
-
 public class AssessmentReport {
 	private int bodyScore;
 	private int childId;

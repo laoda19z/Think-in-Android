@@ -35,6 +35,11 @@
         android:usesCleartextTraffic="true">
         <activity android:name=".RegisterActivity"></activity>
         <activity android:name=".LoginActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".familyactivity.activities.FamilyActivity" />
         <activity android:name=".record.RecordActivity" />
@@ -42,13 +47,7 @@
         <activity android:name=".chat.ChatActivity" />
         <activity android:name=".dynamic.PublishTrendsActivity" />
         <activity android:name=".dynamic.PersonSingleDynamicActivity" />
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".MainActivity"/>
         <activity android:name=".me.CodeActivity" />
         <activity android:name=".me.AddKidActivity" />
         <activity android:name=".me.PersonInfoActivity" />
@@ -62,8 +61,6 @@
         <activity android:name=".mark.MarkInformation" />
         <activity android:name=".mark.backgroun.BackgroundChoice" />
         <activity android:name=".mark.MarkSuccess.UserMark" />
-        <activity android:name=".mark.backgroun.Test"/>
-        <activity android:name=".mark.MarkSuccess.BUserMark"/>
         <activity android:name=".mark.calendar.PictureInfo" />
         <activity android:name=".record.NoRecordActivity" />
         <activity android:name=".record.GrowthRecordActivity" />

@@ -1,5 +1,4 @@
 package net.onest.entity;
-
 public class Relation {
 	private int userid;
 	private int childid;

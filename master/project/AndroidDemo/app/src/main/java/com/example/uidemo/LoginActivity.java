@@ -55,12 +55,32 @@ public class LoginActivity extends AppCompatActivity {
     private Handler myHandler;
     private OkHttpClient okHttpClient;
     public static String currentUserId;
+    public static String currentUserName;
+    public static String currentUserHead;
+    private void signOut() {
+        // 调用sdk的退出登录方法，第一个参数表示是否解绑推送的token，没有使用推送或者被踢都要传false
+        EMClient.getInstance().logout(true, new EMCallBack() {
+            @Override public void onSuccess() {
+                Log.i("mll", "注销成功");
+                // 调用退出成功，结束app
+                finish();
+            }
 
+            @Override public void onError(int i, String s) {
+                Log.i("mll", "注销失败 logout error " + i + " - " + s);
+            }
+
+            @Override public void onProgress(int i, String s) {
+                Log.i("mll","运行中");
+            }
+        });
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
         initView();
+//        signOut();
         okHttpClient = new OkHttpClient();
         myHandler = new Handler(Looper.myLooper()) {
             @Override
@@ -119,6 +139,7 @@ public class LoginActivity extends AppCompatActivity {
 //        try {
         String userPwd = etUserPwd.getText().toString().trim();
         String userName = etUserName.getText().toString().trim();
+        currentUserName = userName;
         userToServer(userName, userPwd);
     }
 
@@ -298,6 +319,7 @@ public class LoginActivity extends AppCompatActivity {
                     Gson gson = new Gson();
                     User user = gson.fromJson(responsestr, User.class);
                     String userId = user.getUserId() + "";
+                    currentUserHead = user.getHeadImg();
                     loginInEMServer(userId);
                 }
             }

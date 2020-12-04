@@ -19,6 +19,7 @@
         android:layout_gravity="left">
 
         <ImageView
+            android:id="@+id/chat_item_receiver"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginLeft="10dp"/>
@@ -53,6 +54,7 @@
             android:textColor="@android:color/white" />
 
         <ImageView
+            android:id="@+id/chat_item_publisher"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginRight="10dp"/>

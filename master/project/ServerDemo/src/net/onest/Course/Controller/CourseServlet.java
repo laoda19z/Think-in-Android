@@ -2,6 +2,7 @@ package net.onest.Course.Controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -36,15 +37,12 @@ public class CourseServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.setCharacterEncoding("utf-8");
+		response.setContentType("text/html;charset=UTF-8");
+		PrintWriter writer = response.getWriter();
 		CourseService cs = new CourseService();
 		List<Course> courses = cs.listCourses();
 		String json = toJson(courses);
-		System.out.println(json);
-		OutputStream out = response.getOutputStream();
-		out.write(json.getBytes());
-		out.flush();
-		out.close();
+		writer.write(json);
 	}
 	private String toJson(List<Course> list) {
 		String json = null;

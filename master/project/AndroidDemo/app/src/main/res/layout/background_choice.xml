@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_height="match_parent"
-    android:layout_width="match_parent"
+<ScrollView android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android" >
     <LinearLayout android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android">
         <LinearLayout
             android:layout_marginTop="20dp"
             android:background="@drawable/edittext_border"
@@ -28,11 +29,65 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-        <ListView
-            android:id="@+id/listview1"
-            android:layout_width="360dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"/>
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="360dp"
+                android:layout_height="120dp"
+                android:src="@drawable/first"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="360dp"
+                android:layout_height="120dp"
+                android:src="@drawable/second"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="360dp"
+                android:layout_height="120dp"
+                android:src="@drawable/third"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="360dp"
+                android:layout_height="120dp"
+                android:src="@drawable/fifth"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="360dp"
+                android:layout_height="120dp"
+                android:src="@drawable/sixth"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:layout_width="360dp"
+                android:layout_height="120dp"
+                android:src="@drawable/seventh"/>
+        </LinearLayout>
     </LinearLayout>
-</RelativeLayout>
-
+</ScrollView>

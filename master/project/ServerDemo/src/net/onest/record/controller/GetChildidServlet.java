@@ -20,7 +20,6 @@ import net.onest.entity.Relation;
 import net.onest.record.service.RelationService;
 
 
-
 /**
  * Servlet implementation class GetChildidServlet
  */

@@ -1,33 +1,105 @@
 package com.example.uidemo.beans;
+
+import java.util.List;
+
 public class User {
-    private String username;//用户名
-    private String password;//密码
-    private int userId;//用户id
-    private String headImg;//用户头像
-    public String getUsername() {
-        return username;
+    private int userId;
+    private String username;
+    private String realname;
+    private String password;
+    private String headImg;
+    private String phoneNum;
+    private String email;
+    private String sex;
+    private List<Child> kids;
+
+    public List<Child> getKids() {
+        return kids;
     }
-    public void setUsername(String username) {
-        this.username = username;
+
+    public void setKids(List<Child> kids) {
+        this.kids = kids;
     }
-    public String getPassword() {
-        return password;
+
+    public User() {
     }
-    public void setPassword(String password) {
-        this.password = password;
+
+    public String getRealname() {
+        return realname;
     }
+
+    public void setRealname(String realname) {
+        this.realname = realname;
+    }
+
     public int getUserId() {
         return userId;
     }
+
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     public String getHeadImg() {
         return headImg;
     }
+
     public void setHeadImg(String headImg) {
         this.headImg = headImg;
     }
 
+    public String getPhoneNum() {
+        return phoneNum;
+    }
+
+    public void setPhoneNum(String phoneNum) {
+        this.phoneNum = phoneNum;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", realname='" + realname + '\'' +
+                ", password='" + password + '\'' +
+                ", headImg='" + headImg + '\'' +
+                ", phoneNum='" + phoneNum + '\'' +
+                ", email='" + email + '\'' +
+                ", sex='" + sex + '\'' +
+                '}';
+    }
 
 }

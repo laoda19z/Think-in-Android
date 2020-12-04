@@ -21,7 +21,6 @@ import net.onest.entity.ClockRecord;
 import net.onest.record.service.ClockRecordService;
 
 
-
 /**
  * Servlet implementation class SportImpressionsServlet
  */
@@ -48,9 +47,9 @@ public class SportImpressionsServlet extends HttpServlet {
 		BufferedReader buffer=new BufferedReader(new InputStreamReader(in,"utf-8"));
 		String str=buffer.readLine();
 		System.out.println(str+"impression");
-		int userid=Integer.parseInt(str);
-		
-		String sql="select * from mark where length(impression) = (select max(length(impression)) from mark) && userid="+userid;
+//		int userid=Integer.parseInt(str);
+		int userid = 1;
+		String sql="select * from mark where length(impression) = (select max(length(impression)) from mark) && child="+userid;
 		System.out.println(sql);
 		List<ClockRecord> list=new ArrayList<>();
 		list=new ClockRecordService().getlist(sql);

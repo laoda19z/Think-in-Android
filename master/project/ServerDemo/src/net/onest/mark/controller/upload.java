@@ -9,6 +9,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +30,12 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import com.google.gson.Gson;
 
+
+import net.onest.entity.ReturnMarkPic;
 import net.onest.entity.TotalMark;
-import net.onest.util.MyUtil;
+import net.onest.util.DBUtil;
+
+
 
 
 /**
@@ -70,19 +77,32 @@ public class upload extends HttpServlet {
 					Gson gson=new Gson();
 					TotalMark totalmark=gson.fromJson(total1, TotalMark.class);
 					//插入数据库
-					MyUtil util=new MyUtil();
-					//查询数据
 					String sql="select * from mark where username='"+totalmark.getUsername()+"' and child="+totalmark.getChild()+" and markdate='"+totalmark.getDate()+"'";
-					if(util.isExist(sql)==true) {
-						//已经打卡过
-					}
-					else {
-						//没有打卡过
+					Connection conn = null;
+					PreparedStatement pstm = null;
+					ResultSet rs = null;
+					int count = 0;
+					try {
 						String sql1="insert into mark(username,markdate,sporttype,sporttime,impression,background,child) values('"+totalmark.getUsername()+"','"+totalmark.getDate()+"','"+totalmark.getSporttype()+"',"+totalmark.getMinutes()+",'"+totalmark.getImpression()+"','"+totalmark.getPicname()+"',"+totalmark.getChild()+")";
-						util.addDataToTable(sql1);
-						//同时写入图片
-						item.write(new File(path+"/"+totalmark.getPicname()+".jpg"));
+
+						conn =DBUtil.getConn();
+						pstm = conn.prepareStatement(sql);
+						rs = pstm.executeQuery();
+						if(rs.next()) {
+							
+						}else {
+							//没有打卡过
+							pstm = conn.prepareStatement(sql1);
+							pstm.executeUpdate();
+							//同时写入图片
+							item.write(new File(path+"/"+totalmark.getPicname()+".jpg"));
+						}
+					}catch (Exception e) {
+						e.printStackTrace();
+					}finally {
+						DBUtil.close(rs, pstm, conn);
 					}
+					//查询数据
 				}
 			}
 		} catch (FileUploadException e) {

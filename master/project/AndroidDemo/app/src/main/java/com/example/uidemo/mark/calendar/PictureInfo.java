@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,7 +19,6 @@ import com.bumptech.glide.Glide;
 import com.example.uidemo.ConfigUtil;
 import com.example.uidemo.R;
 import com.example.uidemo.mark.Entity.MarkPicEntity;
-import com.example.uidemo.mark.Entity.ReturnMarkPic;
 import com.google.gson.Gson;
 
 import java.io.File;
@@ -33,7 +31,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-import java.net.URLDecoder;
 
 public class PictureInfo extends AppCompatActivity {
     private ImageView ivmark;
@@ -45,32 +42,14 @@ public class PictureInfo extends AppCompatActivity {
     private Bitmap bitmap;
     //
     private Button btnPicBack;
-    //获得需要输入的控件名称
-    private TextView typename;
-    private TextView dateformat;
-    private TextView sporttime;
-    private TextView impression;
-    //
-    private String type;
-    private int time;
-    private String stringimpression;
-
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(@NonNull Message msg) {
             switch (msg.what){
                 case 1://表示数据完成
                     //图片显示在图片控件中
+                    Log.e("路径",msg.obj+"");
                     Glide.with(getApplicationContext()).load(new File(msg.obj+"")).into(ivmark);
-                    typename.setText(type);
-                    dateformat.setText(date);
-                    sporttime.setText(time+"");
-                    if(!stringimpression.equals("nulls")){
-                        impression.setText(stringimpression);
-                    }
-                    else{
-                        impression.setText("当天未填写感想");
-                    }
                     break;
             }
         }
@@ -84,13 +63,8 @@ public class PictureInfo extends AppCompatActivity {
         Intent intent=getIntent();
         username=intent.getStringExtra("username");
         date=intent.getStringExtra("date");
-        child=Integer.parseInt(intent.getStringExtra("child"));
+        child= Integer.parseInt(intent.getStringExtra("child"));
         btnPicBack=findViewById(R.id.markPicBack);
-
-        typename=findViewById(R.id.tv_typename);
-        dateformat=findViewById(R.id.tv_dateformat);
-        sporttime=findViewById(R.id.tv_sporttime);
-        impression=findViewById(R.id.tv_impression_total);
 
         //通过Intent传递过来的username和孩子id和日期，向服务器端查询图片，并显示
         new Thread(){
@@ -103,6 +77,7 @@ public class PictureInfo extends AppCompatActivity {
                     conn.setRequestMethod("POST");
                     OutputStream out=conn.getOutputStream();
                     //将需要传输的数据变为Json串
+                    Log.e("child",child+"");
                     //创建对象
                     MarkPicEntity pic=new MarkPicEntity(username,date,child);
                     Gson gson=new Gson();
@@ -118,8 +93,8 @@ public class PictureInfo extends AppCompatActivity {
                         buffer.append(new String(chars,0,len));
                     }
                     //通过这个下载网络图片并显示
-                    String total1= URLDecoder.decode(buffer.toString(),"utf-8");
-                    showDate(total1);
+                    Log.e("backpic",buffer.toString());
+                    showImages(buffer.toString());
                 } catch (MalformedURLException | ProtocolException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
@@ -138,19 +113,6 @@ public class PictureInfo extends AppCompatActivity {
 
     }
 
-    //获取数据，下载图片
-    private void showDate(String total1) {
-        //数据转对象
-        Gson gson=new Gson();
-        ReturnMarkPic returnmark=gson.fromJson(total1, ReturnMarkPic.class);
-        //获取数据
-        String path=returnmark.getBackground();
-        type=returnmark.getSporttype();
-        time=returnmark.getSporttime();
-        stringimpression=returnmark.getImpression();
-        showImages(path);
-    }
-
     private void showImages(String path) {
         URL url= null;
         try {
@@ -158,6 +120,7 @@ public class PictureInfo extends AppCompatActivity {
             url = new URL(paths);
             InputStream in1=url.openStream();
             String files=getBaseContext().getFilesDir().getAbsolutePath();
+            Log.e("本地路径",files);
             String imgs=files+"/imgs";
             //files/imgs
             //判断imgs目录是否存在

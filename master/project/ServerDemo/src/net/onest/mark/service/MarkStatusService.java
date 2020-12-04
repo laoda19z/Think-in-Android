@@ -1,8 +1,12 @@
 package net.onest.mark.service;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import net.onest.util.MyUtil;
+import net.onest.util.DBUtil;
+
 
 
 public class MarkStatusService {
@@ -68,13 +72,21 @@ public class MarkStatusService {
 	//这个方法是用来查询数据的
 	public boolean JudgeStatus(String username,int child,String year,String month,String day) throws ClassNotFoundException, SQLException {
 		//通过数据查询
-		MyUtil util=new MyUtil();
+//		MyUtil util=new MyUtil();
 		String markdates=year+"-"+month+"-"+day;
 		System.out.println("markdates"+markdates);
 		System.out.println("username"+username);
 		System.out.println("child"+child);
 		String sql="select * from mark where markdate='"+markdates+"' and username='"+username+"' and child="+child+"";
-		return util.isExist(sql);
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		int count = 0;
+		conn = DBUtil.getConn();
+		pstm = conn.prepareStatement(sql);
+		rs = pstm.executeQuery();
+		
+		return rs.next();
 	}
 	
 

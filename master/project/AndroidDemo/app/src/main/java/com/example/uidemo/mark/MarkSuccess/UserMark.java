@@ -20,7 +20,6 @@ import com.example.uidemo.mark.Entity.Mark;
 import com.example.uidemo.mark.Entity.TotalMark;
 import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
-import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
@@ -28,8 +27,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.HashMap;
-import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -192,11 +189,7 @@ public class UserMark extends AppCompatActivity {
         int height=600;
         BitMatrix bitMatrix = null;
         try {
-            Map<EncodeHintType, Object> hints = new HashMap<>();
-            hints.put(EncodeHintType.MARGIN, 0);
-            hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
-            String contexts="用户名 : "+username+" 运动项目 : "+sport+" 打卡日期 : "+date+" 加油吧!";
-            bitMatrix =new MyQRCodeWriter().encode(contexts, BarcodeFormat.QR_CODE,width,height,hints);
+            bitMatrix =new MyQRCodeWriter().encode("asuna",BarcodeFormat.QR_CODE,width,height);
             /*转为一维数组*/
             int[] pixels = new int[width * height];
             for (int i = 0; i < height; i++) {

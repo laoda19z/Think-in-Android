@@ -29,7 +29,7 @@ public class DBUtil {
 	 */
 	public static Connection getConn() {
 		try {
-			return (Connection) DriverManager.getConnection("jdbc:mysql://localhost:3306/dynamic?useUnicode=true&characterEncoding=UTF-8","root","");
+			return (Connection) DriverManager.getConnection("jdbc:mysql://39.103.131.145:3306/ledongyun?useUnicode=true&characterEncoding=UTF-8","root","mysql");
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

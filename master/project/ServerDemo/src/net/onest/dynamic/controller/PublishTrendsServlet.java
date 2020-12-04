@@ -92,7 +92,6 @@ public class PublishTrendsServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
 
 	/**

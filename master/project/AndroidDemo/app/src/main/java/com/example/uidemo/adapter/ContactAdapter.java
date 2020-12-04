@@ -65,7 +65,7 @@ public class ContactAdapter extends BaseAdapter {
         User user = userList.get(i);
         if(user!=null){
             viewHolder.tvUser.setText(user.getUsername());
-            Glide.with(context).load(ConfigUtil.SERVER_ADDR+user.getHeadImg()).into(viewHolder.ivhead);
+            Glide.with(context).load(ConfigUtil.SERVER_ADDR+user.getHeadImg()).circleCrop().into(viewHolder.ivhead);
         }
 
         return view;

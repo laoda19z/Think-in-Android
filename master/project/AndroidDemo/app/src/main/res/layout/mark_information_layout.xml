@@ -151,7 +151,6 @@
                 android:background="@drawable/textarea_layout"/>
         </LinearLayout>
         <Button
-            android:background="@drawable/button_circle_shape"
             android:id="@+id/btn_background"
             android:layout_marginTop="20dp"
             android:layout_gravity="center"

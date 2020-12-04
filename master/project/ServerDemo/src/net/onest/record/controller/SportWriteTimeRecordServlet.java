@@ -47,9 +47,9 @@ public class SportWriteTimeRecordServlet extends HttpServlet {
 		BufferedReader buffer=new BufferedReader(new InputStreamReader(in,"utf-8"));
 		String str=buffer.readLine();
 		System.out.println(str+"sporttimerecord");
-		int userid=Integer.parseInt(str);
-		
-		String sql="select * from mark where  userid="+userid+" order by sporttime ASC";
+//		int userid=Integer.parseInt(str);
+		int userid = 1;
+		String sql="select * from mark where child="+userid+" order by sporttime ASC";
 		System.out.println(sql);
 		List<ClockRecord> list=new ArrayList<>();
 		list=new ClockRecordService().getlist(sql);

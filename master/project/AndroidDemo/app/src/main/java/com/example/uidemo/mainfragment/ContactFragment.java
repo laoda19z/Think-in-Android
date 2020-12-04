@@ -77,6 +77,16 @@ public class ContactFragment extends FragmentActivity {
                 Log.e("mll","chatid为："+chatId);
                 Intent intent = new Intent(context, ChatActivity.class);
                 intent.putExtra("ec_chat_id", chatId+"");
+                String contactName ="";
+                String contactHead ="";
+                for(int m = 0;m<userList.size();++m){
+                    if(userList.get(m).getUserId()==chatId){
+                        contactName = userList.get(m).getUsername();
+                        contactHead = userList.get(m).getHeadImg();
+                    }
+                }
+                intent.putExtra("ec_chat_name",contactName);
+                intent.putExtra("receiverhead",contactHead);
                 context.startActivity(intent);
             }
         });

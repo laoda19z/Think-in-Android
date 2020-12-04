@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -19,7 +21,7 @@ import com.google.gson.Gson;
 
 import net.onest.entity.MarkPicEntity;
 import net.onest.entity.ReturnMarkPic;
-import net.onest.util.MyUtil;
+import net.onest.util.DBUtil;
 
 
 /**
@@ -58,10 +60,16 @@ public class markpic extends HttpServlet {
 			String sqldate=picentity.getUsername()+"."+picentity.getChild()+"."+picentity.getDate();
 			System.out.println("sqldate测试"+sqldate);
 			String sql="select background,sporttype,sporttime,impression from mark where username='"+picentity.getUsername()+"' and child="+picentity.getChild()+" and markdate='"+picentity.getDate()+"'";
-			MyUtil util=new MyUtil();
+//			DBUtil dbUtil = new DBUtil();
+//			MyUtil util=new MyUtil();
+			Connection conn = null;
+			PreparedStatement pstm = null;
+			ResultSet rs = null;
+			int count = 0;
 			try {
-				ResultSet rs=util.queryDate(sql);
-				//发送数据
+				conn = DBUtil.getConn();
+				pstm = conn.prepareStatement(sql);
+				rs = pstm.executeQuery();
 				while(rs.next()) {
 					String backpic=rs.getString(1);
 					String type=rs.getString(2);
@@ -74,12 +82,10 @@ public class markpic extends HttpServlet {
 					String json = URLEncoder.encode(gson.toJson(returnpic),"utf-8");
 					writer.write(json);
 				}
-			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
+			}catch (Exception e) {
 				e.printStackTrace();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			}finally {
+				DBUtil.close(rs, pstm, conn);
 			}
 			//返回数据
 		}

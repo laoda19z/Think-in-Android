@@ -118,6 +118,8 @@ public abstract class EuclidActivity extends Activity {
                 switch (msg.what){
                     case 1:
                         courses = (List<Course>) msg.obj;
+                        //初始化列表信息和功能动作
+                        initList();
                         break;
                 }
             }
@@ -156,8 +158,7 @@ public abstract class EuclidActivity extends Activity {
         sProfileImageHeight = getResources().getDimensionPixelSize(R.dimen.height_profile_image);//设置图片高度
         sOverlayShape = buildAvatarCircleOverlay();//椭圆
 
-        //初始化列表信息和功能动作
-        initList();
+
     }
 
     /**
@@ -169,7 +170,7 @@ public abstract class EuclidActivity extends Activity {
             public void run() {
                 List<Course> courses = new ArrayList<>();
                 try{
-                    URL url = new URL("http://192.168.137.1:8080/CourseDemo/Course");
+                    URL url = new URL("http://39.103.131.145:8080/DynamicDemo/Course");
                     URLConnection conn = url.openConnection();
                     conn.setDoOutput(true);
                     conn.setDoInput(true);
@@ -178,6 +179,7 @@ public abstract class EuclidActivity extends Activity {
                             new InputStreamReader(in,"utf-8")
                     );
                     String result = reader.readLine();
+                    Log.e("mll",result);
                     reader.close();
 
                     JSONObject jCourses = new JSONObject(result);
@@ -198,7 +200,6 @@ public abstract class EuclidActivity extends Activity {
                         course.setCourseContent(content);
                         course.setCourseTime(time);
                         course.setCourseType(type);
-
                         courses.add(course);
                     }
                     Message msg = myHandler.obtainMessage();

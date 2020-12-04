@@ -1,12 +1,16 @@
 package net.onest.mark.service;
 
+import java.net.URLEncoder;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import net.onest.entity.DateMark;
-import net.onest.util.MyUtil;
+import net.onest.entity.ReturnMarkPic;
+import net.onest.util.DBUtil;
 
 
 public class DateMarkService {
@@ -59,11 +63,17 @@ public class DateMarkService {
 	//²éÑ¯Êý¾Ý
 	public List<DateMark> SearchByMonthAndYear(String username,String year,String month,int child){
 		List<DateMark> dateList=new ArrayList<>();
-		MyUtil util=new MyUtil();
+		
 		String condition=year+"-"+month;
 		String sql="select markdate from mark where username='"+username+"' and child="+child+" and markdate like '"+condition+"%'";
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		int count = 0;
 		try {
-			ResultSet rs=util.queryDate(sql);
+			conn = DBUtil.getConn();
+			pstm = conn.prepareStatement(sql);
+			rs = pstm.executeQuery();
 			if(rs.next()) {
 				DateMark markdates=new DateMark();
 				String dates=rs.getString(1);
@@ -83,9 +93,6 @@ public class DateMarkService {
 				markdate.setMarkdate(date);
 				dateList.add(markdate);
 			}
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

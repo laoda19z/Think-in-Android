@@ -42,12 +42,12 @@ public class ShowOwnerDynamicServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		String currpage = request.getParameter("page");
 		int userid = Integer.parseInt(request.getParameter("userid"));
- 
 		int pageNum = 1,pageSize = 5;
 		DynamicServiceImpl dynamicServiceImpl = new DynamicServiceImpl();
 		if(currpage!=null && !"".equals(currpage)) {
 			pageNum = Integer.parseInt(currpage);
 		}
+		System.out.println(pageNum);
 		Page<Dynamic> page = dynamicServiceImpl.showDynamicImpl(pageNum, pageSize,userid);
 		List<Dynamic> dynamics = page.getList();
 		UserServiceImpl userServiceImpl = new UserServiceImpl();
@@ -59,14 +59,19 @@ public class ShowOwnerDynamicServlet extends HttpServlet {
 				info = info + dynamics.get(i).getUserId();
 			}
 		}
-		List<User> users = userServiceImpl.searchTrendUserInfo(info);
-		Gson gson = new Gson();
-		String userstr = gson.toJson(users);
-		String dynamicstr = gson.toJson(dynamics);
-		Map<String, String> map = new HashMap<String, String>();
-		map.put("users", userstr);
-		map.put("dynamic", dynamicstr);
-		response.getWriter().write(gson.toJson(map));
+		System.out.println(info);
+		if(!"".equals(info)) {
+			List<User> users = userServiceImpl.searchTrendUserInfo(info);
+			Gson gson = new Gson();
+			String userstr = gson.toJson(users);
+			String dynamicstr = gson.toJson(dynamics);
+			Map<String, String> map = new HashMap<String, String>();
+			map.put("users", userstr);
+			map.put("dynamic", dynamicstr);
+			System.out.println(gson.toJson(map));
+			response.getWriter().write(gson.toJson(map));
+		}
+		
 	}
 
 	/**
