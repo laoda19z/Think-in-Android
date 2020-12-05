@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login_layout);
         initView();
 
-        signOut();
+//        signOut();
         okHttpClient = new OkHttpClient();
         myHandler = new Handler(Looper.myLooper()) {
             @Override
@@ -353,6 +353,7 @@ public class LoginActivity extends AppCompatActivity {
                     Gson gson = new Gson();
                     User user = gson.fromJson(responsestr, User.class);
                     String userId = user.getUserId() + "";
+                    currentUserId = userId;
                     currentUserHead = user.getHeadImg();
                     loginInEMServer(userId,password);
                 }

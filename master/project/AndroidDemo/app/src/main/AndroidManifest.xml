@@ -33,8 +33,10 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         android:usesCleartextTraffic="true">
-        <activity android:name=".RegisterActivity"></activity>
-        <activity android:name=".LoginActivity" >
+        <activity android:name=".chat.SearchContactActivity"></activity>
+        <activity android:name=".chat.AddContactActivity" />
+        <activity android:name=".RegisterActivity" />
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,7 +49,7 @@
         <activity android:name=".chat.ChatActivity" />
         <activity android:name=".dynamic.PublishTrendsActivity" />
         <activity android:name=".dynamic.PersonSingleDynamicActivity" />
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity" />
         <activity android:name=".me.CodeActivity" />
         <activity android:name=".me.AddKidActivity" />
         <activity android:name=".me.PersonInfoActivity" />
@@ -73,16 +75,17 @@
         <activity android:name=".test.SitReachActivity" />
         <activity android:name=".test.FiftymeterRunActivity" />
         <activity android:name=".test.BasicInfoActivity" />
-        <activity android:name=".test.ResultActivity" />
-        <!--QQ-->
+        <activity android:name=".test.ResultActivity" /> <!-- QQ -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
-            android:noHistory="true"
-            android:launchMode="singleTask" >
+            android:launchMode="singleTask"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="tencent1111276030" />
             </intent-filter>
         </activity>
@@ -91,8 +94,10 @@
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="behind"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
-        <!-- 设置环信应用的AppKey -->
+
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" /> <!-- 设置环信应用的AppKey -->
         <meta-data
             android:name="EASEMOB_APPKEY"
             android:value="1160201102153259#uidemo" /> <!-- 声明SDK所需的service SDK核心功能 -->

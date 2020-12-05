@@ -112,4 +112,6 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.0'
     //qq授权
     implementation 'com.tencent.tauth:qqopensdk:3.51.2'
+    //视频控件
+    compile 'fm.jiecao:jiecaovideoplayer:5.5.4'
 }

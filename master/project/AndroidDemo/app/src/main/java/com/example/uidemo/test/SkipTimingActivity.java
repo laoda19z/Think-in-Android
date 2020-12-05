@@ -10,9 +10,14 @@ import android.os.Message;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.uidemo.ConfigUtil;
 import com.example.uidemo.R;
 
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
+
+
 public class SkipTimingActivity extends AppCompatActivity {
+    private JCVideoPlayerStandard playerStandard;
     private TextView tvTime;
     private Handler handler = new Handler(){
         @Override
@@ -26,6 +31,7 @@ public class SkipTimingActivity extends AppCompatActivity {
                         intent.putExtra("json",str);
                         intent.setClass(SkipTimingActivity.this,SkipInfoActivity.class);
                         startActivity(intent);
+                        finish();
                     }else {
                         tvTime.setText((String) msg.obj);
                         beginTiming(Integer.parseInt(time));
@@ -38,6 +44,7 @@ public class SkipTimingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_skip_timing);
         findViews();
+        initVideo();
         tvTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -45,7 +52,17 @@ public class SkipTimingActivity extends AppCompatActivity {
             }
         });
     }
+    private void initVideo() {
+        new Thread(){
+            @Override
+            public void run() {
+                playerStandard = findViewById(R.id.media_video);
+                playerStandard.setUp(ConfigUtil.SERVER_ADDR +"/video/wushimichengbawangfanpao.mp4",JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL,"五十往返跑");
+                playerStandard.startVideo();
+            }
+        }.start();
 
+    }
     private void findViews() {
         tvTime = findViewById(R.id.tv_time);
     }

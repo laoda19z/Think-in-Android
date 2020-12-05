@@ -1,7 +1,9 @@
 package com.example.uidemo.mainfragment;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -13,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -22,13 +25,22 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.example.uidemo.ConfigUtil;
 import com.example.uidemo.LoginActivity;
+import com.example.uidemo.MainActivity;
 import com.example.uidemo.R;
 import com.example.uidemo.adapter.ContactAdapter;
 import com.example.uidemo.beans.Dynamic;
 import com.example.uidemo.beans.User;
+import com.example.uidemo.chat.AddContactActivity;
 import com.example.uidemo.chat.ChatActivity;
+import com.example.uidemo.chat.SearchContactActivity;
+import com.example.uidemo.dynamic.GPS;
+import com.example.uidemo.dynamic.PublishTrendsActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -48,13 +60,16 @@ public class ContactFragment extends FragmentActivity {
     private List<User> userList = new ArrayList<>();
     private Handler handler;
     private ContactAdapter adapter;
-
+    private Button btnAddContact;
+    private Button btnSearchContact;
+    private EventBus eventBus;
     @Nullable
     @Override
     public View onCreateView(@NonNull String name, @NonNull Context context, @NonNull AttributeSet attrs) {
         view = LayoutInflater.from(context).inflate(R.layout.chat_fragment,null);
         listView = view.findViewById(R.id.contact_listview);
-
+        btnAddContact = view.findViewById(R.id.contact_add_contact);
+        btnSearchContact = view.findViewById(R.id.contact_search_contact);
         handler = new Handler(Looper.myLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -66,7 +81,10 @@ public class ContactFragment extends FragmentActivity {
                 }
             }
         };
-
+        eventBus = EventBus.getDefault();
+        if (!eventBus.isRegistered(ContactFragment.this)) {
+            eventBus.register(ContactFragment.this);
+        }
         initContactInfo(ConfigUtil.SERVER_ADDR+"SearchMyContactServlet?userid="+ LoginActivity.currentUserId);
         adapter = new ContactAdapter(view.getContext(),R.layout.chat_contact_item,userList);
         listView.setAdapter(adapter);
@@ -90,12 +108,34 @@ public class ContactFragment extends FragmentActivity {
                 context.startActivity(intent);
             }
         });
+        //跳转到添加联系人界面
+        btnAddContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, AddContactActivity.class);
+                context.startActivity(intent);
+            }
+        });
+        //跳转到查找联系人界面
+        btnSearchContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, SearchContactActivity.class);
+                context.startActivity(intent);
+            }
+        });
         return view;
+    }
+    @Subscribe(sticky = true, threadMode = ThreadMode.ASYNC)
+    public void onEvent(AddContactActivity activity) {
+        Log.e("mll","eventbus成功");
+        initContactInfo(ConfigUtil.SERVER_ADDR+"SearchMyContactServlet?userid="+ LoginActivity.currentUserId);
+        eventBus.unregister(ContactFragment.this);
     }
     /**
      * 加载联系人信息
      */
-    private void initContactInfo(final String s) {
+    public void initContactInfo(final String s) {
         new Thread(){
             @Override
             public void run() {
@@ -121,5 +161,4 @@ public class ContactFragment extends FragmentActivity {
             }
         }.start();
     }
-
 }

@@ -6,11 +6,10 @@
     android:background="@drawable/test_background"
     android:padding="50dp">
 
-    <ImageView
-        android:layout_gravity="center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/wsmp"/>
+    <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
+        android:id="@+id/media_video"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:layout_marginTop="10dp"
@@ -32,7 +31,7 @@
 
     </LinearLayout>
     <LinearLayout
-        android:layout_marginTop="90dp"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"

@@ -58,7 +58,7 @@ public class GetReportServlet extends HttpServlet {
 			//鍒涘缓Gson瀵硅薄搴忓垪鍖栨姤鍛婄被
 			Gson gson = new Gson();
 			String path = getServletContext().getRealPath("/");
-			String filePath = path+"/data.xls";
+			String filePath = path+"/data/data.xls";
 			try {
 				Report report = rs.createReport(jsonObject, filePath);
 				String reportString = gson.toJson(report);

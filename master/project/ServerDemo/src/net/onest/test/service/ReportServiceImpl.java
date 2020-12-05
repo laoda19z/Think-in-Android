@@ -278,7 +278,7 @@ public class ReportServiceImpl {
 				}
 			}
 			//鑾峰彇50绫硏8寰�杩旇窇寰楀垎
-			for (i6=0;i6<22;i6++) {
+			for (i6=1;i6<22;i6++) {
 				int lowRS = Integer.parseInt(sheet.getCell(12,i6).getContents());
 				int highRS = Integer.parseInt(sheet.getCell(12,i6+1).getContents());
 				if (wsmcbwfp>=lowRS && wsmcbwfp<highRS) {

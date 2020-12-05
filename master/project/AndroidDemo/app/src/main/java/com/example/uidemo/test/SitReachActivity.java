@@ -9,15 +9,19 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.uidemo.ConfigUtil;
 import com.example.uidemo.R;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 import static com.example.uidemo.ConfigUtil.isDataSuitable;
 
 
 public class SitReachActivity extends AppCompatActivity {
 
+    private JCVideoPlayerStandard playerStandard;
     private EditText edtData;
     private TextView tvNext;
     @Override
@@ -25,6 +29,7 @@ public class SitReachActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sit_reach);
         findViews();
+        initVideo();
         String str = getIntent().getStringExtra("json");
         tvNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +52,17 @@ public class SitReachActivity extends AppCompatActivity {
         });
     }
 
+    private void initVideo() {
+        new Thread(){
+            @Override
+            public void run() {
+                playerStandard = findViewById(R.id.media_video);
+                playerStandard.setUp(ConfigUtil.SERVER_ADDR +"/video/wushimichengbawangfanpao.mp4",JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL,"五十往返跑");
+                playerStandard.startVideo();
+            }
+        }.start();
+
+    }
     private void findViews() {
         edtData = findViewById(R.id.edt_data);
         tvNext = findViewById(R.id.tv_next);

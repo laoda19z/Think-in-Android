@@ -13,9 +13,10 @@ import com.google.gson.Gson;
 
 import net.onest.contact.service.ContactServiceImpl;
 import net.onest.entity.Contact;
+import net.onest.user.service.UserServiceImpl;
 
 /**
- * Ìí¼ÓÁªÏµÈË
+ * ï¿½ï¿½ï¿½ï¿½ï¿½Ïµï¿½ï¿½
  * 
  */
 @WebServlet("/AddContactServlet")
@@ -34,21 +35,25 @@ public class AddContactServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		PrintWriter writer = response.getWriter();
-		String res = request.getParameter("contact");
-		Gson gson = new Gson();
-		Contact contact =gson.fromJson(res,Contact.class);
-		int userid = contact.getUserid();
-		int contactid = contact.getContactid();
-		ContactServiceImpl contactServiceImpl = new ContactServiceImpl();
-		boolean b = contactServiceImpl.addContact(userid, contactid);
-		if(b) {
-			writer.write("OK");
+		String name = request.getParameter("contactusername");
+		int userid = Integer.parseInt(request.getParameter("userid"));
+		System.out.println("name:"+name+"userid:"+userid);
+		UserServiceImpl userServiceImpl = new UserServiceImpl();
+		int contactid = userServiceImpl.searchUserId(name);
+		if(contactid!=0) {
+			ContactServiceImpl contactServiceImpl = new ContactServiceImpl();
+			boolean b = contactServiceImpl.addContact(userid, contactid);
+			if(b) {
+				writer.write("OK"+"|"+contactid);
+			}else {
+				writer.write("FALSE");
+			}
 		}else {
 			writer.write("FALSE");
 		}
+		
 	}
 
 	/**

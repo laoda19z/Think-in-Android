@@ -1,5 +1,6 @@
 package com.example.uidemo.test;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,15 +10,18 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.uidemo.ConfigUtil;
 import com.example.uidemo.R;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import static com.example.uidemo.ConfigUtil.isDataSuitable;
+import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
+import static com.example.uidemo.ConfigUtil.isDataSuitable;
 
 public class FiftymeterRunActivity extends AppCompatActivity {
 
+    private JCVideoPlayerStandard jcVideoPlayerStandard;
     private EditText edtData;
     private TextView tvNext;
     @Override
@@ -26,6 +30,7 @@ public class FiftymeterRunActivity extends AppCompatActivity {
         setContentView(R.layout.activity_fiftymeter_run);
         String str = getIntent().getStringExtra("json");
         findViews();
+        initVideo();
         tvNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,8 +51,19 @@ public class FiftymeterRunActivity extends AppCompatActivity {
         });
     }
 
+    private void initVideo() {
+        new Thread(){
+            @Override
+            public void run() {
+                jcVideoPlayerStandard.setUp(ConfigUtil.SERVER_ADDR +"/video/wushimipao.mp4",JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL,"测试");
+                jcVideoPlayerStandard.startVideo();
+            }
+        }.start();
+    }
+
     private void findViews() {
         edtData = findViewById(R.id.edt_data);
         tvNext = findViewById(R.id.tv_next);
+        jcVideoPlayerStandard = findViewById(R.id.media_video);
     }
 }
