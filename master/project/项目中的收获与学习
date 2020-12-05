@@ -67,3 +67,8 @@
             ...
 
           </application>
+   2、下午在完成项目前端的添加联系人时，项目进程出现了卡顿，原因如下：在FragmentActivity中使用startActivityForResult时，从Fragment跳转到Activity时，要想获取返回值，是获取不到的，
+      同时，context下是没有startActivityForResult这个方法的，只有startActivity。这是由于FragmentActivity中并没有重写这个方法，只有Activity重写了，可以使用类型强转来使用。
+      但是仍然无法使用onActivityResult()方法来实现返回的监听，经过启发和研究后，最后采用的是EventBus，我们可以把跳转过去的那个Activity作为事件类(EventBus)，并且在这里发布粘性事件，
+      在返回的Fragment中注册EventBus并且监听，然后改变即可。（注意：EventBus不能重复注册，所以应该注册即使用，使用完毕就注销。）
+   
