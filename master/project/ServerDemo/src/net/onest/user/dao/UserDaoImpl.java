@@ -83,7 +83,8 @@ public class UserDaoImpl {
 		try {
 			conn = DBUtil.getConn();
 			User saveuser = searchUser(user.getUsername());
-			if(saveuser.getUsername()=="") {
+			System.out.println(saveuser.toString());
+			if(saveuser.getUsername()==null) {
 				String sql = "";
 				sql = "insert into user(username,password) values(?,?)";
 				pstm = conn.prepareStatement(sql);

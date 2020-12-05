@@ -87,6 +87,7 @@
             android:layout_marginTop="10dp"
             android:orientation="horizontal">
             <Button
+                android:id="@+id/btn_qq_login"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_marginLeft="110dp"/>

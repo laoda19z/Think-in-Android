@@ -22,6 +22,12 @@ import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
+import com.tencent.connect.UserInfo;
+import com.tencent.connect.auth.QQToken;
+import com.tencent.connect.common.Constants;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -57,6 +63,13 @@ public class LoginActivity extends AppCompatActivity {
     public static String currentUserId;
     public static String currentUserName;
     public static String currentUserHead;
+    private Button btnQQLogin;
+    //QQ登录
+    private static final String TAG = "LoginActivity";
+    private static final String APP_ID = "1111276030";//官方获取的APPID
+    private Tencent mTencent;
+    private BaseUiListener mIUiListener;
+    private UserInfo mUserInfo;
     private void signOut() {
         // 调用sdk的退出登录方法，第一个参数表示是否解绑推送的token，没有使用推送或者被踢都要传false
         EMClient.getInstance().logout(true, new EMCallBack() {
@@ -80,7 +93,8 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
         initView();
-//        signOut();
+
+        signOut();
         okHttpClient = new OkHttpClient();
         myHandler = new Handler(Looper.myLooper()) {
             @Override
@@ -103,9 +117,11 @@ public class LoginActivity extends AppCompatActivity {
                 Intent intent = new Intent();
                 intent.setClass(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
+
+                //all表示获取所有权限
+//                mTencent.login(LoginActivity.this, "all", mIUiListener);
             }
         });
-
     }
 
     private void initView() {
@@ -114,6 +130,7 @@ public class LoginActivity extends AppCompatActivity {
 
         btnRegister = findViewById(R.id.btn_regist);
         btnLogin = findViewById(R.id.btn_login);
+        btnQQLogin = findViewById(R.id.btn_qq_login);
         /**
          * 注册
          */
@@ -124,6 +141,23 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 signIn();
+            }
+        });
+        btnQQLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mDialog = new ProgressDialog(LoginActivity.this);
+                mDialog.setMessage("正在登陆，请稍后...");
+                mDialog.show();
+                /**通过这句代码，SDK实现了QQ的登录，这个方法有三个参数，第一个参数是context上下文，第二个参数SCOPO 是一个String类型的字符串，表示一些权限
+                 官方文档中的说明：应用需要获得哪些API的权限，由“，”分隔。例如：SCOPE = “get_user_info,add_t”；所有权限用“all”
+                 第三个参数，是一个事件监听器，IUiListener接口的实例，这里用的是该接口的实现类 */
+                mTencent = Tencent.createInstance(APP_ID, LoginActivity.this.getApplicationContext());
+                mIUiListener = new BaseUiListener();
+                if (!mTencent.isSessionValid()) {
+                    mTencent.login(LoginActivity.this, "all", mIUiListener);
+                }
+
             }
         });
     }
@@ -146,8 +180,8 @@ public class LoginActivity extends AppCompatActivity {
     /**
      * 登录环信账户
      */
-    private void loginInEMServer(String username) {
-        String password = etUserPwd.getText().toString().trim();
+    private void loginInEMServer(String username,String password) {
+//        String password = etUserPwd.getText().toString().trim();
         //TextUtils工具类
         if (TextUtils.isEmpty(username) || TextUtils.isEmpty(password)) {
             Toast.makeText(LoginActivity.this, "用户名和密码不能为空", Toast.LENGTH_SHORT).show();
@@ -320,9 +354,108 @@ public class LoginActivity extends AppCompatActivity {
                     User user = gson.fromJson(responsestr, User.class);
                     String userId = user.getUserId() + "";
                     currentUserHead = user.getHeadImg();
-                    loginInEMServer(userId);
+                    loginInEMServer(userId,password);
                 }
             }
         });
+    }
+
+    /**
+     * 自定义监听器实现IUiListener接口后，需要实现的3个方法
+     * onComplete完成 onError错误 onCancel取消
+     */
+    class BaseUiListener implements IUiListener {
+
+        @Override
+        public void onComplete(Object response) {
+            //登录成功
+            Toast.makeText(LoginActivity.this, "授权成功", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "response:" + response);
+            JSONObject obj = (JSONObject) response;
+            try {
+                String openID = obj.getString("openid");
+                String accessToken = obj.getString("access_token");
+                String expires = obj.getString("expires_in");
+                mTencent.setOpenId(openID);
+                mTencent.setAccessToken(accessToken, expires);
+                QQToken qqToken = mTencent.getQQToken();
+                mUserInfo = new UserInfo(getApplicationContext(), qqToken);
+                mUserInfo.getUserInfo(new IUiListener() {
+                    @Override
+                    public void onComplete(Object response) {
+                        JSONObject obj = (JSONObject) response;
+                        Log.e("mll",obj.toString());
+                        //是一个json串response.tostring，直接使用gson解析就好
+                        //登录成功后进行Gson解析即可获得你需要的QQ头像和昵称
+                        // Nickname  昵称
+                        //Figureurl_qq_1 //头像
+                        try {
+                            String name = obj.getString("nickname");
+                            String head = obj.getString("figureurl");
+                            String figureurl_1 = obj.getString("figureurl_1");
+                            String figureurl_2 = obj.getString("figureurl_2");
+                            Log.e("name",name);
+                            Log.e("head",head);//30
+                            Log.e("figureurl_1",figureurl_1);//50
+                            Log.e("figureurl_2",figureurl_2);//100
+                            userToServer(name,"123456");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(UiError uiError) {
+                        Log.e(TAG, "登录失败" + uiError.toString());
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Log.e(TAG, "登录取消");
+
+                    }
+
+                    @Override
+                    public void onWarning(int i) {
+
+                    }
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onError(UiError uiError) {
+            Toast.makeText(LoginActivity.this, "授权失败", Toast.LENGTH_SHORT).show();
+
+        }
+
+        @Override
+        public void onCancel() {
+            Toast.makeText(LoginActivity.this, "授权取消", Toast.LENGTH_SHORT).show();
+
+        }
+
+        @Override
+        public void onWarning(int i) {
+            Toast.makeText(LoginActivity.this, "授权警告", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+    /**
+     * 在调用Login的Activity或者Fragment中重写onActivityResult方法
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Constants.REQUEST_LOGIN) {
+            Tencent.onActivityResultData(requestCode, resultCode, data, mIUiListener);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

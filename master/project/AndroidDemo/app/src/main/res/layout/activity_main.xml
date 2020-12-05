@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
     <RadioGroup
         android:id="@+id/main_rg"
         android:layout_width="match_parent"
-        android:layout_height="75dp"
+        android:layout_height="66dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
@@ -23,6 +20,8 @@
             android:button="@null"
             android:drawableTop="@drawable/centerselector"
             android:gravity="center"
+            android:scaleX="0.6"
+            android:scaleY="0.6"
             android:text="主页"
             android:textColor="@android:color/darker_gray"/>
         <RadioButton
@@ -34,6 +33,8 @@
             android:drawableTop="@drawable/trendselector"
             android:gravity="center"
             android:text="动态"
+            android:scaleX="0.6"
+            android:scaleY="0.6"
             android:textColor="@android:color/darker_gray"/>
         <RadioButton
             android:id="@+id/rb_testpage"
@@ -44,6 +45,8 @@
             android:drawableTop="@drawable/testselector"
             android:gravity="center"
             android:text="测评"
+            android:scaleX="0.6"
+            android:scaleY="0.6"
             android:textColor="@android:color/darker_gray"/>
         <RadioButton
             android:id="@+id/rb_message"
@@ -54,6 +57,8 @@
             android:drawableTop="@drawable/messageselector"
             android:gravity="center"
             android:text="消息"
+            android:scaleX="0.6"
+            android:scaleY="0.6"
             android:textColor="@android:color/darker_gray"/>
 
         <RadioButton
@@ -63,14 +68,16 @@
             android:layout_weight="1"
             android:button="@null"
             android:drawableTop="@drawable/meselector"
-            android:gravity="center"
+            android:gravity="center_horizontal"
             android:text="我的"
+            android:scaleX="0.6"
+            android:scaleY="0.6"
             android:textColor="@android:color/darker_gray"/>
     </RadioGroup>
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/main_vp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="75dp"
-        android:layout_weight="1"/>
+        android:layout_marginBottom="60dp"
+        android:layout_weight="1" />
 </RelativeLayout>

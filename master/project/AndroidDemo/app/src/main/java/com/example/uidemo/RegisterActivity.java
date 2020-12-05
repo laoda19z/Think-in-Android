@@ -19,6 +19,12 @@ import android.widget.Toast;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.exceptions.HyphenateException;
+import com.tencent.connect.UserInfo;
+import com.tencent.connect.auth.QQToken;
+import com.tencent.connect.common.Constants;
+import com.tencent.tauth.IUiListener;
+import com.tencent.tauth.Tencent;
+import com.tencent.tauth.UiError;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -53,6 +59,13 @@ public class RegisterActivity extends AppCompatActivity {
     private ProgressDialog mDialog;
     private OkHttpClient okHttpClient;
     private String userId;
+    private Button btnQQRegister;
+    //QQ登录
+    private static final String TAG = "LoginActivity";
+    private static final String APP_ID = "1111276030";//官方获取的APPID
+    private Tencent mTencent;
+    private BaseUiListener mIUiListener;
+    private UserInfo mUserInfo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,9 +105,22 @@ public class RegisterActivity extends AppCompatActivity {
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myServerSignUp();
+                String username = etReUserName.getText().toString().trim();
+                String password = etReUserPwd.getText().toString().trim();
+                myServerSignUp(username,password);
             }
         });
+        btnQQRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mTencent = Tencent.createInstance(APP_ID, RegisterActivity.this.getApplicationContext());
+                mIUiListener = new RegisterActivity.BaseUiListener();
+                if (!mTencent.isSessionValid()) {
+                    mTencent.login(RegisterActivity.this, "all", mIUiListener);
+                }
+            }
+        });
+
     }
 
 
@@ -104,14 +130,15 @@ public class RegisterActivity extends AppCompatActivity {
         etReUserPwd = findViewById(R.id.et_reUserPwd);
         etReUserPwdAgain = findViewById(R.id.et_reUserPwdAgain);
         btnRegister = findViewById(R.id.btn_register);
+        btnQQRegister = findViewById(R.id.btn_qq_register);
     }
 
     /**
      * 注册
      */
-    private void myServerSignUp() {
-        String username = etReUserName.getText().toString().trim();
-        String password = etReUserPwd.getText().toString().trim();
+    private void myServerSignUp(String username,String password) {
+//        String username = etReUserName.getText().toString().trim();
+//        String password = etReUserPwd.getText().toString().trim();
         // 注册是耗时过程，所以要显示一个dialog来提示下用户
         mDialog = new ProgressDialog(this);
         mDialog.setMessage("注册中，请稍后...");
@@ -140,7 +167,15 @@ public class RegisterActivity extends AppCompatActivity {
             public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
                 String emUserName = response.body().string();
                 Log.e("mll", emUserName);
-                emServerSignUp(emUserName, password);
+                if(emUserName!="0"){
+                    emServerSignUp(emUserName, password);
+                }else{
+                    mDialog.dismiss();
+                    Message msg = new Message();
+                    msg.what = 2;
+                    myHandler.sendMessage(msg);
+                }
+
             }
         });
 
@@ -264,5 +299,103 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         }).start();
+    }
+    /**
+     * 自定义监听器实现IUiListener接口后，需要实现的3个方法
+     * onComplete完成 onError错误 onCancel取消
+     */
+    class BaseUiListener implements IUiListener {
+
+        @Override
+        public void onComplete(Object response) {
+            //登录成功
+            Toast.makeText(RegisterActivity.this, "授权成功", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "response:" + response);
+            JSONObject obj = (JSONObject) response;
+            try {
+                String openID = obj.getString("openid");
+                String accessToken = obj.getString("access_token");
+                String expires = obj.getString("expires_in");
+                mTencent.setOpenId(openID);
+                mTencent.setAccessToken(accessToken, expires);
+                QQToken qqToken = mTencent.getQQToken();
+                mUserInfo = new UserInfo(getApplicationContext(), qqToken);
+                mUserInfo.getUserInfo(new IUiListener() {
+                    @Override
+                    public void onComplete(Object response) {
+                        JSONObject obj = (JSONObject) response;
+                        Log.e("mll",obj.toString());
+                        //是一个json串response.tostring，直接使用gson解析就好
+                        //登录成功后进行Gson解析即可获得你需要的QQ头像和昵称
+                        // Nickname  昵称
+                        //Figureurl_qq_1 //头像
+                        try {
+                            String name = obj.getString("nickname");
+                            String head = obj.getString("figureurl");
+                            String figureurl_1 = obj.getString("figureurl_1");
+                            String figureurl_2 = obj.getString("figureurl_2");
+                            Log.e("name",name);
+                            Log.e("head",head);//30
+                            Log.e("figureurl_1",figureurl_1);//50
+                            Log.e("figureurl_2",figureurl_2);//100
+                            myServerSignUp(name,"123456");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                    }
+
+                    @Override
+                    public void onError(UiError uiError) {
+                        Log.e(TAG, "登录失败" + uiError.toString());
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Log.e(TAG, "登录取消");
+
+                    }
+
+                    @Override
+                    public void onWarning(int i) {
+
+                    }
+                });
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override
+        public void onError(UiError uiError) {
+            Toast.makeText(RegisterActivity.this, "授权失败", Toast.LENGTH_SHORT).show();
+
+        }
+
+        @Override
+        public void onCancel() {
+            Toast.makeText(RegisterActivity.this, "授权取消", Toast.LENGTH_SHORT).show();
+
+        }
+
+        @Override
+        public void onWarning(int i) {
+            Toast.makeText(RegisterActivity.this, "授权警告", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+    /**
+     * 在调用Login的Activity或者Fragment中重写onActivityResult方法
+     *
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == Constants.REQUEST_LOGIN) {
+            Tencent.onActivityResultData(requestCode, resultCode, data, mIUiListener);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }

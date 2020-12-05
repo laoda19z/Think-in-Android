@@ -53,4 +53,9 @@
         android:textColor="#ffffff"
         android:textSize="15dp"
         android:text="完成注册，返回登录"/>
+    <Button
+        android:id="@+id/btn_qq_register"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="qq注册"/>
 </LinearLayout>

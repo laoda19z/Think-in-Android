@@ -1,13 +1,16 @@
 package com.example.uidemo.dynamic;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -48,9 +51,10 @@ public class PersonSingleDynamicActivity extends AppCompatActivity {
     private DynamicAdapter adapter;
     private List<User> users = new ArrayList<>();
     private List<Dynamic> dynamics = new ArrayList<>();
-    private SmartRefreshLayout srl;
     private Handler handler;
     private int userid;
+    private SmartRefreshLayout srl;
+    private int currentpage=1;//当前已经加载的页数
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +64,8 @@ public class PersonSingleDynamicActivity extends AppCompatActivity {
         userid = intent.getIntExtra("userid",0);
         findViews();
         initData();
+        currentpage = 1;
+
         handler = new Handler(Looper.myLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -68,21 +74,19 @@ public class PersonSingleDynamicActivity extends AppCompatActivity {
                         adapter.setDynamic(dynamics);
                         adapter.setUsers(users);
                         myListView.setAdapter(adapter);
-                        for(int i = 0 ;i<users.size();++i){
-                            if (users.get(i).getUserId()==userid){
-                                tv_name.setText(users.get(i).getUsername());
-                                Glide.with(PersonSingleDynamicActivity.this).load(users.get(i).getHeadImg()).circleCrop().into(iv_head);
-                            }
-                        }
+                        adapter.notifyDataSetChanged();
+                        tv_name.setText(users.get(0).getUsername());
+                        Glide.with(PersonSingleDynamicActivity.this).load(ConfigUtil.SERVER_ADDR+users.get(0).getHeadImg()).circleCrop().into(iv_head);
                         break;
                 }
             }
         };
-
     }
 
     private void initData() {
-        String requestParam = "?userid="+userid+"&page="+1;
+        srl.setReboundDuration(2000);
+        String requestParam = "?userid="+userid+"&page="+currentpage;
+//        currentpage++;
         if (userid != 0) {
             showDynamic(ConfigUtil.SERVER_ADDR+"ShowOwnerDynamicServlet"+requestParam);
         }else {
@@ -90,6 +94,7 @@ public class PersonSingleDynamicActivity extends AppCompatActivity {
         }
         adapter = new DynamicAdapter(this, dynamics, R.layout.trends_item);
         myListView.setAdapter(adapter);
+
         //给智能刷新控件注册下拉刷新事件监听器
         srl.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -149,11 +154,17 @@ public class PersonSingleDynamicActivity extends AppCompatActivity {
                     String dynamicInfo = maps.get("dynamic");
                     Type type1 = new TypeToken<List<Dynamic>>() {}.getType();
                     List<Dynamic> dynamicList = gson.fromJson(dynamicInfo,type1);
-                    dynamics = dynamicList;
+                    for(int j = 0;j<dynamicList.size();++j){
+                        dynamics.add(dynamicList.get(j));
+                    }
+//                    dynamics = dynamicList;
                     //获取发布动态的用户信息
                     String userinfo = maps.get("users");
                     Type type2 = new TypeToken<List<User>>(){}.getType();
                     List<User> userList = gson.fromJson(userinfo,type2);
+//                    for(int j = 0;j<userList.size();++j){
+//                        users.add(userList.get(j));
+//                    }
                     users = userList;
                     Message msg = new Message();
                     msg.what = 1;
@@ -169,4 +180,9 @@ public class PersonSingleDynamicActivity extends AppCompatActivity {
         }.start();
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        currentpage = 1;
+    }
 }
