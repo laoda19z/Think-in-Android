@@ -48,3 +48,22 @@
    2、这里突然想到，数据库中的用户密码字段不应该直接存储，而是应该通过某种加密的方式。这项工作放在后期测试阶段再进行完善吧。
 12月2日:
   1、今天有学习到了新东西，关于OkHttp以表单形式来上传文件，数据等。之前后台不会使用，发现它可以结合jsp中的操作，fileupload。
+12月4日：
+  1、使用github来整合项目，实际意义上的真正使用GitHub来进行代码托管，但是仍然要时刻保持着小组之间的沟通和交流，通知小组成员及时pull，否则会发生12月3日出现的一些列代码混乱问题。
+12月5日：
+  1、上午使用腾讯开发者平台已经可以实现QQ授权登录。
+    步骤：
+      1)在开发者平台中记得要注册自己的项目，获取appid
+      2）现在已经更新了，可以直接使用maven库来直接引入依赖，不必再导入包，sdk等。
+      3）授予权限
+      4）详情参见以下文档https://www.jianshu.com/p/4e2184649545
+      5）还有最后一点非常的重要，在集成的时候报错Android QQ遇到Didn‘t find class “org.apache.http.conn.scheme.SchemeRegistry“闪退，
+         这由于在Android9之后默认情况下该内容库已从 bootclasspath 中移除且不可用于应用。要继续使用 Apache HTTP 客户端，
+         以 Android 9 及更高版本为目标的应用可以向其 AndroidManifest.xml 添加以下内容，记住是在application中添加
+         <application>
+            ...
+
+            <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+            ...
+
+          </application>
