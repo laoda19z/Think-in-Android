@@ -75,4 +75,9 @@
     1、在集成Zxing框架的时候又学到了东西，可以快速集成Zxing，添加依赖，implementation 'com.google.zxing:core:3.3.3'，注意添加依赖后，就不要在再导入jar包了。否则会出现冲突。
     然后把zxing下面几个包导入，把drawable，layout等下面的资源导入。还有values下的一些资源（这里的）
     最后一定要记得在AndroidManifest文件中注册刚才的Activity才可以。
+    2、发现了在使用Gson这个框架的时候，通过new Gson()是不能准确的解析date类型的，只能通过GsonBuilder来实例化gson对象
+     报错如下：Gson无法解析Date传值为""的问题(Failed to parse date ["']: (java.lang.NumberFormatException))，一开始一直以为是类的问题。
+     Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+     也知道了GMT+08:00是北京时间。
+    3、GitHub的使用，在上传github的时候单个文件内容大小不要超过100MB，否则会出现上传不成功，而导致的这些东西存储在了git的暂存区，而这接下来会一直报错。
   
