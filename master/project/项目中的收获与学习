@@ -51,7 +51,7 @@
 12月4日：
   1、使用github来整合项目，实际意义上的真正使用GitHub来进行代码托管，但是仍然要时刻保持着小组之间的沟通和交流，通知小组成员及时pull，否则会发生12月3日出现的一些列代码混乱问题。
 12月5日：
-  1、上午使用腾讯开发者平台已经可以实现QQ授权登录。
+  1、使用腾讯开发者平台已经可以实现QQ授权登录。
     步骤：
       1)在开发者平台中记得要注册自己的项目，获取appid
       2）现在已经更新了，可以直接使用maven库来直接引入依赖，不必再导入包，sdk等。
@@ -67,8 +67,12 @@
             ...
 
           </application>
-   2、下午在完成项目前端的添加联系人时，项目进程出现了卡顿，原因如下：在FragmentActivity中使用startActivityForResult时，从Fragment跳转到Activity时，要想获取返回值，是获取不到的，
+   2、在完成项目前端的添加联系人时，项目进程出现了卡顿，原因如下：在FragmentActivity中使用startActivityForResult时，从Fragment跳转到Activity时，要想获取返回值，是获取不到的，
       同时，context下是没有startActivityForResult这个方法的，只有startActivity。这是由于FragmentActivity中并没有重写这个方法，只有Activity重写了，可以使用类型强转来使用。
       但是仍然无法使用onActivityResult()方法来实现返回的监听，经过启发和研究后，最后采用的是EventBus，我们可以把跳转过去的那个Activity作为事件类(EventBus)，并且在这里发布粘性事件，
       在返回的Fragment中注册EventBus并且监听，然后改变即可。（注意：EventBus不能重复注册，所以应该注册即使用，使用完毕就注销。）
-   
+  12月6日：
+    1、在集成Zxing框架的时候又学到了东西，可以快速集成Zxing，添加依赖，implementation 'com.google.zxing:core:3.3.3'，注意添加依赖后，就不要在再导入jar包了。否则会出现冲突。
+    然后把zxing下面几个包导入，把drawable，layout等下面的资源导入。还有values下的一些资源（这里的）
+    最后一定要记得在AndroidManifest文件中注册刚才的Activity才可以。
+  
