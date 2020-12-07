@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -66,6 +67,8 @@ public class MarkInformation extends AppCompatActivity {
     private String username;
     private String date;
     private int child;
+
+    private boolean booleans;
     private Handler handler=new Handler(){
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -119,7 +122,7 @@ public class MarkInformation extends AppCompatActivity {
         child= Integer.parseInt(intent.getStringExtra("child"));
 
         //获取打卡的所有日期，若有打卡记录，则日历最上显示的为已经打卡
-        JudegMarkStatus(year,month,day,username,child);
+        JudegMarkStatus(year,month,day,Integer.parseInt(username),child);
         //获得spinner选中的属性
         spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -171,33 +174,39 @@ public class MarkInformation extends AppCompatActivity {
         btnBackGround.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //获取到的运动项目和事件信息
-                Log.e("testtestetst",sport+spHours+spMinutes);
-                if(impressions.getText().toString().length()==0){
-                    impression="nulls";
+                if(booleans==true){
+                    Toast.makeText(getApplicationContext(),"重复打卡!",Toast.LENGTH_LONG).show();
                 }
                 else{
-                    impression=impressions.getText().toString();
+                    //获取到的运动项目和事件信息
+                    Log.e("testtestetst",sport+spHours+spMinutes);
+                    if(impressions.getText().toString().length()==0){
+                        impression="nulls";
+                    }
+                    else{
+                        impression=impressions.getText().toString();
+                    }
+                    //这个方法是将输入的时间转化为分钟
+                    int minutes=formatMinutes(spMinutes,spHours);
+                    //获取到感想
+                    Intent intent=new Intent();
+                    intent.setClass(MarkInformation.this, BackgroundChoice.class);
+                    //传递数据,传递的数据有  用户名，时间，运动项目，运动时间，感想
+                    //转化为json串
+                    Gson gson=new Gson();
+                    Mark mark=new Mark(Integer.parseInt(username),date,minutes,sport,impression,child);
+                    String toJson=gson.toJson(mark);
+                    intent.putExtra("json",toJson);
+                    startActivity(intent);
                 }
-                //这个方法是将输入的时间转化为分钟
-                int minutes=formatMinutes(spMinutes,spHours);
-                //获取到感想
-                Intent intent=new Intent();
-                intent.setClass(MarkInformation.this, BackgroundChoice.class);
-                //传递数据,传递的数据有  用户名，时间，运动项目，运动时间，感想
-                //转化为json串
-                Gson gson=new Gson();
-                Mark mark=new Mark(username,date,minutes,sport,impression,child);
-                String toJson=gson.toJson(mark);
-                intent.putExtra("json",toJson);
-                startActivity(intent);
+
             }
         });
 
     }
 
     //这个方法是判断今日有没有打卡
-    private void JudegMarkStatus(final int year, final int month, final int day, final String username, final int child) {
+    private void JudegMarkStatus(final int year, final int month, final int day, final int username, final int child) {
         new Thread(){
             @Override
             public void run() {
@@ -226,7 +235,7 @@ public class MarkInformation extends AppCompatActivity {
                     Log.e("判断今日是否打卡的字符串",statusjson);
                     //通过传输过来的JSON串转化为对象
                     Status sta=gson.fromJson(statusjson, Status.class);
-                    boolean booleans=sta.getStatus();
+                    booleans=sta.getStatus();
                     //Handler更新
                     Message msg=handler.obtainMessage();
                     msg.what=1;

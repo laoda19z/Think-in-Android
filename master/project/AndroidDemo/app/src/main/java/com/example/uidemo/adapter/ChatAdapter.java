@@ -74,7 +74,6 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
 
         }
     }
-
     @Override
     public int getItemCount() {
         return mlist.size();

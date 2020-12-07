@@ -1,6 +1,8 @@
 package com.example.uidemo.record.fragment;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,7 +19,6 @@ import com.example.uidemo.R;
 import com.example.uidemo.record.entitys.ClockRecord;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -37,11 +38,22 @@ public class SportImpressionsFrament extends Fragment {
     private View root;
     private TextView two;
     private TextView date;
-    private int userid;
+    private int child;
 
     private String text;
     private List<ClockRecord> list;
     private Gson gson;
+
+    private Handler handler =new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    showdata(list);
+                    break;
+            }
+        }
+    };
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -51,7 +63,7 @@ public class SportImpressionsFrament extends Fragment {
         date=root.findViewById(R.id.date);
 
         Bundle bundle=getActivity().getIntent().getExtras();
-        userid=bundle.getInt("id");
+        child=bundle.getInt("id");
 
         list=new ArrayList<>();
         gson=new Gson();
@@ -72,7 +84,7 @@ public class SportImpressionsFrament extends Fragment {
                     //传过userid，根据userid查询
                     conn.setRequestMethod("POST");
                     OutputStream out1 = conn.getOutputStream();
-                    out1.write((""+userid).getBytes());
+                    out1.write((""+child).getBytes());
                     out1.flush();
 
                     InputStream in = conn.getInputStream();
@@ -81,7 +93,9 @@ public class SportImpressionsFrament extends Fragment {
                     Log.i("impress",textjson);
                     Type type=new TypeToken<List<ClockRecord>>(){}.getType();
                     list=gson.fromJson(textjson,type);
-                    showdata(list);
+                    Message msg = new Message();
+                    msg.what = 1;
+                    handler.sendMessage(msg);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (UnsupportedEncodingException e) {

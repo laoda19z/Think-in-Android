@@ -1,7 +1,7 @@
 package com.example.uidemo.mark.Entity;
 
 public class JudgeMarkStatus {
-    private String username;
+    private int username;
     private String year;
     private String month;
     private String day;
@@ -10,7 +10,7 @@ public class JudgeMarkStatus {
     public JudgeMarkStatus() {
     }
 
-    public JudgeMarkStatus(String username, String year, String month, String day, int child) {
+    public JudgeMarkStatus(int username, String year, String month, String day, int child) {
         this.username = username;
         this.year = year;
         this.month = month;
@@ -18,11 +18,11 @@ public class JudgeMarkStatus {
         this.child = child;
     }
 
-    public String getUsername() {
+    public int getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(int username) {
         this.username = username;
     }
 

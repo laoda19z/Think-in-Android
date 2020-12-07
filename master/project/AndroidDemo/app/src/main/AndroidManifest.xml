@@ -31,7 +31,7 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+        android:theme="@style/Base.Theme.NoActionBar"
         android:usesCleartextTraffic="true">
         <activity android:name=".chat.SearchContactActivity"></activity>
         <activity android:name=".chat.AddContactActivity" />
@@ -75,7 +75,8 @@
         <activity android:name=".test.SitReachActivity" />
         <activity android:name=".test.FiftymeterRunActivity" />
         <activity android:name=".test.BasicInfoActivity" />
-        <activity android:name=".test.ResultActivity" /> <!-- QQ -->
+        <activity android:name=".test.ResultActivity" />
+        <!-- QQ -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
@@ -120,6 +121,9 @@
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
+        <!--ZXing-->
+        <activity android:name=".zxing.android.CaptureActivity"/>
+        <activity android:name=".zxing.android.PreferencesActivity"/>
     </application>
 
 </manifest>

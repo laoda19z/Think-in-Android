@@ -20,6 +20,7 @@ import com.example.uidemo.LoginActivity;
 import com.example.uidemo.R;
 import com.example.uidemo.dynamic.GPS;
 import com.example.uidemo.mainfragment.ContactFragment;
+import com.example.uidemo.zxing.android.CaptureActivity;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.auth.QQToken;
 import com.tencent.connect.common.Constants;
@@ -41,11 +42,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
-import okhttp3.Call;
-import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 
 public class AddContactActivity extends AppCompatActivity {
     private Button btnAddContact;
@@ -79,6 +76,8 @@ public class AddContactActivity extends AppCompatActivity {
                             Toast.makeText(AddContactActivity.this,"添加成功",Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(AddContactActivity.this, ChatActivity.class);
                             intent.putExtra("ec_chat_id", strs[1]);
+                            intent.putExtra("ec_chat_name",etContactName.getText().toString().trim());
+                            intent.putExtra("ec_chat_head",strs[2]);
                             startActivity(intent);
                             setResult(200);
                             finish();
@@ -93,7 +92,6 @@ public class AddContactActivity extends AppCompatActivity {
                 }
             }
         };
-
         okHttpClient = new OkHttpClient();
         btnAddContact.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,27 +112,29 @@ public class AddContactActivity extends AppCompatActivity {
         btnErweima.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                IUiListener shareListener = new IUiListener() {
-                    @Override
-                    public void onComplete(Object o) {
-                        Toast.makeText(AddContactActivity.this,"分享成功",Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onError(UiError uiError) {
-
-                    }
-
-                    @Override
-                    public void onCancel() {
-
-                    }
-
-                    @Override
-                    public void onWarning(int i) {
-
-                    }
-                };
+                Intent intent = new Intent(AddContactActivity.this, CaptureActivity.class);
+                startActivityForResult(intent,300);
+//                IUiListener shareListener = new IUiListener() {
+//                    @Override
+//                    public void onComplete(Object o) {
+//                        Toast.makeText(AddContactActivity.this,"分享成功",Toast.LENGTH_SHORT).show();
+//                    }
+//
+//                    @Override
+//                    public void onError(UiError uiError) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancel() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onWarning(int i) {
+//
+//                    }
+//                };
             }
         });
     }
@@ -161,7 +161,6 @@ public class AddContactActivity extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
         }.start();
     }
@@ -265,6 +264,17 @@ public class AddContactActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == Constants.REQUEST_LOGIN) {
             Tencent.onActivityResultData(requestCode, resultCode, data, mIUiListener);
+        }
+        if(requestCode == 300 && resultCode == RESULT_OK){
+            if(data!=null){
+                String content = data.getStringExtra("codedContent");
+                etContactName.setText(content);
+                mDialog = new ProgressDialog(AddContactActivity.this);
+                mDialog.setMessage("添加中，请稍后...");
+                mDialog.show();
+                Log.e("mll","联系人"+content);
+                addContactServer(content);
+            }
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

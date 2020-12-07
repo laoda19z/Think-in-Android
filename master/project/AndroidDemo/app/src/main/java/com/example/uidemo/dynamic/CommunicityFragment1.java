@@ -117,12 +117,14 @@ public class CommunicityFragment1 extends FragmentActivity {
         for(int i=0;i<marklist.size();++i){
             //arrays[0]为2020-11-22
             String[] array1=marklist.get(i).getMarkdate().split("-");
-            for(int j=0;j<array1.length;++j){
-                yearList.add(Integer.parseInt(array1[0]));
-                monthList.add(Integer.parseInt(array1[1]));
-                dayList.add(Integer.parseInt(array1[2]));
-            }
+            Log.e("array1",marklist.get(i).getMarkdate());
+            yearList.add(Integer.parseInt(array1[0]));
+            monthList.add(Integer.parseInt(array1[1]));
+            dayList.add(Integer.parseInt(array1[2]));
         }
+
+        //清空map数组，防止11月的表中绘画出12月初的情况
+        map.clear();
         //进行循环添加Calendar数组
         for(int i=0;i<yearList.size();++i){
             Calendar calendar=getSchemeCalendar(yearList.get(i),monthList.get(i),dayList.get(i),"2");
@@ -145,14 +147,19 @@ public class CommunicityFragment1 extends FragmentActivity {
         nowyear=calendarView.getCurYear();
         nowmonth=calendarView.getCurMonth();
         nowday=calendarView.getCurDay();
-        //查询年月并查询出打卡的连续数和本月总数
-        searchNowMonth(nowyear,nowmonth,nowday,"123",1);
+//        //查询年月并查询出打卡的连续数和本月总数
+//        searchNowMonth(nowyear,nowmonth,nowday,123,1);
         //月份切换改变事件
         calendarView.setOnMonthChangeListener(new CalendarView.OnMonthChangeListener() {
             @Override
             public void onMonthChange(int year, int month) {
+                //清空数组,使上个月绘画数组清空
+                calendarView.clearSchemeDate();
                 //这里获取的是当前月份
                 tvMonth.setText(year + "年" + month + "月");
+                //查询年月并查询出打卡的连续数和本月总数
+                int days=searchDaysByYearAndMonth(year,month);
+                searchNowMonth(year,month,days,123,1);
             }
         });
         //设置点击事件
@@ -173,7 +180,7 @@ public class CommunicityFragment1 extends FragmentActivity {
                         int days=searchDaysByYearAndMonth(year,month+1);
                         //通过年月日来绘绿色圈圈
                         //查询年月并查询出打卡的连续数和本月总数(123账号，孩子为1)
-                        searchNowMonth(year,month+1,days,"123",1);
+                        searchNowMonth(year,month+1,days,123,1);
                         //滚动到指定日期
                         calendarView.scrollToCalendar(year,month + 1, 1);
 
@@ -208,7 +215,7 @@ public class CommunicityFragment1 extends FragmentActivity {
                 Intent intent=new Intent();
                 intent.setClass(context, MarkInformation.class);
                 //传递用户名和今日的时间
-                intent.putExtra("username","123");
+                intent.putExtra("username",123+"");
                 intent.putExtra("date",nowyear+"-"+nowmonth+"-"+nowday);
                 intent.putExtra("child","1");
                 context.startActivity(intent);
@@ -254,7 +261,7 @@ public class CommunicityFragment1 extends FragmentActivity {
     }
 
     //查询当前月份的数据
-    private void searchNowMonth(final int year, final int month, final int day, final String username, int child) {
+    private void searchNowMonth(final int year, final int month, final int day, int username, int child) {
         new Thread(){
             @Override
             public void run() {
@@ -427,4 +434,3 @@ public class CommunicityFragment1 extends FragmentActivity {
         img2.setImageBitmap(bitmap);
     }
 }
-

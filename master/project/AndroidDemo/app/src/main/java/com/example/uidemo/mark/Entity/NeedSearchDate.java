@@ -1,7 +1,7 @@
 package com.example.uidemo.mark.Entity;
 
 public class NeedSearchDate {
-    private String username;
+    private int username;
     private String year;
     private String month;
     private int child;
@@ -9,18 +9,18 @@ public class NeedSearchDate {
     public NeedSearchDate() {
     }
 
-    public NeedSearchDate(String username, String year, String month, int child) {
+    public NeedSearchDate(int username, String year, String month, int child) {
         this.username = username;
         this.year = year;
         this.month = month;
         this.child = child;
     }
 
-    public String getUsername() {
+    public int getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(int username) {
         this.username = username;
     }
 

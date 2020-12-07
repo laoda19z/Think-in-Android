@@ -3,10 +3,31 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:id="@+id/chat_title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <ImageView
+            android:id="@+id/chat_btn_finish"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/arrow_left_big"/>
+        <TextView
+            android:id="@+id/chat_tv_contactname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:text="JAVA"
+            android:layout_centerInParent="true"/>
+    </RelativeLayout>
+
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/srl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_below="@+id/chat_title_bar">
         <com.scwang.smartrefresh.header.WaterDropHeader
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
@@ -42,6 +63,8 @@
             android:id="@+id/ec_edit_message_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@id/ec_btn_send"
             android:hint="输入信息"

@@ -45,6 +45,7 @@
             android:layout_gravity="center"
             android:text="向用户展示该码，快捷加好友"/>
         <ImageView
+            android:id="@+id/myself_code_erweima"
             android:layout_width="250dp"
             android:layout_height="250dp"
             android:layout_gravity="center"

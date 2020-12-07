@@ -1,24 +1,24 @@
 package com.example.uidemo.mark.Entity;
 
 public class MarkPicEntity {
-    private String username;
+    private int username;
     private String date;
     private int child;
 
     public MarkPicEntity() {
     }
 
-    public MarkPicEntity(String username, String date, int child) {
+    public MarkPicEntity(int username, String date, int child) {
         this.username = username;
         this.date = date;
         this.child = child;
     }
 
-    public String getUsername() {
+    public int getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsername(int username) {
         this.username = username;
     }
 

@@ -14,7 +14,6 @@ import androidx.fragment.app.Fragment;
 import com.example.uidemo.ConfigUtil;
 import com.example.uidemo.R;
 import com.example.uidemo.record.entitys.AssessmentReport;
-import com.example.uidemo.record.entitys.Relation;
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
@@ -26,7 +25,6 @@ import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -47,54 +45,54 @@ public class MaxScoreFragment extends Fragment {
     private RadarChart redarChart;
     private List<AssessmentReport> list0;
     private List<RadarEntry> list;
-    private List<Relation> list1;
-    private int userid;
+    private int child;
     private Gson gson;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         root=inflater.inflate(R.layout.frag_maxscore, container, false);
         redarChart=root.findViewById(R.id.redar);
         list=new ArrayList<>();
-        list1=new ArrayList<>();
         gson=new Gson();
 
         Bundle bundle=getActivity().getIntent().getExtras();
-        userid=bundle.getInt("id");
+        child=bundle.getInt("id");
 
-        GetChildid();
+        GetList();
         return root;
     }
-    private void GetChildid() {
-        new Thread(){
-            @Override
-            public void run() {
-                URL urlpath= null;
-                try {
-                    urlpath = new URL(ConfigUtil.SERVER_ADDR+"/GetChildidServlet");
-                    HttpURLConnection conn = (HttpURLConnection)urlpath.openConnection();
-                    //传过userid，根据userid查询
-                    conn.setRequestMethod("POST");
-                    OutputStream out1 = conn.getOutputStream();
-                    out1.write((""+userid).getBytes());
-                    out1.flush();
-                    InputStream in = conn.getInputStream();
-                    BufferedReader buffer=new BufferedReader(new InputStreamReader(in,"utf-8"));
-                    String textjson=buffer.readLine();
-                    Log.i("max",textjson);
-                    Type type=new TypeToken<List<Relation>>(){}.getType();
-                    list1=gson.fromJson(textjson,type);
-                    GetList();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-    }
+
+    //获取孩子id现在没用。
+//    private void GetChildid() {
+//        new Thread(){
+//            @Override
+//            public void run() {
+//                URL urlpath= null;
+//                try {
+//                    urlpath = new URL(ConfigUtil.SERVER_ADDR+"/GetChildidServlet");
+//                    HttpURLConnection conn = (HttpURLConnection)urlpath.openConnection();
+//                    //传过userid，根据userid查询
+//                    conn.setRequestMethod("POST");
+//                    OutputStream out1 = conn.getOutputStream();
+//                    out1.write((""+child).getBytes());
+//                    out1.flush();
+//                    InputStream in = conn.getInputStream();
+//                    BufferedReader buffer=new BufferedReader(new InputStreamReader(in,"utf-8"));
+//                    String textjson=buffer.readLine();
+//                    Log.i("max",textjson);
+//                    Type type=new TypeToken<List<Relation>>(){}.getType();
+//                    list1=gson.fromJson(textjson,type);
+//                } catch (MalformedURLException e) {
+//                    e.printStackTrace();
+//                } catch (UnsupportedEncodingException e) {
+//                    e.printStackTrace();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }.start();
+//    }
 
     private void GetList() {
         new Thread(){
@@ -107,7 +105,7 @@ public class MaxScoreFragment extends Fragment {
                     conn.setRequestMethod("POST");
                     //传过userid，根据userid查询
                     OutputStream out1 = conn.getOutputStream();
-                    out1.write((""+list1.get(0).getChildid()).getBytes());
+                    out1.write((""+child).getBytes());
                     out1.flush();
                     InputStream in = conn.getInputStream();
                     BufferedReader buffer=new BufferedReader(new InputStreamReader(in,"utf-8"));

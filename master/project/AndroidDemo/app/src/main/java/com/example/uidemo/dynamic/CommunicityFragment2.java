@@ -21,6 +21,7 @@ import com.example.uidemo.adapter.DynamicAdapter;
 import com.example.uidemo.beans.Dynamic;
 import com.example.uidemo.beans.User;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -120,7 +121,7 @@ public class CommunicityFragment2 extends FragmentActivity {
                     InputStream in = conn.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in, "utf-8"));
                     String str = reader.readLine().toString();
-                    Gson gson = new Gson();
+                    Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
                     Type type = new TypeToken<Map<String ,String>>(){}.getType();
                     Map<String,String> maps = gson.fromJson(str,type);
                     //获取动态的信息

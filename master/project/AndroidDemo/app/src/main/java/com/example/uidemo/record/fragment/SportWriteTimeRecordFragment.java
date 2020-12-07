@@ -2,6 +2,8 @@ package com.example.uidemo.record.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,8 +25,6 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,12 +42,31 @@ import java.util.List;
 public class SportWriteTimeRecordFragment extends Fragment {
     private View root;
     private TextView time;
-    private int userid;
+    private int child;
 
     private PieChart pie;
     private List<ClockRecord> list0;
     private List<PieEntry> list;
     private Gson gson;
+
+    private Handler handler =new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case 1:
+                    float times=0;
+                    for(ClockRecord cr:list0){
+                        if(cr.getSportTime()>times){
+                            times=cr.getSportTime();
+                        }
+                    }
+                    time.setText(times+"分钟");
+//                    time.setText(list0.get(0).getSportTime()+"分钟");
+                    showdata(list0);
+                    break;
+            }
+        }
+    };
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,7 +74,7 @@ public class SportWriteTimeRecordFragment extends Fragment {
         time=root.findViewById(R.id.time);
 
         Bundle bundle=getActivity().getIntent().getExtras();
-        userid=bundle.getInt("id");
+        child=bundle.getInt("id");
 
         gson=new Gson();
         list0=new ArrayList<>();
@@ -74,7 +93,7 @@ public class SportWriteTimeRecordFragment extends Fragment {
                     conn.setRequestMethod("POST");
                     //传过userid，根据userid查询
                     OutputStream out1 = conn.getOutputStream();
-                    out1.write((""+userid).getBytes());
+                    out1.write((""+child).getBytes());
                     out1.flush();
 
                     InputStream in = conn.getInputStream();
@@ -83,15 +102,9 @@ public class SportWriteTimeRecordFragment extends Fragment {
                     Log.i("sporttime",textjson);
                     Type type=new TypeToken<List<ClockRecord>>(){}.getType();
                     list0=gson.fromJson(textjson,type);
-                    float times=0;
-                    for(ClockRecord cr:list0){
-                        if(cr.getSportTime()>times){
-                            times=cr.getSportTime();
-                        }
-                    }
-                    time.setText(times+"分钟");
-//                    time.setText(list0.get(0).getSportTime()+"分钟");
-                    showdata(list0);
+                    Message msg = new Message();
+                    msg.what = 1;
+                    handler.sendMessage(msg);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (UnsupportedEncodingException e) {

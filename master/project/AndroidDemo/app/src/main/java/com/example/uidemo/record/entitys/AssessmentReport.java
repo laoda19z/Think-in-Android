@@ -1,5 +1,4 @@
 package com.example.uidemo.record.entitys;
-
 public class AssessmentReport {
 	private int bodyScore;
 	private int childId;

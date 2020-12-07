@@ -1,51 +1,57 @@
 package com.example.uidemo.record.entitys;
 
 public class ClockRecord {
-	private int backgroundPicNum;
-	private int childId;
 	private int userId;
-	private float sportTime;
+	private int sportTime;
 	private String markDate;
 	private String sportImpressions;
-	private String qrCode;
+	private String background;
 	private String sportType;
-	private String uploadPic;
-	private boolean isBackground;
+	private int child;
 	
 	@Override
 	public String toString() {
-		return "ClockRecord [backgroundPicNum=" + backgroundPicNum + ", childId=" + childId + ", userId=" + userId
-				+ ", sportTime=" + sportTime + ", markDate=" + markDate + ", sportImpressions=" + sportImpressions
-				+ ", qrCode=" + qrCode + ", sportType=" + sportType + ", uploadPic=" + uploadPic + ", isBackground="
-				+ isBackground + "]";
+		return "ClockRecord [userId=" + userId + ", sportTime=" + sportTime + ", markDate=" + markDate
+				+ ", sportImpressions=" + sportImpressions + ", background=" + background + ", sportType=" + sportType
+				+ "]";
 	}
 	
-	public ClockRecord() {
+	
+
+	
+	public ClockRecord(int userId, int sportTime, String markDate, String sportImpressions, String background,
+			String sportType, int child) {
 		super();
+		this.userId = userId;
+		this.sportTime = sportTime;
+		this.markDate = markDate;
+		this.sportImpressions = sportImpressions;
+		this.background = background;
+		this.sportType = sportType;
+		this.child = child;
 	}
 
-	public int getBackgroundPicNum() {
-		return backgroundPicNum;
+
+
+
+	public int getChild() {
+		return child;
 	}
-	public void setBackgroundPicNum(int backgroundPicNum) {
-		this.backgroundPicNum = backgroundPicNum;
+
+	public void setChild(int child) {
+		this.child = child;
 	}
-	public int getChildId() {
-		return childId;
-	}
-	public void setChildId(int childId) {
-		this.childId = childId;
-	}
+
 	public int getUserId() {
 		return userId;
 	}
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	public float getSportTime() {
+	public int getSportTime() {
 		return sportTime;
 	}
-	public void setSportTime(float sportTime) {
+	public void setSportTime(int sportTime) {
 		this.sportTime = sportTime;
 	}
 	public String getMarkDate() {
@@ -60,11 +66,11 @@ public class ClockRecord {
 	public void setSportImpressions(String sportImpressions) {
 		this.sportImpressions = sportImpressions;
 	}
-	public String getQrCode() {
-		return qrCode;
+	public String getBackground() {
+		return background;
 	}
-	public void setQrCode(String qrCode) {
-		this.qrCode = qrCode;
+	public void setBackground(String background) {
+		this.background = background;
 	}
 	public String getSportType() {
 		return sportType;
@@ -72,45 +78,6 @@ public class ClockRecord {
 	public void setSportType(String sportType) {
 		this.sportType = sportType;
 	}
-	public String getUploadPic() {
-		return uploadPic;
-	}
-	public void setUploadPic(String uploadPic) {
-		this.uploadPic = uploadPic;
-	}
-	public boolean isBackground() {
-		return isBackground;
-	}
-	public void setBackground(boolean isBackground) {
-		this.isBackground = isBackground;
-	}
-
-	public ClockRecord(int backgroundPicNum, int childId, int userId, float sportTime, String markDate,
-                       String sportImpressions, String qrCode, String sportType, boolean isBackground) {
-		super();
-		this.backgroundPicNum = backgroundPicNum;
-		this.childId = childId;
-		this.userId = userId;
-		this.sportTime = sportTime;
-		this.markDate = markDate;
-		this.sportImpressions = sportImpressions;
-		this.qrCode = qrCode;
-		this.sportType = sportType;
-		this.isBackground = isBackground;
-	}
-
-	public ClockRecord(int childId, int userId, float sportTime, String markDate, String sportImpressions,
-                       String qrCode, String sportType, String uploadPic, boolean isBackground) {
-		super();
-		this.childId = childId;
-		this.userId = userId;
-		this.sportTime = sportTime;
-		this.markDate = markDate;
-		this.sportImpressions = sportImpressions;
-		this.qrCode = qrCode;
-		this.sportType = sportType;
-		this.uploadPic = uploadPic;
-		this.isBackground = isBackground;
-	}
+	
 	
 }

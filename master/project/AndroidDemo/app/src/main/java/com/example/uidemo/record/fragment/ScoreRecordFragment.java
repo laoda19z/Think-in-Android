@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment;
 import com.example.uidemo.ConfigUtil;
 import com.example.uidemo.R;
 import com.example.uidemo.record.entitys.AssessmentReport;
-import com.example.uidemo.record.entitys.Relation;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
@@ -46,8 +45,7 @@ import java.util.List;
 public class ScoreRecordFragment extends Fragment {
     private View root;
     private TextView see;
-    private List<Relation> listid;
-    private int userid;
+    private int child;
     private LineChart line;
     private List<AssessmentReport> list0;
     List<Entry> list1=new ArrayList<>();
@@ -65,43 +63,42 @@ public class ScoreRecordFragment extends Fragment {
         list2=new ArrayList<>();
         list3=new ArrayList<>();
         list4=new ArrayList<>();
-        listid=new ArrayList<>();
         Bundle bundle=getActivity().getIntent().getExtras();
-        userid=bundle.getInt("id");
-        GetChildid();
+        child=bundle.getInt("id");
+        GetList();
 
         return root;
     }
-    private void GetChildid() {
-        new Thread(){
-            @Override
-            public void run() {
-                URL urlpath= null;
-                try {
-                    urlpath = new URL(ConfigUtil.SERVER_ADDR+"/GetChildidServlet");
-                    HttpURLConnection conn = (HttpURLConnection)urlpath.openConnection();
-                    //传过userid，根据userid查询
-                    conn.setRequestMethod("POST");
-                    OutputStream out1 = conn.getOutputStream();
-                    out1.write((""+userid).getBytes());
-                    out1.flush();
-                    InputStream in = conn.getInputStream();
-                    BufferedReader buffer=new BufferedReader(new InputStreamReader(in,"utf-8"));
-                    String textjson=buffer.readLine();
-                    Log.i("scoreRecord",textjson);
-                    Type type=new TypeToken<List<Relation>>(){}.getType();
-                    listid=gson.fromJson(textjson,type);
-                    GetList();
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }.start();
-    }
+//    private void GetChildid() {
+//        new Thread(){
+//            @Override
+//            public void run() {
+//                URL urlpath= null;
+//                try {
+//                    urlpath = new URL(ConfigUtil.SERVER_ADDR+"/GetChildidServlet");
+//                    HttpURLConnection conn = (HttpURLConnection)urlpath.openConnection();
+//                    //传过userid，根据userid查询
+//                    conn.setRequestMethod("POST");
+//                    OutputStream out1 = conn.getOutputStream();
+//                    out1.write((""+child).getBytes());
+//                    out1.flush();
+//                    InputStream in = conn.getInputStream();
+//                    BufferedReader buffer=new BufferedReader(new InputStreamReader(in,"utf-8"));
+//                    String textjson=buffer.readLine();
+//                    Log.i("scoreRecord",textjson);
+//                    Type type=new TypeToken<List<Relation>>(){}.getType();
+//                    listid=gson.fromJson(textjson,type);
+//                    GetList();
+//                } catch (MalformedURLException e) {
+//                    e.printStackTrace();
+//                } catch (UnsupportedEncodingException e) {
+//                    e.printStackTrace();
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        }.start();
+//    }
 
     private void GetList() {
         new Thread(){
@@ -114,7 +111,7 @@ public class ScoreRecordFragment extends Fragment {
                     //传过userid，根据userid查询
                     conn.setRequestMethod("POST");
                     OutputStream out1 = conn.getOutputStream();
-                    out1.write((""+listid.get(0).getChildid()).getBytes());
+                    out1.write((""+child).getBytes());
                     out1.flush();
                     InputStream in = conn.getInputStream();
                     BufferedReader buffer=new BufferedReader(new InputStreamReader(in,"utf-8"));

@@ -25,6 +25,7 @@ import com.example.uidemo.LoginActivity;
 import com.example.uidemo.R;
 import com.example.uidemo.beans.Dynamic;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.wildma.pictureselector.PictureBean;
 import com.wildma.pictureselector.PictureSelector;
 
@@ -43,6 +44,7 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -155,8 +157,14 @@ public class PublishTrendsActivity extends AppCompatActivity {
         }
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         long savetime = System.currentTimeMillis();
-        Date date = new Date(savetime);
-        String time = formatter.format(date);
+        Date date1 = new Date();
+        String time = formatter.format(date1);
+        Date date = null;
+        try {
+            date = formatter.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         String img = null;
         Dynamic dynamic = new Dynamic();
         dynamic.setContent(content);
@@ -165,7 +173,7 @@ public class PublishTrendsActivity extends AppCompatActivity {
         int userid = Integer.parseInt(LoginActivity.currentUserId);
         dynamic.setUserId(userid);
 
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 
         // 创建 OkHttpClient
         OkHttpClient client = new OkHttpClient.Builder().build();

@@ -168,7 +168,8 @@ public class DynamicAdapter extends BaseAdapter {
             holder.trend_comment_list.addView(textView);
             notifyDataSetChanged();
         }
-        SimpleDateFormat fo = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss");
+        Log.e("mll","当前时间为："+currentdynamic.getTime().toString());
+        SimpleDateFormat fo = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         holder.tv_time.setText(fo.format(currentdynamic.getTime()));
         holder.tv_name.setText(user.getUsername());
         Glide.with(context).load(ConfigUtil.SERVER_ADDR+user.getHeadImg()).override(50, 50).circleCrop().into(holder.iv_head);

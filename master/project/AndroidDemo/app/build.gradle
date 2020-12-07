@@ -22,7 +22,7 @@ android {
 
         ndk {
             //选择要添加的对应cpu类型的.so库。
-            abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a'
+            abiFilters 'armeabi', 'armeabi-v7a', 'armeabi-v8a','x86'
             // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
         }
         manifestPlaceholders = [
@@ -114,4 +114,6 @@ dependencies {
     implementation 'com.tencent.tauth:qqopensdk:3.51.2'
     //视频控件
     compile 'fm.jiecao:jiecaovideoplayer:5.5.4'
+    //二维码
+    implementation 'com.google.zxing:core:3.3.3'
 }

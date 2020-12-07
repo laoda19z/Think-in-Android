@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -65,6 +66,10 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
     private MediaRecorder recorder;
     private RecyclerView recyclerView;
     private ChatAdapter chatAdapter;
+    private TextView contactName;
+    private String contactHeadImg;
+    private ImageView btnIv;
+
     private List<Chat> list = new ArrayList<>();
     /**
      * 自定义实现Handler，主要用于刷新UI操作
@@ -100,21 +105,17 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
          * 集成EaseUI的界面
          */
         activityInstance = this;
-        //这里直接使用EaseUI封装好的聊天界面
-//        chatFragment = new EaseChatFragment();
-        //将参数传递给聊天界面
-//        chatFragment.se
-//        chatFragment.setChatFragmentHelper(getIntent().getExtras());
-//        chatFragment.setArguments(getIntent().getExtras());
-        //加载EaseUI封装的聊天界面Fragment
-//        getSupportFragmentManager().beginTransaction().add(R.id.container,chatFragment).commit();
 
         // 获取当前会话的username(如果是群聊就是群id)
         mChatId = getIntent().getStringExtra("ec_chat_id");
         mMessageListener = this;
-
+        String name = getIntent().getStringExtra("ec_chat_name");
+        contactHeadImg = getIntent().getStringExtra("ec_chat_head");
         initView();
         initConversation();
+
+        contactName.setText(name);
+
         /**
          * 下拉加载历史记录
          */
@@ -127,6 +128,12 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
                 srl.finishRefresh();
             }
         });
+        btnIv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     /**
@@ -136,11 +143,15 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
         mInputEdit = findViewById(R.id.ec_edit_message_input);
         mSendBtn = findViewById(R.id.ec_btn_send);
         recyclerView = findViewById(R.id.recyler_view);
-
+        contactName = findViewById(R.id.chat_tv_contactname);
+        btnIv = findViewById(R.id.chat_btn_finish);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         chatAdapter = new ChatAdapter(this, list);//将集合数据填充到适配器中
+        chatAdapter.setReceiverHead(contactHeadImg);
+        Log.e("mlltouxiang",contactHeadImg);
         recyclerView.setAdapter(chatAdapter);
+
         srl = findViewById(R.id.srl);
         // 设置发送按钮的点击事件
         mSendBtn.setOnClickListener(new View.OnClickListener() {
@@ -183,35 +194,6 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
                 }
             }
         });
-//        sayBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                //初始化MediaRecorder对象
-//                recorder = new MediaRecorder();
-//                //设置录制音频来源
-//                recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-//                //设置音频类型
-//                recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-//                //设置音频编码方式（必须先设置类型（音频格式），后设置编码方式）
-//                recorder.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
-//                //设置音频输入路径及音频名称
-//                recorder.setOutputFile(getFilesDir()+"/sounds.3gp");
-//                //准备录制
-//                try {
-//                    recorder.prepare();
-//                    //开始录制
-//                    recorder.start();
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//                recorder.stop();
-//                recorder.release();
-////                long length = recorder.
-//                //voiceUri为语音文件本地资源标志符，length为录音时间(秒)
-////                EMMessage message = EMMessage.createVoiceSendMessage(getFilesDir()+"/sounds.3gp",, mChatId);
-////                EMClient.getInstance().chatManager().sendMessage(message);
-//            }
-//        });
     }
 
     /**
@@ -222,6 +204,10 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
             historyFlag = 1;
             List<EMMessage> messges = mConversation.getAllMessages();
             recyclerView.scrollToPosition(0);
+            //清空数据
+            list.clear();
+            chatAdapter.notifyDataSetChanged();
+
             int i = 0;
             for (EMMessage msg : messges) {
                 EMTextMessageBody body1 = (EMTextMessageBody) msg.getBody();

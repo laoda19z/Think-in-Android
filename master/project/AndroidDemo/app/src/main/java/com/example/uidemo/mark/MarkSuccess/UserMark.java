@@ -20,6 +20,7 @@ import com.example.uidemo.mark.Entity.Mark;
 import com.example.uidemo.mark.Entity.TotalMark;
 import com.google.gson.Gson;
 import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
@@ -27,6 +28,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -50,7 +53,7 @@ public class UserMark extends AppCompatActivity {
     private TextView writeka;
     private TextView writeimpression;
     //
-    private String username;
+    private int username;
     private String date;
     private String sport;
     private int minutes;
@@ -86,8 +89,20 @@ public class UserMark extends AppCompatActivity {
         sport=mark.getSporttype();
         //运动时间
         minutes=mark.getMinutes();
+        if(minutes==0){
+            writeka.setText("消耗卡路里 : 0K");
+        }
+        else{
+            int ka=minutes*9;
+            writeka.setText("消耗卡路里 : "+ka+"k");
+        }
         //感想
         impression=mark.getImpression();
+        if(impression.equals("nulls")){
+
+        }else{
+            writeimpression.setText("感想 : "+impression);
+        }
         //孩子id
         child=mark.getChild();
         //显示到控件中
@@ -95,8 +110,8 @@ public class UserMark extends AppCompatActivity {
         String[] array=date.split("-");
         writeday.setText(array[2]);
         writeotherdate.setText(array[0]+"."+array[1]);
-        writeusername.setText(username);
-        writeimpression.setText(impression);
+        writeusername.setText("用户名 :"+username);
+        writeimpression.setText("感想 :"+impression);
         Uri uris= Uri.parse(uri);
         Glide.with(this).load(uris).into(background);
 
@@ -189,7 +204,11 @@ public class UserMark extends AppCompatActivity {
         int height=600;
         BitMatrix bitMatrix = null;
         try {
-            bitMatrix =new MyQRCodeWriter().encode("asuna",BarcodeFormat.QR_CODE,width,height);
+            Map<EncodeHintType, Object> hints = new HashMap<>();
+            hints.put(EncodeHintType.MARGIN, 0);
+            hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
+            String contexts="用户名 : "+username+" 运动项目 : "+sport+" 打卡日期 : "+date+" 加油吧!";
+            bitMatrix =new MyQRCodeWriter().encode(contexts, BarcodeFormat.QR_CODE,width,height,hints);
             /*转为一维数组*/
             int[] pixels = new int[width * height];
             for (int i = 0; i < height; i++) {
