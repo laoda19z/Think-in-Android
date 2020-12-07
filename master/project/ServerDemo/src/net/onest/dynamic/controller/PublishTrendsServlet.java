@@ -27,6 +27,7 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.tomcat.util.http.parser.MediaType;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import net.onest.dynamic.service.DynamicServiceImpl;
 import net.onest.entity.Dynamic;
@@ -59,17 +60,17 @@ public class PublishTrendsServlet extends HttpServlet {
 		upload.setHeaderEncoding("utf-8");
 		List<String> lists = new ArrayList<>();
 		List<FileItem> list;
-		Gson gson = new Gson();
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 		try {
 			list = upload.parseRequest(request);
 			for(FileItem item:list) {
 				if(item.isFormField()) {
 					lists.add(item.getString());
-					System.out.println("µÃµ½µÄÊı¾İ"+item.getFieldName()+item.getString());
+					System.out.println("å¾—åˆ°çš„æ•°æ®"+item.getFieldName()+item.getString());
 				}
 				else {
 					String path=getServletContext().getRealPath("/dynamics/");
-					//»ñµÃ±íµ¥Êı¾İ
+					//é”Ÿæ–¤æ‹·å¸½é”Ÿæ–¤æ‹·é”Ÿæ–¤æ‹·é”Ÿï¿½
 					String total=lists.get(0);
 					System.out.println(total);
 					String total1=URLDecoder.decode(total,"UTF-8");

@@ -13,10 +13,11 @@ import com.google.gson.Gson;
 
 import net.onest.contact.service.ContactServiceImpl;
 import net.onest.entity.Contact;
+import net.onest.entity.User;
 import net.onest.user.service.UserServiceImpl;
 
 /**
- * �����ϵ��
+ * 锟斤拷锟斤拷锟较碉拷锟�
  * 
  */
 @WebServlet("/AddContactServlet")
@@ -41,12 +42,13 @@ public class AddContactServlet extends HttpServlet {
 		int userid = Integer.parseInt(request.getParameter("userid"));
 		System.out.println("name:"+name+"userid:"+userid);
 		UserServiceImpl userServiceImpl = new UserServiceImpl();
+		User user = userServiceImpl.searchUser(name);
 		int contactid = userServiceImpl.searchUserId(name);
 		if(contactid!=0) {
 			ContactServiceImpl contactServiceImpl = new ContactServiceImpl();
 			boolean b = contactServiceImpl.addContact(userid, contactid);
 			if(b) {
-				writer.write("OK"+"|"+contactid);
+				writer.write("OK"+"|"+contactid+"|"+user.getHeadImg());
 			}else {
 				writer.write("FALSE");
 			}

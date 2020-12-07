@@ -65,7 +65,6 @@ public class PersonSingleDynamicActivity extends AppCompatActivity {
         userid = intent.getIntExtra("userid",0);
         findViews();
         initData();
-        currentpage = 1;
 
         handler = new Handler(Looper.myLooper()){
             @Override
@@ -87,7 +86,6 @@ public class PersonSingleDynamicActivity extends AppCompatActivity {
     private void initData() {
         srl.setReboundDuration(2000);
         String requestParam = "?userid="+userid+"&page="+currentpage;
-//        currentpage++;
         if (userid != 0) {
             showDynamic(ConfigUtil.SERVER_ADDR+"ShowOwnerDynamicServlet"+requestParam);
         }else {
@@ -100,6 +98,8 @@ public class PersonSingleDynamicActivity extends AppCompatActivity {
         srl.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                dynamics.clear();
+                String requestParam = "?userid="+userid+"&page=1";
                 showDynamic(ConfigUtil.SERVER_ADDR+"ShowOwnerDynamicServlet"+requestParam);
                 //通知刷新完毕
                 srl.finishRefresh();
@@ -109,6 +109,9 @@ public class PersonSingleDynamicActivity extends AppCompatActivity {
         srl.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                currentpage++;
+                String requestParam = "?userid="+userid+"&page="+currentpage;
+                showDynamic(ConfigUtil.SERVER_ADDR+"ShowOwnerDynamicServlet"+requestParam);
                 //假设超过10条数据加载完毕（不可以一直加载数据库里的）
 //                if(dynamics.size()<10){
 //                    String requestParam = "?userid="+userid+"&page="+currentpage;
@@ -155,18 +158,18 @@ public class PersonSingleDynamicActivity extends AppCompatActivity {
                     String dynamicInfo = maps.get("dynamic");
                     Type type1 = new TypeToken<List<Dynamic>>() {}.getType();
                     List<Dynamic> dynamicList = gson.fromJson(dynamicInfo,type1);
-                    for(int j = 0;j<dynamicList.size();++j){
-                        dynamics.add(dynamicList.get(j));
+                    for(Dynamic dynamic:dynamicList){
+                        dynamics.add(dynamic);
                     }
 //                    dynamics = dynamicList;
                     //获取发布动态的用户信息
                     String userinfo = maps.get("users");
                     Type type2 = new TypeToken<List<User>>(){}.getType();
                     List<User> userList = gson.fromJson(userinfo,type2);
-//                    for(int j = 0;j<userList.size();++j){
-//                        users.add(userList.get(j));
-//                    }
-                    users = userList;
+//                    users = userList;
+                    for(User user:userList){
+                        users.add(user);
+                    }
                     Message msg = new Message();
                     msg.what = 1;
                     handler.sendMessage(msg);

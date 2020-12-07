@@ -10,6 +10,7 @@ import java.util.List;
 
 import net.onest.entity.Comment;
 import net.onest.entity.Contact;
+import net.onest.entity.User;
 import net.onest.util.DBUtil;
 
 public class ContactDaoImpl {
@@ -74,5 +75,28 @@ public class ContactDaoImpl {
 			DBUtil.close(rs, pstm, conn);
 		}
 		return b;
+	}
+	public User searchContact(String contactName) {
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		User user = new User();
+		try {
+			conn = DBUtil.getConn();
+			String sql = "select * from user where username = ?";
+			pstm = conn.prepareStatement(sql);
+			pstm.setString(1, contactName);
+			rs = pstm.executeQuery();
+			while(rs.next()) {
+				user.setUsername(rs.getString(1));
+				user.setUserId(rs.getInt(3));
+				user.setHeadImg(rs.getString(4));
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtil.close(rs, pstm, conn);
+		}
+		return user;
 	}
 }

@@ -46,11 +46,10 @@ public class LoginServlet extends HttpServlet {
 		// 获取客户端传送的用户昵称和密码
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		System.out.println(password);
-		System.out.println(username);
 		// 向客户端传送用户信息
 		UserServiceImpl userServiceImpl = new UserServiceImpl();
 		User user2 = userServiceImpl.searchUser(username);
+		System.out.println(user2.toString());
 		// 判断密码是否正确
 		if (password.equals(user2.getPassword())) {// 密码正确
 			Gson gson = new Gson();

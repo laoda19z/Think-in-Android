@@ -26,12 +26,18 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 
+import tv.danmaku.ijk.media.player.IMediaPlayer;
+import tv.danmaku.ijk.media.player.IjkMediaPlayer;
+
+import static android.util.Log.i;
+
 public class SearchContactActivity extends AppCompatActivity {
 
     private Button btnSearch;
     private EditText etName;
     private User user;
     private Handler handler;
+//    private IjkVideoView ijkVideoView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

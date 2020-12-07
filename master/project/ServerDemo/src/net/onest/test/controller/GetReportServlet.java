@@ -61,6 +61,7 @@ public class GetReportServlet extends HttpServlet {
 			String filePath = path+"/data/data.xls";
 			try {
 				Report report = rs.createReport(jsonObject, filePath);
+				rs.addReport(report);
 				String reportString = gson.toJson(report);
 				//杩斿洖鏁版嵁
 				writer.write(reportString);

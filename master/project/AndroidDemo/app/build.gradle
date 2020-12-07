@@ -116,4 +116,12 @@ dependencies {
     compile 'fm.jiecao:jiecaovideoplayer:5.5.4'
     //二维码
     implementation 'com.google.zxing:core:3.3.3'
+    //ijkplayer
+    implementation 'tv.danmaku.ijk.media:ijkplayer-java:0.8.8'
+    implementation 'tv.danmaku.ijk.media:ijkplayer-exo:0.8.8'
+    //ijkplayer so文件
+    implementation 'tv.danmaku.ijk.media:ijkplayer-arm64:0.8.8'
+    implementation 'tv.danmaku.ijk.media:ijkplayer-armv7a:0.8.8'
+    implementation 'tv.danmaku.ijk.media:ijkplayer-x86:0.8.8'
+    implementation 'tv.danmaku.ijk.media:ijkplayer-x86_64:0.8.8'
 }

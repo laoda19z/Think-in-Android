@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.onest.contact.dao.ContactDaoImpl;
 import net.onest.entity.Contact;
+import net.onest.entity.User;
 
 public class ContactServiceImpl {
 	/**
@@ -25,5 +26,9 @@ public class ContactServiceImpl {
 	public boolean addContact(int userid,int contactid) {
 		ContactDaoImpl contactDaoImpl = new ContactDaoImpl();
 		return contactDaoImpl.addContact(userid, contactid);
+	}
+	public User searchContact(String userName) {
+		ContactDaoImpl contactDaoImpl = new ContactDaoImpl();
+		return contactDaoImpl.searchContact(userName);
 	}
 }

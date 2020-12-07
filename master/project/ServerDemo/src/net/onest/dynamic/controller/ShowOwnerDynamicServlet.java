@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import net.onest.dynamic.service.DynamicServiceImpl;
 import net.onest.entity.Dynamic;
@@ -62,7 +63,7 @@ public class ShowOwnerDynamicServlet extends HttpServlet {
 		System.out.println(info);
 		if(!"".equals(info)) {
 			List<User> users = userServiceImpl.searchTrendUserInfo(info);
-			Gson gson = new Gson();
+			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
 			String userstr = gson.toJson(users);
 			String dynamicstr = gson.toJson(dynamics);
 			Map<String, String> map = new HashMap<String, String>();

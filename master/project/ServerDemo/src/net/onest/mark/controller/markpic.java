@@ -79,7 +79,9 @@ public class markpic extends HttpServlet {
 							//…Ë÷√º”√‹
 							String json = URLEncoder.encode(gson.toJson(returnpic),"utf-8");
 							writer.write(json);
+							return ;
 						}
+						writer.write("null");
 					}catch (Exception e) {
 						e.printStackTrace();
 					}finally {

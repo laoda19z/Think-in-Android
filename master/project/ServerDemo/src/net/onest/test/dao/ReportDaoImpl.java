@@ -2,6 +2,11 @@ package net.onest.test.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
+import com.mysql.fabric.xmlrpc.base.Data;
 
 import net.onest.entity.Report;
 import net.onest.util.DBUtil;
@@ -11,7 +16,7 @@ import java.sql.PreparedStatement;
 
 public class ReportDaoImpl {
 	/**
-	 * æ·»åŠ æŠ¥å‘Š
+	 * Ìí¼Ó±¨¸æ
 	 * @param report
 	 * @return
 	 */
@@ -21,13 +26,17 @@ public class ReportDaoImpl {
 		ResultSet rs = null;
 		int b = 0;
 		try {
+			Date date = new Date();
+			SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");  
+			String time = formatter.format(date);
 			conn = DBUtil.getConn();
-			String sqlInsert = "insert into report(child_id,overall_score,up_score,down_score,body_score)";
+			String sqlInsert = "insert into report(childId,overallscore,upscore,downscore,bodyscore,evaluationtime)";
 			String sqlValue = "values("+report.getChildId()+","+
 					report.getOverallScore()+","+
 					report.getUpScore()+","+
 					report.getDownScore()+","+
-					report.getBodyScore()+")";
+					report.getBodyScore()+","+"'"+
+					time+"')";
 			pstm = conn.prepareStatement(sqlInsert+sqlValue);
 			b = pstm.executeUpdate();
 		} catch (SQLException e) {
@@ -38,6 +47,7 @@ public class ReportDaoImpl {
 		}
 		return b;
 	}
+	
 	
 
 }

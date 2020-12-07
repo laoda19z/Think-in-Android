@@ -25,6 +25,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.io.BufferedReader;
@@ -49,6 +50,7 @@ public class CommunicityFragment2 extends FragmentActivity {
     private Handler handler;
     private ListView listView;
     private Button btnPublishTrend;
+    private int page = 1;
 
     @Override
     public View onCreateView(@NonNull final String name, @NonNull final Context context, @NonNull AttributeSet attrs) {
@@ -90,9 +92,18 @@ public class CommunicityFragment2 extends FragmentActivity {
         srl.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
-                showDynamic(ConfigUtil.SERVER_ADDR + "ShowDynamicServlet");
+                dynamics.clear();
+                showDynamic(ConfigUtil.SERVER_ADDR + "ShowDynamicServlet?page=1");
                 //通知刷新完毕
                 srl.finishRefresh();
+            }
+        });
+        srl.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
+                page++;
+                showDynamic(ConfigUtil.SERVER_ADDR + "ShowDynamicServlet?page="+page);
+                srl.finishLoadMoreWithNoMoreData();
             }
         });
 
@@ -105,7 +116,7 @@ public class CommunicityFragment2 extends FragmentActivity {
      */
     private void initData() {
         if(dynamics.size() == 0){
-            showDynamic(ConfigUtil.SERVER_ADDR + "ShowDynamicServlet");
+            showDynamic(ConfigUtil.SERVER_ADDR + "ShowDynamicServlet?page="+page);
         }
         adapter = new DynamicAdapter(view.getContext(), dynamics, R.layout.trends_item);
         listView.setAdapter(adapter);
@@ -128,12 +139,19 @@ public class CommunicityFragment2 extends FragmentActivity {
                     String dynamicInfo = maps.get("dynamic");
                     Type type1 = new TypeToken<List<Dynamic>>() {}.getType();
                     List<Dynamic> dynamicList = gson.fromJson(dynamicInfo,type1);
-                    dynamics = dynamicList;
+
+                    for(Dynamic dynamic:dynamicList){
+                        dynamics.add(dynamic);
+                    }
+//                    dynamics = dynamicList;
                     //获取发布动态的用户信息
                     String userinfo = maps.get("users");
                     Type type2 = new TypeToken<List<User>>(){}.getType();
                     List<User> userList = gson.fromJson(userinfo,type2);
-                    users = userList;
+                    for(User user:userList){
+                        users.add(user);
+                    }
+//                    users = userList;
                     Message msg = new Message();
                     msg.what = 1;
                     handler.sendMessage(msg);

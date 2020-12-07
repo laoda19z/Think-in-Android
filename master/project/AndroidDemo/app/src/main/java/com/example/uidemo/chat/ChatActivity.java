@@ -11,12 +11,16 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.uidemo.R;
 import com.example.uidemo.adapter.ChatAdapter;
@@ -69,6 +73,7 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
     private TextView contactName;
     private String contactHeadImg;
     private ImageView btnIv;
+    private ImageView btnMore;
 
     private List<Chat> list = new ArrayList<>();
     /**
@@ -145,11 +150,11 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
         recyclerView = findViewById(R.id.recyler_view);
         contactName = findViewById(R.id.chat_tv_contactname);
         btnIv = findViewById(R.id.chat_btn_finish);
+        btnMore =findViewById(R.id.chat_img_more);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         chatAdapter = new ChatAdapter(this, list);//将集合数据填充到适配器中
         chatAdapter.setReceiverHead(contactHeadImg);
-        Log.e("mlltouxiang",contactHeadImg);
         recyclerView.setAdapter(chatAdapter);
 
         srl = findViewById(R.id.srl);
@@ -194,6 +199,28 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
                 }
             }
         });
+    }
+    /**
+     * 加载选项菜单
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.chat_menu,menu);
+        return true;
+    }
+    /**
+     * 选项菜单的监听事件
+    */
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Log.e("mll","点击了");
+        int id = item.getItemId();
+        switch (id){
+            case R.id.chat_delete:
+
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     /**

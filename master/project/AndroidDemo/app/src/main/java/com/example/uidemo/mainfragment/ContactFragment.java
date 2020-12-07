@@ -34,6 +34,9 @@ import com.example.uidemo.dynamic.GPS;
 import com.example.uidemo.dynamic.PublishTrendsActivity;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -60,6 +63,7 @@ public class ContactFragment extends FragmentActivity {
     private Button btnAddContact;
     private Button btnSearchContact;
     private EventBus eventBus;
+    private SmartRefreshLayout srl;
     @Nullable
     @Override
     public View onCreateView(@NonNull String name, @NonNull Context context, @NonNull AttributeSet attrs) {
@@ -67,6 +71,7 @@ public class ContactFragment extends FragmentActivity {
         listView = view.findViewById(R.id.contact_listview);
         btnAddContact = view.findViewById(R.id.contact_add_contact);
         btnSearchContact = view.findViewById(R.id.contact_search_contact);
+        srl = view.findViewById(R.id.chat_fragment_refresh);
         handler = new Handler(Looper.myLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -119,6 +124,17 @@ public class ContactFragment extends FragmentActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(context, SearchContactActivity.class);
                 context.startActivity(intent);
+            }
+        });
+        //给智能刷新控件注册下拉刷新事件监听器
+        srl.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+                initContactInfo(ConfigUtil.SERVER_ADDR+"SearchMyContactServlet?userid="+ LoginActivity.currentUserId);
+                adapter = new ContactAdapter(view.getContext(),R.layout.chat_contact_item,userList);
+                listView.setAdapter(adapter);
+                //通知刷新完毕
+                srl.finishRefresh();
             }
         });
         return view;

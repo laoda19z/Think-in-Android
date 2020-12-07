@@ -23,15 +23,15 @@ public class ChildDaoImpl {
 		Child child = new Child();
 		try {
 			conn = DBUtil.getConn();
-			String sql = "select * from child where child_id = "+childId;
+			String sql = "select * from child where childId = "+childId;
 			pstm = conn.prepareStatement(sql);
 			rs = pstm.executeQuery();
 			while (rs.next()) {
-				child.setChildId(rs.getInt("child_id"));
-				child.setChildAge(rs.getInt("child_age"));
-				child.setChildGrade(rs.getInt("child_grade"));
-				child.setChildSex(rs.getString("child_sex"));
-				child.setChildName(rs.getString("child_name"));
+				child.setChildId(rs.getInt("childId"));
+				child.setChildAge(rs.getInt("age"));
+				child.setChildGrade(rs.getInt("grade"));
+				child.setChildSex(rs.getString("sex"));
+				child.setChildName(rs.getString("name"));
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
