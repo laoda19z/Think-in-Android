@@ -21,7 +21,7 @@
     <EditText
         android:id="@+id/et_addKidName"
         android:layout_width="270dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_marginTop="35dp"
         android:background="@drawable/edit_shape"
         android:layout_gravity="center"
@@ -30,7 +30,7 @@
     <EditText
         android:id="@+id/et_addKidSex"
         android:layout_width="270dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/edit_shape"
         android:layout_gravity="center"
@@ -39,7 +39,7 @@
     <EditText
         android:id="@+id/et_addKidAge"
         android:layout_width="270dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/edit_shape"
         android:layout_gravity="center"
@@ -48,7 +48,7 @@
     <EditText
         android:id="@+id/et_addKidGrade"
         android:layout_width="270dp"
-        android:layout_height="30dp"
+        android:layout_height="40dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/edit_shape"
         android:layout_gravity="center"
@@ -57,7 +57,7 @@
     <Button
         android:id="@+id/btn_addKidFinish"
         android:layout_width="270dp"
-        android:layout_height="30dp"
+        android:layout_height="50dp"
         android:layout_marginTop="80dp"
         android:background="@drawable/btn_shape"
         android:layout_gravity="center"

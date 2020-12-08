@@ -31,7 +31,7 @@
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.Light"
+        android:theme="@style/Base.Theme.NoActionBar"
         android:usesCleartextTraffic="true">
         <activity android:name=".chat.SearchContactActivity" />
         <activity android:name=".chat.AddContactActivity" />

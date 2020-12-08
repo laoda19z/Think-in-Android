@@ -41,30 +41,30 @@
             android:textStyle="bold" />
     </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="65dp"
-            android:background="#ffffff"
-            android:layout_marginTop="30dp"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:textSize="20dp"
-                android:textColor="#000000"
-                android:text="昵称"/>
-            <EditText
-                android:id="@+id/et_newName"
-                android:layout_height="wrap_content"
-                android:layout_width="290dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="30dp"
-                android:textColor="#000000"
-                android:background="@null"
-                android:text="邪王真眼"/>
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:background="#ffffff"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:textSize="20dp"
+            android:textColor="#000000"
+            android:text="昵称"/>
+        <EditText
+            android:id="@+id/et_newName"
+            android:layout_height="wrap_content"
+            android:layout_width="290dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="30dp"
+            android:textColor="#000000"
+            android:background="@null"
+            android:hint="请输入新昵称"/>
+    </LinearLayout>
     <TextView
         android:layout_width="130dp"
         android:layout_height="wrap_content"

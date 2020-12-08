@@ -2,31 +2,33 @@ package com.example.uidemo.mainfragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.bumptech.glide.Glide;
+import com.example.uidemo.ConfigUtil;
 import com.example.uidemo.R;
 import com.example.uidemo.adapter.HorizontalListViewAdapter;
-import com.example.uidemo.beans.Child;
+import com.example.uidemo.me.AddKidActivity;
 import com.example.uidemo.me.CodeActivity;
 import com.example.uidemo.me.HorizontalListView;
 import com.example.uidemo.me.PersonInfoActivity;
 import com.example.uidemo.me.SecurityActivity;
 
-import java.util.ArrayList;
-import java.util.List;
+import static com.example.uidemo.LoginActivity.currentUserHead;
+import static com.example.uidemo.LoginActivity.currentUserKids;
+import static com.example.uidemo.LoginActivity.currentUserName;
 
 public class MyselfFragment extends FragmentActivity {
     private View view;
@@ -35,68 +37,104 @@ public class MyselfFragment extends FragmentActivity {
     private Button btnCode;
     private Button btnInfo;
     private Button btnSeCenter;
+    private Button btnAddKid;
+    private ImageView ivHeader;
+    private TextView tvName;
+    private Button btnNew;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull String name, @NonNull final Context context, @NonNull AttributeSet attrs) {
         view = LayoutInflater.from(context).inflate(R.layout.myself_fragment,null);
-        ImageView ivHeader = view.findViewById(R.id.iv_header);
+
+        ivHeader = view.findViewById(R.id.iv_header);
         btnCode = view.findViewById(R.id.btn_code);
-        //Button btnAddKid = findViewById(R.id.btn_addKid);
+        btnAddKid = view.findViewById(R.id.btn_addKid);
         btnInfo= view.findViewById(R.id.btn_info);
         btnSeCenter = view.findViewById(R.id.btn_seCenter);
+        tvName = view.findViewById(R.id.tv_name);
+        btnNew = view.findViewById(R.id.btn_fl);
 
+        tvName.setText(currentUserName);
 
+        //设置头像
         Glide.with(view.getContext())
-                .load(R.drawable.girl)
+                .load(ConfigUtil.SERVER_ADDR+currentUserHead+"")
                 .circleCrop()
                 .into(ivHeader);
 
-
-
-        //连接服务端，接收遍历出来的child信息，并显示在宝宝列表中
-        List<Child> children = new ArrayList<>();
-        Child c1 = new Child();
-        c1.setChildName("小鸟游六花");
-        children.add(c1);
-        Child c2 = new Child();
-        c2.setChildName("小天");
-        children.add(c2);
-
+        //二维码按钮
         btnCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("mll","二维码");
+                Log.e("me","跳转二维码");
                 Intent intent = new Intent();
                 intent.setClass(context, CodeActivity.class);
                 context.startActivity(intent);
             }
         });
+
+        //详细信息按钮
         btnInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("mll","个人信息");
+                Log.e("me","跳转个人信息");
                 Intent intent = new Intent();
                 intent.setClass(context, PersonInfoActivity.class);
                 context.startActivity(intent);
             }
         });
 
+        //安全信息按钮
         btnSeCenter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.e("mll","安全中心");
+                Log.e("me","跳转安全中心");
                 Intent intent = new Intent();
                 intent.setClass(context, SecurityActivity.class);
                 context.startActivity(intent);
             }
         });
-        HAdapter = new HorizontalListViewAdapter(view.getContext(),children);
-        Log.e("ok","zzz");
-        HListView = view.findViewById(R.id.horizon_listview);
+
+        //添加孩子按钮
+        btnAddKid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(context, AddKidActivity.class);
+                context.startActivity(intent);
+            }
+        });
+
+        //横向listView显示孩子列表
+        HListView = view.findViewById(R.id.horizon_listView);
+        HAdapter = new HorizontalListViewAdapter(view.getContext(),currentUserKids);
+        Log.e("展示横向孩子列表","");
         HListView.setAdapter(HAdapter);
+
+        //设置选择孩子的点击事件
+        HListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                HAdapter.setSelectIndex(i);
+                HAdapter.notifyDataSetChanged();
+            }
+        });
+
+        //刷新页面按钮
+        btnNew.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tvName.setText(currentUserName);
+                Glide.with(view.getContext())
+                        .load(ConfigUtil.SERVER_ADDR+currentUserHead+"")
+                        .circleCrop()
+                        .into(ivHeader);
+                HAdapter.refresh(currentUserKids);
+                Toast.makeText(view.getContext(),"页面刷新成功！",Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return view;
     }
-
-
 }

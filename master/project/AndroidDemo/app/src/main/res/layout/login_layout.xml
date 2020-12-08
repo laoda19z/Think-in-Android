@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/football"
     tools:context=".MainActivity">
     <LinearLayout
         android:layout_width="match_parent"
@@ -90,11 +91,13 @@
                 android:id="@+id/btn_qq_login"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:layout_marginLeft="110dp"/>
+                android:layout_marginLeft="110dp"
+                android:background="@mipmap/qq"/>
             <Button
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:layout_marginLeft="50dp"/>
+                android:layout_marginLeft="50dp"
+                android:background="@mipmap/wx"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

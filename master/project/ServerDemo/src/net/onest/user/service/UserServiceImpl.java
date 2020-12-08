@@ -47,4 +47,65 @@ public class UserServiceImpl {
 		UserDaoImpl userDaoImpl = new UserDaoImpl();
 		return userDaoImpl.searchUser(userName);
 	}
+	/**
+	 * 修改邮箱
+	 * @param id,email
+	 * @return
+	 * */
+	public boolean updateEmail(int id,String email) {
+		UserDaoImpl userDao = new UserDaoImpl();
+		return userDao.updateEmail(id, email);
+	}
+	/**
+	 * 修改个人信息
+	 * @param id,realName,sex,phone,email
+	 * @return
+	 * */
+	public boolean updateInfo(int id,String name,String sex,String phone,String email) {
+		UserDaoImpl userDao = new UserDaoImpl();
+		return userDao.updateInfo(id, name, sex, phone, email);
+	}
+	/**
+	 * 修改昵称
+	 * @param id,newName
+	 * @return
+	 * */
+	public boolean updateName(int id,String newName) {
+		UserDaoImpl userDao = new UserDaoImpl();
+		return userDao.updateName(id, newName);
+	}
+	/**
+	 * 修改电话号码
+	 * @param id,newPhone
+	 * */
+	public boolean updatePhone(int id,String newPhone) {
+		UserDaoImpl userDao = new UserDaoImpl();
+		return userDao.updatePhone(id, newPhone);
+	}	
+	/**
+	 * 修改密码
+	 * @param id,newPwd
+	 * @return
+	 * */
+	public boolean updatePwd(int id,String newPwd) {
+		UserDaoImpl userDao = new UserDaoImpl();
+		return userDao.updatePwd(id, newPwd);
+	}	
+	
+	/**
+	 * 根据用户id查找用户信息
+	 * */
+	public User findUser(int id) {
+		UserDaoImpl userDao = new UserDaoImpl();
+		return userDao.findUser(id);
+	}
+	
+	/**
+	 * 根据用户id，更改孩子列表
+	 * */
+	public boolean updateKids(int id,String kidsList) {
+		UserDaoImpl userDao = new UserDaoImpl();
+		return userDao.updateKids(id, kidsList);
+	}
+	
 }

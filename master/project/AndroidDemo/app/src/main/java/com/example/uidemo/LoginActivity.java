@@ -16,12 +16,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.uidemo.beans.Child;
 import com.example.uidemo.beans.User;
 import com.google.gson.Gson;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.EMError;
 import com.hyphenate.chat.EMClient;
-import com.hyphenate.exceptions.HyphenateException;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.auth.QQToken;
 import com.tencent.connect.common.Constants;
@@ -33,16 +33,9 @@ import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -60,18 +53,36 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnLogin;
     private Handler myHandler;
     private OkHttpClient okHttpClient;
+
+    //当前登录的用户的属性
     public static String currentUserId;
     public static String currentUserName;
     public static String currentUserHead;
-    private Button btnQQLogin;
+    public static String currentUserPhoneNum;
+    public static String currentUserEmail;
+    public static String currentUserSex;
+    public static String currentUserRealName;
+    public static List<Child> currentUserKids = new ArrayList<Child>();
+
+    //当前孩子的id
+    public static int currentChildId;
+    public static String currentChildName;
+    public static int currentChildAge;
+    public static int currentChildGrade;
+    public static String currentChildSex;
+
     //QQ登录
+    private Button btnQQLogin;
     private static final String TAG = "LoginActivity";
     private static final String APP_ID = "1111276030";//官方获取的APPID
     private Tencent mTencent;
     private BaseUiListener mIUiListener;
     private UserInfo mUserInfo;
+
+
+
+    // 调用sdk的退出登录方法，第一个参数表示是否解绑推送的token，没有使用推送或者被踢都要传false
     private void signOut() {
-        // 调用sdk的退出登录方法，第一个参数表示是否解绑推送的token，没有使用推送或者被踢都要传false
         EMClient.getInstance().logout(true, new EMCallBack() {
             @Override public void onSuccess() {
                 Log.i("mll", "注销成功");
@@ -355,6 +366,11 @@ public class LoginActivity extends AppCompatActivity {
                     String userId = user.getUserId() + "";
                     currentUserId = userId;
                     currentUserHead = user.getHeadImg();
+                    currentUserEmail = user.getEmail();
+                    currentUserPhoneNum = user.getPhoneNum();
+                    currentUserRealName = user.getRealname();
+                    currentUserSex = user.getSex();
+                    currentUserKids = user.getKids();
                     loginInEMServer(userId,password);
                 }
             }

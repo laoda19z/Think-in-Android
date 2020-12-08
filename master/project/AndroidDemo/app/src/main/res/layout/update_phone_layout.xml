@@ -58,7 +58,7 @@
             android:textColor="#000000"
             android:text="旧手机号"/>
         <TextView
-            android:id="@+id/et_phone"
+            android:id="@+id/tv_phone"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:layout_centerVertical="true"

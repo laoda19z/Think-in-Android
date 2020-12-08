@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -19,7 +20,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bigkoo.pickerview.OptionsPickerView;
 import com.example.uidemo.ConfigUtil;
+import com.example.uidemo.MainActivity;
 import com.example.uidemo.R;
 import com.example.uidemo.mark.Entity.JudgeMarkStatus;
 import com.example.uidemo.mark.Entity.Mark;
@@ -29,6 +32,7 @@ import com.google.gson.Gson;
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarView;
 
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -37,7 +41,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MarkInformation extends AppCompatActivity {
@@ -53,11 +59,8 @@ public class MarkInformation extends AppCompatActivity {
     private TextView tvMarkStatus;
     private TextView tvYearAndMonth;
     //三个Spinner属性,对应项目，运动事件h和min
-    private Spinner spinner1;
     private String sport;
-    private Spinner spinner2;
     private String spHours;
-    private Spinner spinner3;
     private String spMinutes;
     //感想
     private EditText impressions;
@@ -67,6 +70,16 @@ public class MarkInformation extends AppCompatActivity {
     private String username;
     private String date;
     private int child;
+    //选择器属性
+    private List<String> list;
+    private List<String> list1;
+    private List<String> sportlist;
+    private List<List<String>> lists;
+    //选择后显示
+    private ImageView sportchoice;
+    private ImageView minschoice;
+    private TextView aftersport;
+    private TextView aftermins;
 
     private boolean booleans;
     private Handler handler=new Handler(){
@@ -102,10 +115,15 @@ public class MarkInformation extends AppCompatActivity {
         tvDate=findViewById(R.id.tv_date);
         tvYearAndMonth=findViewById(R.id.tv_yearandmonth);
         tvMarkStatus=findViewById(R.id.tv_mark_status);
-        spinner1=findViewById(R.id.spinner1);
-        spinner2=findViewById(R.id.sp_hours);
-        spinner3=findViewById(R.id.sp_minutes);
         impressions=findViewById(R.id.impressions);
+
+        sportchoice=findViewById(R.id.sportchoice);
+        minschoice=findViewById(R.id.minschoice);
+        //显示的控件获取
+        aftersport=findViewById(R.id.aftersport);
+        aftermins=findViewById(R.id.afterminutes);
+
+
 
         //显示今天的日期
         year=calendarView.getCurYear();
@@ -123,51 +141,24 @@ public class MarkInformation extends AppCompatActivity {
 
         //获取打卡的所有日期，若有打卡记录，则日历最上显示的为已经打卡
         JudegMarkStatus(year,month,day,Integer.parseInt(username),child);
-        //获得spinner选中的属性
-        spinner1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                Resources resources=getResources();
-                String[] sportType=resources.getStringArray(R.array.spingarr);
-                sport=sportType[position];
-            }
+        //初始化选择器数组
+        initArrayData();
 
+        //点击方法
+        sportchoice.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        //获得输入的时间
-        spinner2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //获得输入的小时
-                Resources resources=getResources();
-                String[] sportType=resources.getStringArray(R.array.hours);
-                spHours=sportType[position];
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-        //获得输入的分钟
-        spinner3.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //获得输入的分钟
-                Resources resources=getResources();
-                String[] sportType=resources.getStringArray(R.array.minutes);
-                spMinutes=sportType[position];
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onClick(View view) {
+                Log.e("点击了按钮","sport");
+                showSportPickerView();
             }
         });
 
+        minschoice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showMinsPickerView();
+            }
+        });
 
 
         //点击选择打卡图片进行跳转
@@ -203,6 +194,107 @@ public class MarkInformation extends AppCompatActivity {
             }
         });
 
+    }
+
+    //这个是选择运动项目
+    private void showSportPickerView() {
+        OptionsPickerView pvOptions = new  OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int option2, int options3 ,View v) {
+                sport=sportlist.get(options1);
+                aftersport.setText(sport);
+            }
+        })
+                .setTitleText("选择运动项目")
+                .setOutSideCancelable(false)
+                .build();
+        pvOptions.setPicker(sportlist);
+        pvOptions.show();
+    }
+
+    //这个是运动时间
+    private void showMinsPickerView() {
+        OptionsPickerView pvOptions = new  OptionsPickerView.Builder(this, new OptionsPickerView.OnOptionsSelectListener() {
+            @Override
+            public void onOptionsSelect(int options1, int option2, int options3 ,View v) {
+                //展示获得的小时
+                String getHours=list.get(options1);
+                int length=getHours.length();
+                //通过5小时和15小时的长度不同来截取
+                String h;
+                if(length==3){
+                    //获得小时的长度
+                    h=getHours.substring(0,1);
+                }
+                else{
+                    h=getHours.substring(0,2);
+                }
+                spHours=h;
+                Log.e("h",h);
+                //获得二级目录中的分钟
+                String getMin=lists.get(options1).get(option2);
+                int length1=getMin.length();
+                String min;
+                if(length1==3){
+                    min=getMin.substring(0,1);
+                }
+                else{
+                    min=getMin.substring(0,2);
+                }
+                spMinutes=min;
+                Log.e("min",min);
+                aftermins.setText(spHours+"小时"+spMinutes+"分钟");
+            }
+        })
+                .setOutSideCancelable(false)
+                .setSelectOptions(0,30)
+                .setTitleText("选择运动时间")
+                .build();
+        pvOptions.setPicker(list,lists);
+        pvOptions.show();
+
+    }
+
+    //初始化选择器数组
+    private void initArrayData() {
+        //将数组初始化
+        //小时数组
+        list=new ArrayList<>();
+        for (int i = 0; i < 24; i++) {
+            list.add(i+"小时");
+        }
+        //分钟数组
+        list1=new ArrayList<>();
+        for (int i = 0; i < 60; i++) {
+            list1.add(i+"分钟");
+        }
+        //第二个选项数组
+        lists=new ArrayList<>();
+        //第一个数组几个元素重复几次
+        for(int i=0;i<24;++i){
+            lists.add(list1);
+        }
+        //运动数组
+        sportlist=new ArrayList<>();
+        sportlist.add("篮球");
+        sportlist.add("足球");
+        sportlist.add("羽毛球");
+        sportlist.add("跳绳");
+        sportlist.add("乒乓球");
+        sportlist.add("游泳");
+        sportlist.add("慢跑");
+        sportlist.add("快走");
+        sportlist.add("骑自行车");
+        sportlist.add("瑜伽");
+        sportlist.add("武术");
+        sportlist.add("滑冰");
+        sportlist.add("网球");
+        sportlist.add("短跑");
+        sportlist.add("跳高");
+        sportlist.add("实心球");
+        sportlist.add("仰卧起坐");
+        sportlist.add("跳远");
+        sportlist.add("其他");
     }
 
     //这个方法是判断今日有没有打卡
