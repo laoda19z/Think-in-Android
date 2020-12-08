@@ -1,13 +1,13 @@
 package com.example.uidemo.test;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.uidemo.R;
 import com.google.gson.JsonObject;
@@ -21,14 +21,14 @@ public class BasicInfoActivity extends AppCompatActivity {
     private EditText edtHeight;
     private EditText edtWeight;
     private EditText editFeihuoliang;
-    private TextView tvNext;
+    private Button btnNext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_basic_info);
         String str = getIntent().getStringExtra("json");
         findViews();
-        tvNext.setOnClickListener(new View.OnClickListener() {
+        btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 JsonObject jsonObject = (JsonObject) new JsonParser().parse(str).getAsJsonObject();
@@ -78,7 +78,7 @@ public class BasicInfoActivity extends AppCompatActivity {
         edtHeight = findViewById(R.id.edt_height);
         edtWeight = findViewById(R.id.edt_weight);
         editFeihuoliang = findViewById(R.id.edt_feihuoliang);
-        tvNext = findViewById(R.id.tv_next);
+        btnNext = findViewById(R.id.btn_next);
     }
     private int getFeihuoliangByAge(int age,String sex){
         int fhl = 0;

@@ -4,61 +4,69 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:alpha="0.5"
+        android:background="@mipmap/libai"/>
+    <View
+        android:id="@+id/dynamic_white"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:background="@color/white"
+        android:alpha="0.8"
+        android:layout_alignParentBottom="true" />
+
+    <RelativeLayout
+        android:id="@+id/trends_item_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/dynamic_white"
+        android:gravity="top"
+        android:layout_margin="10dp">
+
         <ImageView
+            android:id="@+id/trend_person_head"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:onClick="clickIntoChat"
+            android:src="@mipmap/trendsbackground" />
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:id="@+id/trend_person_user"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@id/trend_person_head"
+            android:text="火箭少女101_紫宁"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/hhh"
+        android:layout_below="@+id/trends_item_top"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/black"/>
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/person_trend_srl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/hhh">
+        <com.scwang.smartrefresh.header.WaterDropHeader
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+        <ListView
+            android:id="@+id/trend_person_listview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="bottom"
-            android:alpha="0.5"
-            android:background="@mipmap/a8"/>
-        <View
-            android:id="@+id/dynamic_white"
+
+            />
+        <com.scwang.smartrefresh.layout.footer.ClassicsFooter
             android:layout_width="match_parent"
-            android:layout_height="500dp"
-            android:background="@color/white"
-            android:alpha="0.8"
-            android:layout_alignParentBottom="true" />
+            android:layout_height="wrap_content"/>
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
-        <RelativeLayout
-            android:id="@+id/trends_item_top"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@id/dynamic_white"
-            android:gravity="top"
-            android:layout_margin="10dp">
-
-            <ImageView
-                android:id="@+id/trend_person_head"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:onClick="clickIntoChat"
-                android:src="@mipmap/trendsbackground" />
-
-            <TextView
-                android:id="@+id/trend_person_user"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_toRightOf="@id/trend_person_head"
-                android:text="火箭少女101_紫宁"
-                android:textSize="19sp" />
-        </RelativeLayout>
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:id="@+id/person_trend_srl"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/trends_item_top">
-            <com.scwang.smartrefresh.header.WaterDropHeader
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <ListView
-                android:id="@+id/trend_person_listview"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-
-                />
-            <com.scwang.smartrefresh.layout.footer.ClassicsFooter
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
-    </RelativeLayout>
+</RelativeLayout>

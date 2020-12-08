@@ -166,29 +166,36 @@ public class MarkInformation extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(booleans==true){
+                    //说明重复打卡
                     Toast.makeText(getApplicationContext(),"重复打卡!",Toast.LENGTH_LONG).show();
                 }
                 else{
+                    //说明没有重复打卡
                     //获取到的运动项目和事件信息
-                    Log.e("testtestetst",sport+spHours+spMinutes);
-                    if(impressions.getText().toString().length()==0){
-                        impression="nulls";
+                    if(aftersport.length()==0||aftermins.length()==0){
+                        Toast.makeText(getApplicationContext(),"请将运动项目与运动时长填写完整",Toast.LENGTH_LONG).show();
                     }
                     else{
-                        impression=impressions.getText().toString();
+                        //全部填写
+                        if(impressions.getText().toString().length()==0){
+                            impression="nulls";
+                        }
+                        else{
+                            impression=impressions.getText().toString();
+                        }
+                        //这个方法是将输入的时间转化为分钟
+                        int minutes=formatMinutes(spMinutes,spHours);
+                        //获取到感想
+                        Intent intent=new Intent();
+                        intent.setClass(MarkInformation.this, BackgroundChoice.class);
+                        //传递数据,传递的数据有  用户名，时间，运动项目，运动时间，感想
+                        //转化为json串
+                        Gson gson=new Gson();
+                        Mark mark=new Mark(Integer.parseInt(username),date,minutes,sport,impression,child);
+                        String toJson=gson.toJson(mark);
+                        intent.putExtra("json",toJson);
+                        startActivity(intent);
                     }
-                    //这个方法是将输入的时间转化为分钟
-                    int minutes=formatMinutes(spMinutes,spHours);
-                    //获取到感想
-                    Intent intent=new Intent();
-                    intent.setClass(MarkInformation.this, BackgroundChoice.class);
-                    //传递数据,传递的数据有  用户名，时间，运动项目，运动时间，感想
-                    //转化为json串
-                    Gson gson=new Gson();
-                    Mark mark=new Mark(Integer.parseInt(username),date,minutes,sport,impression,child);
-                    String toJson=gson.toJson(mark);
-                    intent.putExtra("json",toJson);
-                    startActivity(intent);
                 }
 
             }

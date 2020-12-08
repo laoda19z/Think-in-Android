@@ -68,9 +68,7 @@
         <activity android:name=".record.GrowthRecordActivity" />
         <activity android:name=".familyactivity.activities.DetailsActivity" />
         <activity android:name=".test.FiftymeterRunBackAcitivity" />
-        <activity android:name=".test.SitUpInfoActivity" />
         <activity android:name=".test.SitUpTimingActivity" />
-        <activity android:name=".test.SkipInfoActivity" />
         <activity android:name=".test.SkipTimingActivity" />
         <activity android:name=".test.SitReachActivity" />
         <activity android:name=".test.FiftymeterRunActivity" />

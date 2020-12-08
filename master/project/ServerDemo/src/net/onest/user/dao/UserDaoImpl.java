@@ -44,6 +44,35 @@ public class UserDaoImpl {
 		}
 		return users;
 	}
+	/**
+	 * 查询评论的用户名
+	 * @param s
+	 * @return
+	 */
+	public List<User> searchCommentUserNameList(String s){
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		int count = 0;
+		List<User> users = new ArrayList<User>();
+		try {
+			conn = DBUtil.getConn();
+			String sql="select * from user where userId in ("+s+")";
+			pstm = conn.prepareStatement(sql);
+			rs = pstm.executeQuery();
+			while(rs.next()) {
+				User user = new User();
+				user.setUserId(rs.getInt(3));
+				user.setUsername(rs.getString(1));
+				users.add(user);
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtil.close(rs, pstm, conn);
+		}
+		return users;
+	}
 	/**查询用户
 	 * @param userName
 	 * @return

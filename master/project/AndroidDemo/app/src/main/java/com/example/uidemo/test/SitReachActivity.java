@@ -1,13 +1,13 @@
 package com.example.uidemo.test;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.uidemo.ConfigUtil;
 import com.example.uidemo.R;
@@ -23,7 +23,7 @@ public class SitReachActivity extends AppCompatActivity {
 
     private JCVideoPlayerStandard playerStandard;
     private EditText edtData;
-    private TextView tvNext;
+    private Button btnNext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,7 +31,7 @@ public class SitReachActivity extends AppCompatActivity {
         findViews();
         initVideo();
         String str = getIntent().getStringExtra("json");
-        tvNext.setOnClickListener(new View.OnClickListener() {
+        btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 JsonObject jsonObject = (JsonObject) new JsonParser().parse(str).getAsJsonObject();
@@ -47,24 +47,19 @@ public class SitReachActivity extends AppCompatActivity {
                     intent.setClass(SitReachActivity.this,SkipTimingActivity.class);
                     startActivity(intent);
                     finish();
+                    playerStandard.release();
                 }
             }
         });
     }
 
     private void initVideo() {
-        new Thread(){
-            @Override
-            public void run() {
-                playerStandard = findViewById(R.id.media_video);
-                playerStandard.setUp(ConfigUtil.SERVER_ADDR +"/video/wushimichengbawangfanpao.mp4",JCVideoPlayerStandard.SCREEN_LAYOUT_NORMAL,"五十往返跑");
-                playerStandard.startVideo();
-            }
-        }.start();
-
+        playerStandard = findViewById(R.id.media_video);
+        playerStandard.setUp(ConfigUtil.SERVER_ADDR +"video/zuoweitiqianqu.mp4",0,"坐位体前屈");
+        playerStandard.startVideo();
     }
     private void findViews() {
         edtData = findViewById(R.id.edt_data);
-        tvNext = findViewById(R.id.tv_next);
+        btnNext = findViewById(R.id.btn_next);
     }
 }

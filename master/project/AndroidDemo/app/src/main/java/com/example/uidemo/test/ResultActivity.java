@@ -1,8 +1,5 @@
 package com.example.uidemo.test;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,13 +9,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.uidemo.ConfigUtil;
 import com.example.uidemo.MainActivity;
 import com.example.uidemo.R;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-
-import org.w3c.dom.Text;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -31,7 +30,6 @@ import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 
-import static com.example.uidemo.ConfigUtil.SERVER_ADDR;
 
 
 public class ResultActivity extends AppCompatActivity {
@@ -66,7 +64,7 @@ public class ResultActivity extends AppCompatActivity {
         Log.i("张绍达",str);
         findViews();
         setListener();
-        getReportFromServer(SERVER_ADDR+"GetReportServlet",str);
+        getReportFromServer(ConfigUtil.SERVER_ADDR +"/GetReportServlet",str);
     }
 
     private void setListener() {

@@ -58,11 +58,17 @@ public class MyselfFragment extends FragmentActivity {
         tvName.setText(currentUserName);
 
         //设置头像
-        Glide.with(view.getContext())
-                .load(ConfigUtil.SERVER_ADDR+currentUserHead+"")
-                .circleCrop()
-                .into(ivHeader);
-
+        if(currentUserHead.isEmpty()){
+            Glide.with(view.getContext())
+                    .load(R.mipmap.tx)
+                    .circleCrop()
+                    .into(ivHeader);
+        }else{
+            Glide.with(view.getContext())
+                    .load(ConfigUtil.SERVER_ADDR+currentUserHead+"")
+                    .circleCrop()
+                    .into(ivHeader);
+        }
         //二维码按钮
         btnCode.setOnClickListener(new View.OnClickListener() {
             @Override

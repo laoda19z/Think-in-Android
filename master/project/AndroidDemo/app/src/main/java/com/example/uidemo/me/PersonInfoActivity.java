@@ -47,10 +47,18 @@ public class PersonInfoActivity extends AppCompatActivity {
         tvPersonInfoEmail.setText(currentUserEmail);
 
 
-        Glide.with(this)
-                .load(ConfigUtil.SERVER_ADDR+currentUserHead+"")
-                .circleCrop()
-                .into(ivHeader);
+        //设置头像
+        if(currentUserHead.isEmpty()){
+            Glide.with(this)
+                    .load(R.mipmap.tx)
+                    .circleCrop()
+                    .into(ivHeader);
+        }else{
+            Glide.with(this)
+                    .load(ConfigUtil.SERVER_ADDR+currentUserHead+"")
+                    .circleCrop()
+                    .into(ivHeader);
+        }
 
         btnReturn.setOnClickListener(new View.OnClickListener() {
             @Override

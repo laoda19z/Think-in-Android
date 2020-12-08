@@ -38,58 +38,56 @@
             android:text="3、记录以秒为单位，按照非0进1原则取整(例：1'33''50保留为1'34'')"/>
     </LinearLayout>
     <RelativeLayout
-        android:layout_marginTop="50dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:padding="10dp">
-            <EditText
-                android:id="@+id/edt_data_m"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:textSize="15dp"
-                android:inputType="number|numberDecimal"
-                android:hint="请输入分钟数：(整数)"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            android:layout_alignParentRight="true"
-            android:padding="10dp">
-            <EditText
-                android:id="@+id/edt_data_s"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@null"
-                android:inputType="number|numberDecimal"
-                android:textSize="15dp"
-                android:hint="请输入秒数：(整数)"/>
-        </LinearLayout>
-
-    </RelativeLayout>
-
-    <LinearLayout
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/test_blue"
-        android:padding="15dp">
+        android:padding="10dp">
         <TextView
-            android:gravity="center"
-            android:id="@+id/tv_next"
-            android:layout_width="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="40dp"
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            android:text="生成报告"
-            android:textSize="23dp"
-            android:textColor="@color/white"
-            android:background="@color/test_blue"/>
-    </LinearLayout>
+            android:text="0'0''"
+            android:textSize="65dp"/>
+        <LinearLayout
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <Button
+                android:layout_alignParentRight="true"
+                android:id="@+id/btn_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="开始"
+                android:background="@drawable/test_blue_btn"/>
+            <Button
+                android:layout_marginTop="10dp"
+                android:layout_alignParentBottom="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btn_restart"
+                android:textColor="@color/white"
+                android:text="重置"
+                android:background="@drawable/test_red_btn"/>
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+    <Button
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:id="@+id/btn_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="生成报告"
+        android:textSize="21dp"
+        android:textColor="@color/white"
+        android:background="@drawable/test_blue_btn"/>
 </LinearLayout>

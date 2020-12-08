@@ -2,6 +2,7 @@ package com.example.uidemo.adapter;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -50,6 +51,7 @@ public class DynamicAdapter extends BaseAdapter {
     private User user = new User();
     private ViewHolder holder;
     private List<User> users = new ArrayList<>();
+    private List<User> commUsers = new ArrayList<>();
     private Dynamic currentdynamic;
     public DynamicAdapter(Context context, List<Dynamic> lists, int layout) {
         this.context = context;
@@ -62,6 +64,14 @@ public class DynamicAdapter extends BaseAdapter {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public List<User> getCommUsers() {
+        return commUsers;
+    }
+
+    public void setCommUsers(List<User> commUsers) {
+        this.commUsers = commUsers;
     }
 
     @Override
@@ -109,6 +119,7 @@ public class DynamicAdapter extends BaseAdapter {
             holder.tv_content = view.findViewById(R.id.trend_item_content);
             holder.tv_clickToComment = view.findViewById(R.id.btn_input_comment);
             holder.tv_position = view.findViewById(R.id.trend_item_position);
+            holder.weizhi=view.findViewById(R.id.weizhi);
             holder.tv_clickToComment.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -163,9 +174,25 @@ public class DynamicAdapter extends BaseAdapter {
         holder.trend_comment_list.removeAllViews();
         for(int j = 0;j < list.size();++j){
             Comment comment = list.get(j);
-            TextView textView = new TextView(context);
-            textView.setText(comment.getPublisherId()+"："+comment.getContent());
-            holder.trend_comment_list.addView(textView);
+            LinearLayout linearLayout = new LinearLayout(context);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            linearLayout.setLayoutParams(params);
+            TextView textView1= new TextView(context);
+            textView1.setText(comment.getContent());
+            textView1.setTextSize(18);
+            textView1.setTextColor(Color.BLUE);
+            TextView textView2 = new TextView(context);
+            for(int m = 0;m < commUsers.size();++m){
+                if (commUsers.get(m).getUserId()==comment.getPublisherId()){
+                    textView2.setText(commUsers.get(m).getUsername()+":");
+                    textView2.setTextColor(Color.RED);
+                    textView2.setTextSize(18);
+                    break;
+                }
+            }
+            linearLayout.addView(textView2);
+            linearLayout.addView(textView1);
+            holder.trend_comment_list.addView(linearLayout);
             notifyDataSetChanged();
         }
         Log.e("mll","当前时间为："+currentdynamic.getTime().toString());
@@ -176,11 +203,15 @@ public class DynamicAdapter extends BaseAdapter {
         holder.tv_content.setText(currentdynamic.getContent());
         String position = currentdynamic.getLocation();
         holder.tv_position.setText(position);
+        if(position.equals("暂无")){
+            holder.weizhi.setImageResource(R.mipmap.warter1);
+        }else{
+            holder.weizhi.setImageResource(R.mipmap.warter2);
+        }
         if(!currentdynamic.getImg().equals("dynamics/null")){
             holder.iv_img.setVisibility(View.VISIBLE);
             Glide.with(context).load(ConfigUtil.SERVER_ADDR+currentdynamic.getImg()).override(600, 400).into(holder.iv_img);
         }
-
 
         return view;
     }
@@ -222,6 +253,6 @@ public class DynamicAdapter extends BaseAdapter {
         private LinearLayout trend_comment_list;//评论列表
         private Button tv_clickToComment;
         private TextView tv_position;
-
+        private ImageView weizhi;
     }
 }

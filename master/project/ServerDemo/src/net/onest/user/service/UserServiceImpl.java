@@ -7,6 +7,16 @@ import net.onest.user.dao.UserDaoImpl;
 
 public class UserServiceImpl {
 	/**
+	 * 查询用户评论列表信息
+	 * @param s
+	 * @return
+	 */
+	public List<User> searchCommentUserInfo(String s){
+		UserDaoImpl userDaoImpl = new UserDaoImpl();
+		List<User> list = userDaoImpl.searchCommentUserNameList(s);
+		return list;
+	}
+	/**
 	 * 查询用户列表
 	 * @param s
 	 * @return

@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:background="@null"
             android:text="一分钟跳绳：："
-            android:textSize="25dp"/>
+            android:textSize="20dp"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -43,22 +43,72 @@
     </LinearLayout>
 
     <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/timing"
-        android:padding="10dp"
-        android:layout_gravity="center_horizontal">
-        <TextView
-            android:id="@+id/tv_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_centerVertical="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:clickable="true"
-            android:text="60"
-            android:textColor="@color/white"
-            android:textSize="90dp"/>
+            android:background="@drawable/timing"
+            android:layout_gravity="center_horizontal">
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:clickable="true"
+                android:text="60"
+                android:textColor="@color/white"
+                android:textSize="80dp"/>
+        </RelativeLayout>
+        <LinearLayout
+            android:paddingTop="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/tv_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:text="0"
+                android:textSize="50dp"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_add"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:textSize="40dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/test_blue_btn"/>
+                <Button
+                    android:layout_marginLeft="30dp"
+                    android:id="@+id/btn_minus"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="-"
+                    android:textSize="40dp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/test_red_btn"/>
+            </LinearLayout>
+        </LinearLayout>
 
     </RelativeLayout>
+    <Button
+        android:layout_marginTop="10dp"
+        android:id="@+id/btn_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="下一步"
+        android:textColor="@color/white"
+        android:background="@drawable/test_blue_btn"/>
 
 </LinearLayout>

@@ -9,7 +9,7 @@
     <fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard
         android:id="@+id/media_video"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"/>
 
     <LinearLayout
         android:layout_marginTop="25dp"
@@ -36,6 +36,112 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="注：如果没有专业道具可用类似道具代替"/>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <com.example.uidemo.test.CM
+                    android:layout_width="10mm"
+                    android:layout_height="5mm"
+                    android:text="0cm"
+                    android:textSize="8pt"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/black"/>
+                <com.example.uidemo.test.CM
+                    android:layout_width="10mm"
+                    android:layout_height="5mm"
+                    android:text="1cm"
+                    android:textSize="8pt"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/black"/>
+                <com.example.uidemo.test.CM
+                    android:layout_width="10mm"
+                    android:layout_height="5mm"
+                    android:text="2cm"
+                    android:textSize="8pt"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/black"/>
+
+                <com.example.uidemo.test.CM
+                    android:layout_width="10mm"
+                    android:layout_height="5mm"
+                    android:layout_gravity="center_vertical"
+                    android:text="3cm"
+                    android:textColor="@color/black"
+                    android:textSize="8pt" />
+
+                <com.example.uidemo.test.CM
+                    android:layout_width="10mm"
+                    android:layout_height="5mm"
+                    android:text="4cm"
+                    android:textSize="8pt"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/black"/>
+                <com.example.uidemo.test.CM
+                    android:layout_width="10mm"
+                    android:layout_height="5mm"
+                    android:text="5cm"
+                    android:textSize="8pt"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/black"/>
+                <com.example.uidemo.test.CM
+                    android:layout_width="10mm"
+                    android:layout_height="5mm"
+                    android:text="6cm"
+                    android:textSize="8pt"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/black"/>
+                <com.example.uidemo.test.CM
+                    android:layout_width="10mm"
+                    android:layout_height="5mm"
+                    android:text="7cm"
+                    android:textSize="8pt"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/black"/>
+                <com.example.uidemo.test.CM
+                    android:layout_width="10mm"
+                    android:layout_height="5mm"
+                    android:text="8cm"
+                    android:textSize="8pt"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/black"/>
+                <com.example.uidemo.test.CM
+                    android:layout_width="10mm"
+                    android:layout_height="5mm"
+                    android:text="9cm"
+                    android:textSize="8pt"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/black"/>
+                <com.example.uidemo.test.CM
+                    android:layout_width="10mm"
+                    android:layout_height="5mm"
+                    android:text="10cm"
+                    android:textSize="8pt"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/black"/>
+                <com.example.uidemo.test.CM
+                    android:layout_width="10mm"
+                    android:layout_height="5mm"
+                    android:text="11cm"
+                    android:textSize="8pt"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/black"/>
+                <com.example.uidemo.test.CM
+                    android:layout_width="10mm"
+                    android:layout_height="5mm"
+                    android:text="12cm"
+                    android:textSize="8pt"
+                    android:layout_gravity="center_vertical"
+                    android:textColor="@color/black"/>
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
     </LinearLayout>
     <LinearLayout
         android:layout_marginTop="30dp"
@@ -53,21 +159,15 @@
             android:hint="请输入成绩：(小数点后1位最佳，可负数)"/>
 
     </LinearLayout>
-    <LinearLayout
-        android:layout_marginTop="20dp"
+    <Button
+        android:layout_marginTop="15dp"
+        android:gravity="center"
+        android:id="@+id/btn_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/test_blue"
-        android:padding="15dp">
-        <TextView
-            android:gravity="center"
-            android:id="@+id/tv_next"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:text="下一步"
-            android:textSize="23dp"
-            android:textColor="@color/white"
-            android:background="@color/test_blue"/>
-    </LinearLayout>
+        android:clickable="true"
+        android:text="下一步"
+        android:textSize="23dp"
+        android:textColor="@color/white"
+        android:background="@drawable/test_blue_btn"/>
 </LinearLayout>

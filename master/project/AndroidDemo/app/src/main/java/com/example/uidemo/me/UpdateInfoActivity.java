@@ -76,11 +76,17 @@ public class UpdateInfoActivity extends AppCompatActivity {
 
         findViews();
         //设置头像
-        Glide.with(this)
-                .load(ConfigUtil.SERVER_ADDR+currentUserHead+"")
-                .circleCrop()
-                .into(ivUpInfoHeader);
-
+        if(currentUserHead.isEmpty()){
+            Glide.with(this)
+                    .load(R.mipmap.tx)
+                    .circleCrop()
+                    .into(ivUpInfoHeader);
+        }else{
+            Glide.with(this)
+                    .load(ConfigUtil.SERVER_ADDR+currentUserHead+"")
+                    .circleCrop()
+                    .into(ivUpInfoHeader);
+        }
         btnReturn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

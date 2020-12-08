@@ -46,6 +46,7 @@ public class CommunicityFragment2 extends FragmentActivity {
     private SmartRefreshLayout srl;
     private List<Dynamic> dynamics = new ArrayList<>();
     private List<User> users = new ArrayList<>();
+    private List<User> commUsers = new ArrayList<>();
     private DynamicAdapter adapter;
     private Handler handler;
     private ListView listView;
@@ -66,6 +67,7 @@ public class CommunicityFragment2 extends FragmentActivity {
                     case 1:
                         adapter.setDynamic(dynamics);
                         adapter.setUsers(users);
+                        adapter.setCommUsers(commUsers);
                         adapter.notifyDataSetChanged();
                         listView.setAdapter(adapter);
                         break;
@@ -139,11 +141,9 @@ public class CommunicityFragment2 extends FragmentActivity {
                     String dynamicInfo = maps.get("dynamic");
                     Type type1 = new TypeToken<List<Dynamic>>() {}.getType();
                     List<Dynamic> dynamicList = gson.fromJson(dynamicInfo,type1);
-
                     for(Dynamic dynamic:dynamicList){
                         dynamics.add(dynamic);
                     }
-//                    dynamics = dynamicList;
                     //获取发布动态的用户信息
                     String userinfo = maps.get("users");
                     Type type2 = new TypeToken<List<User>>(){}.getType();
@@ -151,7 +151,13 @@ public class CommunicityFragment2 extends FragmentActivity {
                     for(User user:userList){
                         users.add(user);
                     }
-//                    users = userList;
+                    //获取动态评论区的用户信息
+                    String commUserInfo = maps.get("commusers");
+                    Type type3 = new TypeToken<List<User>>(){}.getType();
+                    List<User> commUserList = gson.fromJson(commUserInfo,type3);
+                    for(User user:commUserList){
+                        commUsers.add(user);
+                    }
                     Message msg = new Message();
                     msg.what = 1;
                     handler.sendMessage(msg);

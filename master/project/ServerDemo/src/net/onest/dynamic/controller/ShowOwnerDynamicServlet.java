@@ -1,6 +1,7 @@
 package net.onest.dynamic.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import net.onest.dynamic.service.DynamicServiceImpl;
+import net.onest.entity.Comment;
 import net.onest.entity.Dynamic;
 import net.onest.entity.User;
 import net.onest.user.service.UserServiceImpl;
@@ -42,7 +44,8 @@ public class ShowOwnerDynamicServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		String currpage = request.getParameter("page");
-		int userid = Integer.parseInt(request.getParameter("userid"));
+//		int userid = Integer.parseInt(request.getParameter("userid"));
+		int userid = 1;
 		int pageNum = 1,pageSize = 5;
 		DynamicServiceImpl dynamicServiceImpl = new DynamicServiceImpl();
 		if(currpage!=null && !"".equals(currpage)) {
@@ -60,18 +63,38 @@ public class ShowOwnerDynamicServlet extends HttpServlet {
 				info = info + dynamics.get(i).getUserId();
 			}
 		}
-		System.out.println(info);
-		if(!"".equals(info)) {
-			List<User> users = userServiceImpl.searchTrendUserInfo(info);
-			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
-			String userstr = gson.toJson(users);
-			String dynamicstr = gson.toJson(dynamics);
-			Map<String, String> map = new HashMap<String, String>();
-			map.put("users", userstr);
-			map.put("dynamic", dynamicstr);
-			System.out.println(gson.toJson(map));
-			response.getWriter().write(gson.toJson(map));
+		List<Integer> commentUserList = new ArrayList<>();
+		for(Dynamic dyna:dynamics) {
+			List<Comment> comments = dyna.getComment();
+			for(Comment comm:comments) {
+				commentUserList.add(comm.getPublisherId());
+				commentUserList.add(comm.getReceiverId());
+			}
 		}
+		String commuserinfo = "";
+		for(int j = 0;j<commentUserList.size();++j) {
+			if(j!=commentUserList.size()-1) {
+				commuserinfo+=commentUserList.get(j)+",";
+			}else {
+				commuserinfo+=commentUserList.get(j);
+			}
+		}
+		List<User> users= new ArrayList<>();
+		List<User> commUsers = new ArrayList<>();
+		if(!"".equals(info)) {
+			users = userServiceImpl.searchTrendUserInfo(info);
+			commUsers = userServiceImpl.searchCommentUserInfo(commuserinfo);
+		}
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd HH:mm:ss").create();
+		String userstr = gson.toJson(users);
+		String dynamicstr = gson.toJson(dynamics);
+		String commuser = gson.toJson(commUsers);
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("users", userstr);
+		map.put("dynamic", dynamicstr);
+		System.out.println(gson.toJson(map));
+		map.put("commusers",commuser);
+		response.getWriter().write(gson.toJson(map));
 		
 	}
 

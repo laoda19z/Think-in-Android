@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/football"
-    tools:context=".MainActivity">
+    android:background="@drawable/football">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -92,12 +91,12 @@
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_marginLeft="110dp"
-                android:background="@mipmap/qq"/>
+                android:background="@drawable/qq"/>
             <Button
                 android:layout_width="70dp"
                 android:layout_height="70dp"
                 android:layout_marginLeft="50dp"
-                android:background="@mipmap/wx"/>
+                android:background="@drawable/wx"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

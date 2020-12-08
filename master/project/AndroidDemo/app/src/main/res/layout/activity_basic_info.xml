@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="在测评开始之前，请您输入孩子的基本信息："
         android:textSize="30dp"
-        android:paddingTop="100dp"/>
+        android:layout_marginTop="80dp"/>
 
     <LinearLayout
         android:layout_marginTop="100dp"
@@ -61,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <TextView
-            android:paddingTop="5dp"
+            android:layout_marginTop="5dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/yellow"
@@ -69,23 +69,16 @@
             />
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_marginTop="20dp"
+    <Button
+        android:layout_marginTop="10dp"
+        android:id="@+id/btn_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/test_blue"
-        android:padding="15dp">
-        <TextView
-            android:gravity="center"
-            android:id="@+id/tv_next"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:text="下一步"
-            android:textSize="23dp"
-            android:textColor="@color/white"
-            android:background="@color/test_blue"/>
-    </LinearLayout>
+        android:textColor="@color/white"
+        android:text="下一步"
+        android:textSize="23dp"
+        android:background="@drawable/test_blue_btn"/>
+
 
 
 </LinearLayout>

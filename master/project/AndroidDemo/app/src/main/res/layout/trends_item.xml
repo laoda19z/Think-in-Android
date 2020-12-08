@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="300dp"
     android:orientation="vertical"
+    android:background="@mipmap/e9"
     android:padding="20dp">
 
     <RelativeLayout
@@ -23,7 +24,8 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/trend_item_head"
             android:text="出现错误"
-            android:textSize="17sp" />
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/trend_item_time"
@@ -33,7 +35,7 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/trend_item_head"
             android:text="时间"
-            android:textSize="17sp" />
+            android:textSize="14sp" />
     </RelativeLayout>
 
     <TextView
@@ -43,6 +45,7 @@
         android:layout_below="@id/trends_item_top"
         android:layout_marginTop="10dp"
         android:text="内容"
+        android:textColor="@color/black"
         android:textSize="20sp" />
 
     <ImageView
@@ -56,14 +59,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
+            android:id="@+id/weizhi"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:src="@mipmap/water"/>
+            android:src="@mipmap/warter1"/>
         <TextView
+            android:layout_gravity="center_vertical"
             android:id="@+id/trend_item_position"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="16sp"/>
+            android:textSize="14sp"/>
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -78,10 +83,10 @@
             android:layout_marginTop="5dp"
             android:background="#ffffff"
             android:orientation="vertical">
-<!--            <ListView-->
-<!--                android:id="@+id/trend_comment"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"/>-->
+            <!--            <ListView-->
+            <!--                android:id="@+id/trend_comment"-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="match_parent"/>-->
         </LinearLayout>
 
         <Button
