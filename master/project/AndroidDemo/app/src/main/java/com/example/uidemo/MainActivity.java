@@ -7,20 +7,28 @@ import androidx.viewpager.widget.ViewPager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Toast;
 
 import com.example.uidemo.adapter.MyPagerAdapter;
 import com.example.uidemo.beans.User;
+import com.example.uidemo.chat.AddContactActivity;
 import com.example.uidemo.mainfragment.CommunicityFragment;
 import com.example.uidemo.mainfragment.ContactFragment;
 import com.example.uidemo.mainfragment.HomePageFragment;
 import com.example.uidemo.mainfragment.MyselfFragment;
 import com.example.uidemo.mainfragment.TestFragment;
+import com.example.uidemo.record.NoRecordActivity;
 import com.hyphenate.EMCallBack;
 import com.hyphenate.chat.EMClient;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton rbCenter;
     private RadioButton rbTends;
     private RadioButton rbTest;
-
+    private EventBus eventBus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +56,11 @@ public class MainActivity extends AppCompatActivity {
         currentUser.setPassword("123");
         currentUser.setUserId(12);
         findViews();
-
+        eventBus = EventBus.getDefault();
+        if (!eventBus.isRegistered(MainActivity.this)) {
+            eventBus.register(MainActivity.this);
+        }
+//        viewPager.setEnabled(false);
         rbCenter.setChecked(true);
         lsViews = new ArrayList<>();
         HomePageFragment homePageFragment = new HomePageFragment();
@@ -99,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         //设置Radio选中的时候切换ViewPager
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -123,9 +136,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
+    @Subscribe(sticky = true, threadMode = ThreadMode.ASYNC)
+    public void onEvent(NoRecordActivity activity) {
+//        viewPager.setCurrentItem(2);
+        rbTest.setChecked(true);
+    }
     private void findViews() {
-        viewPager = (ViewPager) findViewById(R.id.main_vp);
+        viewPager = findViewById(R.id.main_vp);
         radioGroup = (RadioGroup) findViewById(R.id.main_rg);
         rbTends = (RadioButton) findViewById(R.id.rb_trends);
         rbCenter = (RadioButton) findViewById(R.id.rb_centerpage);

@@ -143,6 +143,14 @@ public class MarkInformation extends AppCompatActivity {
         JudegMarkStatus(year,month,day,Integer.parseInt(username),child);
         //初始化选择器数组
         initArrayData();
+        //设置日历切换时间
+        calendarView.setOnMonthChangeListener(new CalendarView.OnMonthChangeListener() {
+            @Override
+            public void onMonthChange(int year, int month) {
+                //清空数组,使上个月绘画数组清空
+                tvYearAndMonth.setText(year+"年"+month+"月");
+            }
+        });
 
         //点击方法
         sportchoice.setOnClickListener(new View.OnClickListener() {

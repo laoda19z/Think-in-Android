@@ -9,9 +9,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.uidemo.R;
 
+import org.greenrobot.eventbus.EventBus;
+
 public class NoRecordActivity extends AppCompatActivity {
     private ImageButton btn1;
     private ImageButton btn2;
+    private EventBus eventBus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +31,11 @@ public class NoRecordActivity extends AppCompatActivity {
         btn2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent();
+//                Intent intent=new Intent();
+                eventBus.getDefault().postSticky(NoRecordActivity.this);
+                finish();
             }
         });
+
     }
 }

@@ -150,7 +150,6 @@ public class PublishTrendsActivity extends AppCompatActivity {
         mDialog.setMessage("正在发表中，请稍后...");
         mDialog.show();
         String content = etContent.getText().toString();
-        String name = "用户";
         String location = tvLocation.getText().toString();
         if ("获取当前位置".equals(location)) {
             location = "暂无";
@@ -250,6 +249,7 @@ public class PublishTrendsActivity extends AppCompatActivity {
         tvLocation.setText(gps.getMylocation());
         tvLocation.setTextSize(18);
         tvLocation.setTextColor(Color.RED);
+        btnLocation.setBackgroundResource(R.mipmap.warter2);
         eventBus.unregister(PublishTrendsActivity.this);
     }
 
@@ -272,7 +272,7 @@ public class PublishTrendsActivity extends AppCompatActivity {
             public void run() {
                 try {
                     String content = etContent.getText().toString();
-                    String name = "用户";
+                    String name = LoginActivity.currentUserId;
                     String location = tvLocation.getText().toString();
                     if ("获取当前位置".equals(location)) {
                         location = "暂无";

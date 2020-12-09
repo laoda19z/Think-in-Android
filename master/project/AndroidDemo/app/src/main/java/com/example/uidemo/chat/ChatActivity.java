@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Handler;
@@ -22,6 +23,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.uidemo.ConfigUtil;
+import com.example.uidemo.LoginActivity;
 import com.example.uidemo.R;
 import com.example.uidemo.adapter.ChatAdapter;
 import com.example.uidemo.beans.Chat;
@@ -36,6 +39,17 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import org.greenrobot.eventbus.EventBus;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -74,8 +88,9 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
     private String contactHeadImg;
     private ImageView btnIv;
     private ImageView btnMore;
-
+    private ProgressDialog mDialog;
     private List<Chat> list = new ArrayList<>();
+    private EventBus eventBus;
     /**
      * 自定义实现Handler，主要用于刷新UI操作
      */
@@ -96,6 +111,20 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
                     list.add(chat);
                     chatAdapter.notifyItemInserted(list.size() - 1);
                     recyclerView.scrollToPosition(list.size() - 1);
+                    break;
+                case 2:
+                    String str = (String) msg.obj;
+                    if (mDialog.isShowing()){
+                        mDialog.dismiss();
+                    }
+                    if("false".equals(str)){
+                        Toast.makeText(ChatActivity.this,"删除失败",Toast.LENGTH_SHORT).show();
+                    }else {
+                        eventBus.getDefault().postSticky(ChatActivity.this);
+                        Toast.makeText(ChatActivity.this,"删除成功",Toast.LENGTH_SHORT).show();
+                        finish();
+                    }
+
                     break;
             }
         }
@@ -139,6 +168,58 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
                 finish();
             }
         });
+        btnMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //创建PopUpMenu对象
+                PopupMenu menu = new PopupMenu(ChatActivity.this, btnMore);
+                //加载菜单资源填充对象
+                getMenuInflater().inflate(R.menu.chat_menu, menu.getMenu());
+                //设置点击菜单选项监听器
+                menu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        //点击删除联系人
+                        mDialog = new ProgressDialog(ChatActivity.this);
+                        mDialog.setMessage("删除中，请稍后...");
+                        mDialog.show();
+                        deleteContact();
+                        return false;
+                    }
+                });
+                //显示菜单
+                menu.show();
+            }
+
+        });
+    }
+
+    /**
+     * 删除联系人
+     */
+    private void deleteContact() {
+        new Thread(){
+            @Override
+            public void run() {
+                String userid = LoginActivity.currentUserId;
+                try {
+                    URL url = new URL(ConfigUtil.SERVER_ADDR+"DeleteContactServlet?userid="+userid+"&contactid="+mChatId);
+                    URLConnection conn = url.openConnection();
+                    InputStream in = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in,"utf-8"));
+                    String result = reader.readLine();
+                    Message msg = new Message();
+                    msg.what = 2;
+                    msg.obj = result;
+                    mHandler.sendMessage(msg);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }.start();
     }
 
     /**
@@ -150,7 +231,7 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
         recyclerView = findViewById(R.id.recyler_view);
         contactName = findViewById(R.id.chat_tv_contactname);
         btnIv = findViewById(R.id.chat_btn_finish);
-        btnMore =findViewById(R.id.chat_img_more);
+        btnMore = findViewById(R.id.chat_img_more);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         chatAdapter = new ChatAdapter(this, list);//将集合数据填充到适配器中
@@ -199,28 +280,6 @@ public class ChatActivity extends AppCompatActivity implements EMMessageListener
                 }
             }
         });
-    }
-    /**
-     * 加载选项菜单
-     */
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.chat_menu,menu);
-        return true;
-    }
-    /**
-     * 选项菜单的监听事件
-    */
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        Log.e("mll","点击了");
-        int id = item.getItemId();
-        switch (id){
-            case R.id.chat_delete:
-
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     /**

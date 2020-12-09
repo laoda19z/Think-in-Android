@@ -33,6 +33,7 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.NoActionBar"
         android:usesCleartextTraffic="true">
+        <activity android:name=".dynamic.MySelfDynamicActivity"></activity>
         <activity android:name=".chat.SearchContactActivity" />
         <activity android:name=".chat.AddContactActivity" />
         <activity android:name=".RegisterActivity" />

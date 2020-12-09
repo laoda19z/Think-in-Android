@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -61,7 +62,13 @@ public class ContactFragment extends FragmentActivity {
     private Handler handler;
     private ContactAdapter adapter;
     private Button btnAddContact;
-    private Button btnSearchContact;
+
+
+
+    private LinearLayout btnSearchContact;
+
+
+
     private EventBus eventBus;
     private SmartRefreshLayout srl;
     @Nullable
@@ -118,6 +125,12 @@ public class ContactFragment extends FragmentActivity {
                 context.startActivity(intent);
             }
         });
+
+
+
+
+
+
         //跳转到查找联系人界面
         btnSearchContact.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -31,4 +31,13 @@ public class ContactServiceImpl {
 		ContactDaoImpl contactDaoImpl = new ContactDaoImpl();
 		return contactDaoImpl.searchContact(userName);
 	}
+	/**
+	 * É¾³ýÁªÏµÈË
+	 * @param contact
+	 * @return
+	 */
+	public boolean deleteContact(Contact contact) {
+		ContactDaoImpl contactDaoImpl = new ContactDaoImpl();
+		return contactDaoImpl.deleteContact(contact);
+	}
 }

@@ -1,30 +1,34 @@
 package com.example.uidemo.dynamic;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
-import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.uidemo.ConfigUtil;
+import com.example.uidemo.LoginActivity;
 import com.example.uidemo.R;
 import com.example.uidemo.adapter.DynamicAdapter;
-import com.example.uidemo.beans.Comment;
 import com.example.uidemo.beans.Dynamic;
 import com.example.uidemo.beans.User;
+import com.example.uidemo.mainfragment.MyselfFragment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -45,7 +49,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class PersonSingleDynamicActivity extends AppCompatActivity {
+public class MySelfDynamicActivity extends AppCompatActivity {
     private ListView myListView;
     private ImageView iv_head;
     private TextView tv_name;
@@ -56,6 +60,8 @@ public class PersonSingleDynamicActivity extends AppCompatActivity {
     private Handler handler;
     private int userid;
     private SmartRefreshLayout srl;
+    private TextView contentView;
+    private int position;
     private int currentpage = 1;//当前已经加载的页数
 
     @Override
@@ -63,11 +69,11 @@ public class PersonSingleDynamicActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_person_single_dynamic);
 
-        Intent intent = getIntent();
-        userid = intent.getIntExtra("userid", 0);
+
+        userid = Integer.parseInt(LoginActivity.currentUserId);
         findViews();
         initData();
-        Log.e("mll","userid:"+userid);
+
         handler = new Handler(Looper.myLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -79,7 +85,16 @@ public class PersonSingleDynamicActivity extends AppCompatActivity {
                         myListView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
                         tv_name.setText(users.get(0).getUsername());
-                        Glide.with(PersonSingleDynamicActivity.this).load(ConfigUtil.SERVER_ADDR + users.get(0).getHeadImg()).circleCrop().into(iv_head);
+                        Glide.with(MySelfDynamicActivity.this).load(ConfigUtil.SERVER_ADDR + users.get(0).getHeadImg()).circleCrop().into(iv_head);
+                        break;
+                    case 3:
+                        dynamics.remove(position);
+                        adapter.setDynamic(dynamics);
+                        myListView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                        String result = (String) msg.obj;
+//                        Toast.makeText(MySelfDynamicActivity.this,result,Toast.LENGTH_SHORT).show();
+
                         break;
                 }
             }
@@ -116,19 +131,77 @@ public class PersonSingleDynamicActivity extends AppCompatActivity {
                 String requestParam = "?userid=" + userid + "&page=" + currentpage;
                 showDynamic(ConfigUtil.SERVER_ADDR + "ShowOwnerDynamicServlet" + requestParam);
                 srl.finishLoadMoreWithNoMoreData();
-                //假设超过10条数据加载完毕（不可以一直加载数据库里的）
-//                if(dynamics.size()<10){
-//                    String requestParam = "?userid="+userid+"&page="+currentpage;
-//                    currentpage++;
-//                    showDynamic(ConfigUtil.SERVER_ADDR+"ShowOwnerDynamicServlet"+requestParam);
-//                    //通知加载完毕，通知srl
-//                    srl.finishLoadMore();
-//                }else{
-//                    //通知没有更多数据加载，数据库里没有更多文件了
-//                    srl.finishLoadMoreWithNoMoreData();
-//                }
             }
         });
+        myListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                position = i;
+                int id = dynamics.get(i).getDynamicId();
+                String url = ConfigUtil.SERVER_ADDR+"DeleteDynamicServlet?dynamicid="+id;
+                showPopupWindow(url);
+                return false;
+            }
+        });
+    }
+
+    /**
+     * 显示PopupWindow
+     */
+    private void showPopupWindow(String url){
+        //设置它的视图
+        View view = getLayoutInflater().inflate(R.layout.popupwindow,null);
+        //创建PopupWindow对象
+        final PopupWindow popupWindow = new PopupWindow(this);
+        //设置弹出窗口的宽度
+        popupWindow.setWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+        //设置视图当中控件的属性和监听器
+        Button btnCancel = view.findViewById(R.id.btn_popupwindow_cancel);
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //关闭弹出窗
+                popupWindow.dismiss();
+            }
+        });
+        Button btnDelete = view.findViewById(R.id.btn_popupwindow_delete);
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteTrend(url);
+                popupWindow.dismiss();
+            }
+        });
+        //不同的方法，名字相同
+        popupWindow.setContentView(view);
+        //指定弹出窗显示在某个控件的下方
+        popupWindow.showAsDropDown(contentView);
+    }
+
+    /**
+     * 删除动态
+     */
+    private void deleteTrend(String s) {
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(s);
+                    URLConnection conn = url.openConnection();
+                    InputStream in = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in,"utf-8"));
+                    String str = reader.readLine();
+                    Message msg = new Message();
+                    msg.what = 3;
+                    msg.obj = str;
+                    handler.sendMessage(msg);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }.start();
     }
 
     private void findViews() {
@@ -136,6 +209,7 @@ public class PersonSingleDynamicActivity extends AppCompatActivity {
         tv_name = findViewById(R.id.trend_person_user);
         myListView = findViewById(R.id.trend_person_listview);
         srl = findViewById(R.id.person_trend_srl);
+        contentView = findViewById(R.id.hhh);
     }
 
     public void clickIntoChat(View view) {
@@ -201,9 +275,4 @@ public class PersonSingleDynamicActivity extends AppCompatActivity {
         }.start();
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-//        currentpage = 1;
-    }
 }

@@ -68,4 +68,8 @@ public class DynamicServiceImpl {
 		}
 		return b;
 	}
+	public boolean deleteDynamicImpl(int dynamicid) {
+		DynamicDaoImpl dynamicDaoImpl= new DynamicDaoImpl();
+		return dynamicDaoImpl.deleteDynamic(dynamicid);
+	}
 }

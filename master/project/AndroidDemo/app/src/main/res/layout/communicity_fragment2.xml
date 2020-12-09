@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="40dp">
+            android:layout_height="150dp">
             <Button
                 android:id="@+id/btn_publishtrends"
                 android:layout_width="35dp"
@@ -20,11 +20,19 @@
                 android:layout_alignParentRight="true"
                 android:layout_margin="5dp"
                 android:background="@mipmap/add" />
+            <Button
+                android:id="@+id/btn_myselftrends"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:layout_alignParentLeft="true"
+                android:layout_margin="5dp"
+                android:background="@mipmap/me"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="@mipmap/smiles"/>
         </RelativeLayout>
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@mipmap/smiles"/>
+
         <ListView xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/trends_listview"
             android:layout_width="match_parent"

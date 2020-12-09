@@ -57,6 +57,7 @@ public class RecordActivity extends AppCompatActivity {
                         intent.putExtra("id",userid);
                         intent.setClass(getApplicationContext(),GrowthRecordActivity.class);
                         startActivity(intent);
+                        finish();
                     }
                     reader.close();
                     in.close();

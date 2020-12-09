@@ -8,7 +8,7 @@
         android:layout_marginTop="50dp"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:background="@mipmap/a8"
+        android:background="@mipmap/moon"
         android:layout_toLeftOf="@+id/run"
         android:id="@+id/img"/>
 
@@ -28,7 +28,7 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginTop="50dp"
-        android:background="@mipmap/a7"
+        android:background="@mipmap/sun"
         android:layout_toRightOf="@+id/run"
         android:id="@+id/sun" />
     <com.github.mikephil.charting.charts.PieChart

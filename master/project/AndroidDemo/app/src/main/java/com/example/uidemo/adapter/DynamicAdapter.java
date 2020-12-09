@@ -21,6 +21,7 @@ import androidx.annotation.NonNull;
 import com.bumptech.glide.Glide;
 
 import com.example.uidemo.ConfigUtil;
+import com.example.uidemo.LoginActivity;
 import com.example.uidemo.R;
 import com.example.uidemo.beans.Comment;
 import com.example.uidemo.beans.Dynamic;
@@ -120,47 +121,7 @@ public class DynamicAdapter extends BaseAdapter {
             holder.tv_clickToComment = view.findViewById(R.id.btn_input_comment);
             holder.tv_position = view.findViewById(R.id.trend_item_position);
             holder.weizhi=view.findViewById(R.id.weizhi);
-            holder.tv_clickToComment.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //让弹出框位于底部
-                    final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
-                    dialog.setContentView(R.layout.trends_input_comment);
-                    dialog.findViewById(R.id.input_comment_container).getLocationOnScreen(new int[2]);
-                    dialog.show();
-                    dialog.findViewById(R.id.input_comment_dialog_container).setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                        }
-                    });
-                    //获取输入框控件
-                    final TextView tvComm = dialog.findViewById(R.id.input_comment);
-                    //点击发表
-                    final TextView btn = (TextView) dialog.findViewById(R.id.btn_publish_comment);
-                    btn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if(tvComm.getText().toString()!="" && tvComm.getText().toString()!=null){
-                                TextView textView = new TextView(context);
-                                Comment comment = new Comment();
-                                comment.setContent(tvComm.getText().toString());
-                                comment.setDynamicId(currentdynamic.getDynamicId());
-                                comment.setReceiverId(currentdynamic.getUserId());
-                                comment.setPublisherId(2);
-                                Gson gson = new Gson();
-                                String requComm = gson.toJson(comment);
-                                sendComment(requComm);
-//                                textView.setText(comment.getPublisherId()+"发布了"+comment.getContent()+"接收者为"+comment.getReceiverId());
-                                textView.setText("当前用户："+tvComm.getText().toString());
-                                holder.trend_comment_list.addView(textView);
-                                notifyDataSetChanged();
-                            }
-                            dialog.dismiss();
-                        }
-                    });
-                }
-            });
+
             view.setTag(holder);
         }else {
             holder = (ViewHolder) view.getTag();
@@ -172,27 +133,29 @@ public class DynamicAdapter extends BaseAdapter {
         }
         List<Comment> list = currentdynamic.getComment();
         holder.trend_comment_list.removeAllViews();
+//        LinearLayout comment_list = view.findViewById(R.id.trend_comment_list);
         for(int j = 0;j < list.size();++j){
             Comment comment = list.get(j);
             LinearLayout linearLayout = new LinearLayout(context);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             linearLayout.setLayoutParams(params);
             TextView textView1= new TextView(context);
-            textView1.setText(comment.getContent());
-            textView1.setTextSize(18);
-            textView1.setTextColor(Color.BLUE);
+            textView1.setText("  "+comment.getContent());
+            textView1.setTextSize(12);
+            textView1.setTextColor(Color.BLACK);
             TextView textView2 = new TextView(context);
             for(int m = 0;m < commUsers.size();++m){
                 if (commUsers.get(m).getUserId()==comment.getPublisherId()){
                     textView2.setText(commUsers.get(m).getUsername()+":");
-                    textView2.setTextColor(Color.RED);
-                    textView2.setTextSize(18);
+                    textView2.setTextColor(context.getResources().getColor(R.color.test_blue));
+                    textView2.setTextSize(16);
                     break;
                 }
             }
             linearLayout.addView(textView2);
             linearLayout.addView(textView1);
             holder.trend_comment_list.addView(linearLayout);
+//            comment_list.addView(linearLayout);
             notifyDataSetChanged();
         }
         Log.e("mll","当前时间为："+currentdynamic.getTime().toString());
@@ -212,7 +175,62 @@ public class DynamicAdapter extends BaseAdapter {
             holder.iv_img.setVisibility(View.VISIBLE);
             Glide.with(context).load(ConfigUtil.SERVER_ADDR+currentdynamic.getImg()).override(600, 400).into(holder.iv_img);
         }
+        //发布评论
+        holder.tv_clickToComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //让弹出框位于底部
+                final Dialog dialog = new Dialog(context, android.R.style.Theme_Translucent_NoTitleBar);
+                dialog.setContentView(R.layout.trends_input_comment);
+                dialog.findViewById(R.id.input_comment_container).getLocationOnScreen(new int[2]);
+                dialog.show();
+                dialog.findViewById(R.id.input_comment_dialog_container).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                //获取输入框控件
+                final TextView tvComm = dialog.findViewById(R.id.input_comment);
+                //点击发表
+                final TextView btn = (TextView) dialog.findViewById(R.id.btn_publish_comment);
+                btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(tvComm.getText().toString()!="" && tvComm.getText().toString()!=null){
+                            LinearLayout linearLayout = new LinearLayout(context);
+                            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                            linearLayout.setLayoutParams(params);
+                            TextView textView1 = new TextView(context);
 
+                            Comment comment = new Comment();
+                            comment.setContent(tvComm.getText().toString());
+                            comment.setDynamicId(currentdynamic.getDynamicId());
+                            comment.setReceiverId(currentdynamic.getUserId());
+                            comment.setPublisherId(Integer.parseInt(LoginActivity.currentUserId));
+                            Gson gson = new Gson();
+                            String requComm = gson.toJson(comment);
+                            sendComment(requComm);
+//                                textView.setText(comment.getPublisherId()+"发布了"+comment.getContent()+"接收者为"+comment.getReceiverId());
+                            textView1.setText(LoginActivity.currentUserName+":");
+                            textView1.setTextColor(context.getResources().getColor(R.color.test_blue));
+                            textView1.setTextSize(16);
+                            TextView textView2 = new TextView(context);
+                            textView2.setText(tvComm.getText().toString());
+                            textView1.setTextSize(12);
+                            textView1.setTextColor(Color.BLACK);
+
+                            holder.trend_comment_list.addView(textView1);
+                            holder.trend_comment_list.addView(textView2);
+                            currentdynamic.getComment().add(comment);
+//                            DynamicAdapter.this.notifyAll();
+                            notifyDataSetChanged();
+                        }
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
         return view;
     }
 

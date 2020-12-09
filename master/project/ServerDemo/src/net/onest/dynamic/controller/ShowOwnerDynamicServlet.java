@@ -44,8 +44,7 @@ public class ShowOwnerDynamicServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		String currpage = request.getParameter("page");
-//		int userid = Integer.parseInt(request.getParameter("userid"));
-		int userid = 1;
+		int userid = Integer.parseInt(request.getParameter("userid"));
 		int pageNum = 1,pageSize = 5;
 		DynamicServiceImpl dynamicServiceImpl = new DynamicServiceImpl();
 		if(currpage!=null && !"".equals(currpage)) {

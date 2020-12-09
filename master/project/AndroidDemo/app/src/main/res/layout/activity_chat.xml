@@ -4,29 +4,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <RelativeLayout
+        android:background="#21B1F3"
         android:id="@+id/chat_title_bar"
         android:layout_width="match_parent"
-        android:layout_height="40dp">
+        android:layout_height="50dp">
         <ImageView
+            android:layout_centerVertical="true"
             android:id="@+id/chat_btn_finish"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:layout_gravity="center"
             android:layout_marginLeft="10dp"
-            android:src="@mipmap/arrow_left_big"/>
+            android:src="@mipmap/back"/>
         <TextView
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ffffff"
+            android:textSize="20sp"
             android:id="@+id/chat_tv_contactname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="25sp"
-            android:text="JAVA"
-            android:layout_toRightOf="@+id/chat_btn_finish"/>
+            android:text="JAVA" />
         <ImageView
+            android:layout_centerVertical="true"
             android:id="@+id/chat_img_more"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:src="@mipmap/more"
-            android:layout_marginRight="5dp"
+            android:layout_marginRight="10dp"
             android:layout_alignParentRight="true"/>
     </RelativeLayout>
 

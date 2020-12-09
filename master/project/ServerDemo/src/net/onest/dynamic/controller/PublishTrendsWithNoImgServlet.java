@@ -48,7 +48,7 @@ public class PublishTrendsWithNoImgServlet extends HttpServlet {
 		String time = request.getParameter("time");
 		String img = request.getParameter("img");
 		Dynamic dynamic = new Dynamic();
-		dynamic.setUserId(1);
+		dynamic.setUserId(Integer.parseInt(name));
 		dynamic.setImg("dynamics/" + img);
 		dynamic.setLocation(location);
 		DateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -59,6 +59,7 @@ public class PublishTrendsWithNoImgServlet extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println(name);
 		dynamic.setTime(date);
 		dynamic.setContent(content);
 		DynamicServiceImpl dynamicServiceImpl = new DynamicServiceImpl();

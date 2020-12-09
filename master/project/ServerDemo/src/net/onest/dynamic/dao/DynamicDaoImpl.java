@@ -239,4 +239,33 @@ public class DynamicDaoImpl {
 		}
 		return b;
 	}
+	/**
+	 * É¾³ý¶¯Ì¬
+	 * @param dynamicid
+	 * @return
+	 */
+	public boolean deleteDynamic(int dynamicid) {
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		boolean b = false;
+		try {
+			conn = DBUtil.getConn();
+			String sql = "";
+			sql = "delete from dynamic where dynamicId = ?";
+			pstm = conn.prepareStatement(sql);
+			pstm.setInt(1, dynamicid);
+			int result = pstm.executeUpdate();
+			if(result>0) {
+				return true;
+			}else {
+				return false;
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtil.close(rs, pstm, conn);
+		}
+		return b;
+	}
 }

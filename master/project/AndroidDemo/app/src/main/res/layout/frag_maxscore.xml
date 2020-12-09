@@ -16,11 +16,11 @@
         android:layout_width="match_parent"
         android:layout_height="370dp"
         android:id="@+id/redar"/>
-    <ImageView
+    <pl.droidsonroids.gif.GifImageView
         android:id="@+id/one"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:background="@mipmap/a7"
+        android:background="@mipmap/run"
         android:layout_below="@+id/redar"
         android:layout_marginTop="40dp"
         android:layout_marginLeft="20dp"/>

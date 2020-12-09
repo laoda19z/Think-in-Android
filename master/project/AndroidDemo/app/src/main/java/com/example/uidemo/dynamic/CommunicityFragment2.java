@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -51,6 +52,7 @@ public class CommunicityFragment2 extends FragmentActivity {
     private Handler handler;
     private ListView listView;
     private Button btnPublishTrend;
+    private Button btnMyselfTrend;
     private int page = 1;
 
     @Override
@@ -58,6 +60,7 @@ public class CommunicityFragment2 extends FragmentActivity {
         view = LayoutInflater.from(context).inflate(R.layout.communicity_fragment2, null);
         listView = view.findViewById(R.id.trends_listview);
         btnPublishTrend = view.findViewById(R.id.btn_publishtrends);
+        btnMyselfTrend = view.findViewById(R.id.btn_myselftrends);
         srl = view.findViewById(R.id.all_trend_srl);
         initData();
         handler = new Handler(Looper.myLooper()) {
@@ -87,6 +90,13 @@ public class CommunicityFragment2 extends FragmentActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context.getApplicationContext(), PublishTrendsActivity.class);
+                context.startActivity(intent);
+            }
+        });
+        btnMyselfTrend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context.getApplicationContext(),MySelfDynamicActivity.class);
                 context.startActivity(intent);
             }
         });

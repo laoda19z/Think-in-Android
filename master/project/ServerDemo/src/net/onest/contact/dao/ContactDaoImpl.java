@@ -99,4 +99,36 @@ public class ContactDaoImpl {
 		}
 		return user;
 	}
+	/**
+	 * É¾³ýÁªÏµÈË
+	 * @param contact
+	 * @return
+	 */
+	public boolean deleteContact(Contact contact) {
+		Connection conn = null;
+		PreparedStatement pstm = null;
+		ResultSet rs = null;
+		boolean b = false;
+		try {
+			conn = DBUtil.getConn();
+			String sql = "delete from contact where contactid = ? and userid = ?";
+			pstm = conn.prepareStatement(sql);
+			pstm.setInt(1, contact.getContactid());
+			pstm.setInt(2, contact.getUserid());
+			int result = pstm.executeUpdate();
+			if(result != 0) {
+				pstm.setInt(1, contact.getUserid());
+				pstm.setInt(2, contact.getContactid());
+				int finalresult = pstm.executeUpdate();
+				if(finalresult != 0) {
+					return true;
+				}
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+		}finally {
+			DBUtil.close(rs, pstm, conn);
+		}
+		return b;
+	}
 }

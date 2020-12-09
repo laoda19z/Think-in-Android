@@ -73,6 +73,7 @@ public class PictureInfo extends AppCompatActivity {
     private Bundle params;
     private String imgPath;
 
+
     private Handler handler = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {
@@ -129,6 +130,14 @@ public class PictureInfo extends AppCompatActivity {
         shared=findViewById(R.id.shared);
         backmark=findViewById(R.id.backmark);
 
+
+        //先将ImageView加载gif图
+        Glide.with(this).asGif().load(R.mipmap.loading).into(ivmark);
+        typename.setText("加载中");
+        dateformat.setText("加载中");
+        sporttime.setText("加载中");
+        impression.setText("加载中");
+
         //通过Intent传递过来的username和孩子id和日期，向服务器端查询图片，并显示
         new Thread() {
             @Override
@@ -141,7 +150,7 @@ public class PictureInfo extends AppCompatActivity {
                     OutputStream out = conn.getOutputStream();
                     //将需要传输的数据变为Json串
                     //创建对象
-                    MarkPicEntity pic = new MarkPicEntity(Integer.parseInt(username), date, child);
+                    MarkPicEntity pic = new MarkPicEntity(Integer.parseInt(username), date, 1);
                     Gson gson = new Gson();
                     String sql = gson.toJson(pic);
                     out.write(sql.getBytes());
