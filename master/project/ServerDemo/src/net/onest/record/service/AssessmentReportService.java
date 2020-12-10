@@ -59,7 +59,7 @@ public class AssessmentReportService {
 				int overallScore=rs.getInt("overallscore");
 				int upScore=rs.getInt("upscore");
 				int assessmentReportId=rs.getInt("reportId");
-				String time=rs.getString("evaluation_time");
+				String time=rs.getString("evaluationtime");
 				AssessmentReport report=new AssessmentReport(bodyScore,childId,downScore,overallScore,upScore,assessmentReportId,time);
 				list.add(report);
 			}

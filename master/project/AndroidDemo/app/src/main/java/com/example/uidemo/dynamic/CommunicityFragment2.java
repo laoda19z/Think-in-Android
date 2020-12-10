@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
@@ -21,6 +22,7 @@ import com.example.uidemo.R;
 import com.example.uidemo.adapter.DynamicAdapter;
 import com.example.uidemo.beans.Dynamic;
 import com.example.uidemo.beans.User;
+import com.example.uidemo.mainfragment.CommunicityFragment;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -28,6 +30,10 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -49,6 +55,7 @@ public class CommunicityFragment2 extends FragmentActivity {
     private List<User> users = new ArrayList<>();
     private List<User> commUsers = new ArrayList<>();
     private DynamicAdapter adapter;
+    private EventBus eventBus;
     private Handler handler;
     private ListView listView;
     private Button btnPublishTrend;
@@ -62,7 +69,11 @@ public class CommunicityFragment2 extends FragmentActivity {
         btnPublishTrend = view.findViewById(R.id.btn_publishtrends);
         btnMyselfTrend = view.findViewById(R.id.btn_myselftrends);
         srl = view.findViewById(R.id.all_trend_srl);
-        initData();
+        initData(context);
+        eventBus = EventBus.getDefault();
+        if(!eventBus.isRegistered(CommunicityFragment2.this)){
+            eventBus.register(CommunicityFragment2.this);
+        }
         handler = new Handler(Looper.myLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -121,16 +132,42 @@ public class CommunicityFragment2 extends FragmentActivity {
 
         return view;
     }
-
-
+    @Subscribe(sticky = true,threadMode = ThreadMode.ASYNC)
+    public void onEvent(PublishTrendsActivity activity){
+        dynamics.clear();
+        showDynamic(ConfigUtil.SERVER_ADDR + "ShowDynamicServlet?page=1");
+    }
+    @Subscribe(sticky = true,threadMode = ThreadMode.ASYNC)
+    public void onDeleteEvent(MySelfDynamicActivity activity){
+        dynamics.clear();
+        showDynamic(ConfigUtil.SERVER_ADDR + "ShowDynamicServlet?page=1");
+    }
     /**
      * 数据初始化
      */
-    private void initData() {
+    private void initData(Context context) {
         if(dynamics.size() == 0){
             showDynamic(ConfigUtil.SERVER_ADDR + "ShowDynamicServlet?page="+page);
         }
         adapter = new DynamicAdapter(view.getContext(), dynamics, R.layout.trends_item);
+//        View header = View.inflate(context,R.layout.header,null);
+//        Button btnPublish = header.findViewById(R.id.btn_publishtrends);
+//        btnPublish.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(context.getApplicationContext(), PublishTrendsActivity.class);
+//                context.startActivity(intent);
+//            }
+//        });
+//        Button btnMyself = header.findViewById(R.id.btn_myselftrends);
+//        btnMyself.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(context.getApplicationContext(),MySelfDynamicActivity.class);
+//                context.startActivity(intent);
+//            }
+//        });
+//        listView.addHeaderView(header);
         listView.setAdapter(adapter);
     }
 

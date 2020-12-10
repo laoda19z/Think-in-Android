@@ -48,7 +48,7 @@ public class ScoreRecordServlet extends HttpServlet {
 		int childId=Integer.parseInt(str);
 		System.out.println(str+"scorerecord");
 		
-		String sql="select * from report where childId="+childId+" order by evaluation_time ASC";
+		String sql="select * from report where childId="+childId+" order by evaluationtime ASC";
 		System.out.println(sql);
 		List<AssessmentReport> list=new AssessmentReportService().getlist(sql);
 		if(list!=null) {

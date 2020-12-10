@@ -1,11 +1,15 @@
 package com.example.uidemo;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -46,7 +50,8 @@ public class MainActivity extends AppCompatActivity {
     private RadioButton rbTends;
     private RadioButton rbTest;
     private EventBus eventBus;
-
+    private boolean isExit;
+    private Handler handler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,10 +61,17 @@ public class MainActivity extends AppCompatActivity {
         currentUser.setPassword("123");
         currentUser.setUserId(12);
         findViews();
-        eventBus = EventBus.getDefault();
-        if (!eventBus.isRegistered(MainActivity.this)) {
-            eventBus.register(MainActivity.this);
-        }
+
+        handler = new Handler(Looper.myLooper()){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                isExit = false;
+            }
+        };
+//        eventBus = EventBus.getDefault();
+//        if (!eventBus.isRegistered(MainActivity.this)) {
+//            eventBus.register(MainActivity.this);
+//        }
 //        viewPager.setEnabled(false);
         rbCenter.setChecked(true);
         lsViews = new ArrayList<>();
@@ -136,11 +148,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-    @Subscribe(sticky = true, threadMode = ThreadMode.ASYNC)
-    public void onEvent(NoRecordActivity activity) {
-//        viewPager.setCurrentItem(2);
-        rbTest.setChecked(true);
-    }
+//    @Subscribe(sticky = true, threadMode = ThreadMode.ASYNC)
+//    public void onEvent(NoRecordActivity activity) {
+////        viewPager.setCurrentItem(2);
+//        rbTest.setChecked(true);
+//    }
     private void findViews() {
         viewPager = findViewById(R.id.main_vp);
         radioGroup = (RadioGroup) findViewById(R.id.main_rg);
@@ -156,9 +168,34 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     protected void onDestroy() {
-        super.onDestroy();
         signOut();
+        super.onDestroy();
     }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_BACK){
+            exit();
+            return false;
+        }else {
+            return super.onKeyDown(keyCode, event);
+        }
+    }
+
+    private void exit() {
+        if(!isExit){
+            isExit = true;
+            Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
+            handler.sendEmptyMessageDelayed(0,2000);
+        }else {
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            signOut();
+            startActivity(intent);
+            System.exit(0);
+        }
+    }
+
     /**
      * 退出登录
      */

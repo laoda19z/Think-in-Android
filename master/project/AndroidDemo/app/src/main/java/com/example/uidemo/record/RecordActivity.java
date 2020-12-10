@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.uidemo.ConfigUtil;
+import com.example.uidemo.LoginActivity;
 import com.example.uidemo.MyApplication;
 import com.example.uidemo.R;
 
@@ -19,15 +20,14 @@ import java.net.URL;
 
 public class RecordActivity extends AppCompatActivity {
     private int flag;
-    private int userid;
+    private int child;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record);
         MyApplication myapplication=(MyApplication)this.getApplication();
-        myapplication.setUserid(123);
         flag=0;
-        userid=((MyApplication) this.getApplication()).getUserid();
+        child= LoginActivity.currentChildId;
         //判断用户是否有打卡和测评的记录
         new Thread(){
             @Override
@@ -40,6 +40,8 @@ public class RecordActivity extends AppCompatActivity {
                     conn.setDoOutput(true);
                     conn.setDoInput(true);
                     OutputStream out=conn.getOutputStream();
+                    out.write((""+child).getBytes());
+                    out.flush();
                     InputStream in=conn.getInputStream();
                     BufferedReader reader = new BufferedReader(new InputStreamReader(in, "utf-8"));
                     String str1 = reader.readLine();
@@ -54,7 +56,7 @@ public class RecordActivity extends AppCompatActivity {
                         startActivity(intent);
                     }else{
                         Intent intent=new Intent();
-                        intent.putExtra("id",userid);
+                        intent.putExtra("id",child);
                         intent.setClass(getApplicationContext(),GrowthRecordActivity.class);
                         startActivity(intent);
                         finish();
@@ -67,6 +69,7 @@ public class RecordActivity extends AppCompatActivity {
                 }
             }
         }.start();
+        finish();
     }
 
 }

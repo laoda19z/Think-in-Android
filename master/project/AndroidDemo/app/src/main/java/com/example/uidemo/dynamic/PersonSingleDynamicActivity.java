@@ -13,6 +13,7 @@ import android.os.Message;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -95,6 +96,15 @@ public class PersonSingleDynamicActivity extends AppCompatActivity {
             Toast.makeText(this, "该用户并未发布任何动态", Toast.LENGTH_SHORT).show();
         }
         adapter = new DynamicAdapter(this, dynamics, R.layout.trends_item);
+//        View header = View.inflate(PersonSingleDynamicActivity.this,R.layout.header,null);
+//        Button btn = header.findViewById(R.id.btn_publishtrends);
+//        btn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Toast.makeText(PersonSingleDynamicActivity.this,"点击了",Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        myListView.addHeaderView(header);
         myListView.setAdapter(adapter);
 
         //给智能刷新控件注册下拉刷新事件监听器

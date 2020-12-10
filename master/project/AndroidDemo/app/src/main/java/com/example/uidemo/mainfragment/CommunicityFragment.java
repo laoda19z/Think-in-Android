@@ -17,10 +17,15 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.uidemo.MainActivity;
 import com.example.uidemo.dynamic.CommunicityFragment1;
 import com.example.uidemo.dynamic.CommunicityFragment2;
 import com.example.uidemo.R;
 import com.example.uidemo.adapter.MyPagerAdapter;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,7 +44,6 @@ public class CommunicityFragment extends Fragment {
     private MyPagerAdapter pagerAdapter;
     private List<View> lsViews;
     private Context mContext;
-
     public CommunicityFragment() {
     }
 
@@ -87,7 +91,6 @@ public class CommunicityFragment extends Fragment {
             }
         });
     }
-
     /**
      * 初始化Tab
      */

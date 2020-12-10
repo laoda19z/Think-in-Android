@@ -16,6 +16,7 @@ import org.json.JSONObject;
 
 import com.google.gson.Gson;
 
+import cn.hutool.crypto.SecureUtil;
 import net.onest.entity.User;
 import net.onest.user.service.UserServiceImpl;
 
@@ -46,12 +47,16 @@ public class LoginServlet extends HttpServlet {
 		// 获取客户端传送的用户昵称和密码
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
+		String mima = SecureUtil.md5(password);
 		// 向客户端传送用户信息
 		UserServiceImpl userServiceImpl = new UserServiceImpl();
 		User user2 = userServiceImpl.searchUser(username);
 		System.out.println(user2.toString());
+		System.out.println(user2.getPassword());
+		System.out.println(mima);
+		System.out.println(user2.getPassword());
 		// 判断密码是否正确
-		if (password.equals(user2.getPassword())) {// 密码正确
+		if (mima.equals(user2.getPassword())) {// 密码正确
 			Gson gson = new Gson();
 			String json = gson.toJson(user2);
 			System.out.println(json);

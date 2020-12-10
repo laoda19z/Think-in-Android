@@ -26,6 +26,8 @@ import com.example.uidemo.me.HorizontalListView;
 import com.example.uidemo.me.PersonInfoActivity;
 import com.example.uidemo.me.SecurityActivity;
 
+import org.greenrobot.eventbus.EventBus;
+
 import static com.example.uidemo.LoginActivity.currentUserHead;
 import static com.example.uidemo.LoginActivity.currentUserKids;
 import static com.example.uidemo.LoginActivity.currentUserName;
@@ -41,12 +43,15 @@ public class MyselfFragment extends FragmentActivity {
     private ImageView ivHeader;
     private TextView tvName;
     private Button btnNew;
-
+    private EventBus eventBus;
     @Nullable
     @Override
     public View onCreateView(@NonNull String name, @NonNull final Context context, @NonNull AttributeSet attrs) {
         view = LayoutInflater.from(context).inflate(R.layout.myself_fragment,null);
-
+        eventBus = EventBus.getDefault();
+//        if(!eventBus.isRegistered(MyselfFragment.this)){
+//            eventBus.register(MyselfFragment.this);
+//        }
         ivHeader = view.findViewById(R.id.iv_header);
         btnCode = view.findViewById(R.id.btn_code);
         btnAddKid = view.findViewById(R.id.btn_addKid);
@@ -124,6 +129,7 @@ public class MyselfFragment extends FragmentActivity {
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 HAdapter.setSelectIndex(i);
                 HAdapter.notifyDataSetChanged();
+                eventBus.getDefault().postSticky(MyselfFragment.this);
             }
         });
 

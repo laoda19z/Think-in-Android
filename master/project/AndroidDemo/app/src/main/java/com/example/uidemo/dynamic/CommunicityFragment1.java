@@ -31,6 +31,8 @@ import androidx.fragment.app.FragmentActivity;
 import com.bigkoo.pickerview.TimePickerView;
 import com.example.uidemo.ConfigUtil;
 import com.example.uidemo.R;
+import com.example.uidemo.mainfragment.CommunicityFragment;
+import com.example.uidemo.mainfragment.MyselfFragment;
 import com.example.uidemo.mark.Entity.MarkDate;
 import com.example.uidemo.mark.Entity.NeedSearchDate;
 import com.example.uidemo.mark.MarkInformation;
@@ -40,6 +42,9 @@ import com.google.gson.reflect.TypeToken;
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarView;
 
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -70,6 +75,7 @@ public class CommunicityFragment1 extends FragmentActivity {
     private int nowyear;
     private int nowmonth;
     private int nowday;
+    private EventBus eventBus;
     //本月所有打卡数
     private int total;
     //本月最大连续打卡数
@@ -135,6 +141,7 @@ public class CommunicityFragment1 extends FragmentActivity {
     @Nullable
     @Override
     public View onCreateView(@NonNull String name, @NonNull final Context context, @NonNull AttributeSet attrs) {
+        Log.e("mll","执行了一次");
         view = LayoutInflater.from(context).inflate(R.layout.communicity_fragment1,null);
         calendarView = view.findViewById(R.id.calendarView);
         picker = view.findViewById(R.id.picker);
@@ -142,12 +149,17 @@ public class CommunicityFragment1 extends FragmentActivity {
         img1=view.findViewById(R.id.img1);
         img2=view.findViewById(R.id.img2);
         btnMark=view.findViewById(R.id.btn_mark);
+
+        eventBus = EventBus.getDefault();
+        if (!eventBus.isRegistered(CommunicityFragment1.this)){
+            eventBus.register(CommunicityFragment1.this);
+        }
         //初始化当前年月
         tvMonth.setText(calendarView.getCurYear() + "年" + calendarView.getCurMonth() + "月");
         nowyear=calendarView.getCurYear();
         nowmonth=calendarView.getCurMonth();
         nowday=calendarView.getCurDay();
-//        //查询年月并查询出打卡的连续数和本月总数
+        //查询年月并查询出打卡的连续数和本月总数
 //        searchNowMonth(nowyear,nowmonth,nowday,123,1);
         //月份切换改变事件
         calendarView.setOnMonthChangeListener(new CalendarView.OnMonthChangeListener() {
@@ -223,6 +235,21 @@ public class CommunicityFragment1 extends FragmentActivity {
         });
 
         return view;
+    }
+    @Subscribe(sticky = true)
+    public void onEvent(MyselfFragment fragment){
+        calendarView.setOnMonthChangeListener(new CalendarView.OnMonthChangeListener() {
+            @Override
+            public void onMonthChange(int year, int month) {
+                //清空数组,使上个月绘画数组清空
+                calendarView.clearSchemeDate();
+                //这里获取的是当前月份
+                tvMonth.setText(year + "年" + month + "月");
+                //查询年月并查询出打卡的连续数和本月总数
+                int days=searchDaysByYearAndMonth(year,month);
+                searchNowMonth(year,month,days,12,1);
+            }
+        });
     }
     //通过年月来获得当月的天数
     private int searchDaysByYearAndMonth(int year, int month) {

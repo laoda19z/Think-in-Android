@@ -11,11 +11,12 @@
         android:layout_centerHorizontal="true"
         android:textSize="20dp"
         android:text="测评中的最好成绩!!!"/>
-    <com.github.mikephil.charting.charts.RadarChart
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/redar"
         android:layout_marginTop="100dp"
         android:layout_width="match_parent"
-        android:layout_height="370dp"
-        android:id="@+id/redar"/>
+        android:layout_height="370dp">
+    </com.github.mikephil.charting.charts.BarChart>
     <pl.droidsonroids.gif.GifImageView
         android:id="@+id/one"
         android:layout_width="100dp"

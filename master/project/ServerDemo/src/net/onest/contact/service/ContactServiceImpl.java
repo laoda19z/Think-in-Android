@@ -27,9 +27,9 @@ public class ContactServiceImpl {
 		ContactDaoImpl contactDaoImpl = new ContactDaoImpl();
 		return contactDaoImpl.addContact(userid, contactid);
 	}
-	public User searchContact(String userName) {
+	public User searchContact(String userName,int userid) {
 		ContactDaoImpl contactDaoImpl = new ContactDaoImpl();
-		return contactDaoImpl.searchContact(userName);
+		return contactDaoImpl.searchContact(userName,userid);
 	}
 	/**
 	 * É¾³ýÁªÏµÈË

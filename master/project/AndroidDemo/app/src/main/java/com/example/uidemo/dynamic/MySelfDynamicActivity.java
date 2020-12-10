@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -37,6 +38,8 @@ import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,7 +66,8 @@ public class MySelfDynamicActivity extends AppCompatActivity {
     private TextView contentView;
     private int position;
     private int currentpage = 1;//当前已经加载的页数
-
+    private EventBus eventBus;
+    private LinearLayout linearLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +77,7 @@ public class MySelfDynamicActivity extends AppCompatActivity {
         userid = Integer.parseInt(LoginActivity.currentUserId);
         findViews();
         initData();
-
+        eventBus = EventBus.getDefault();
         handler = new Handler(Looper.myLooper()) {
             @Override
             public void handleMessage(@NonNull Message msg) {
@@ -84,8 +88,15 @@ public class MySelfDynamicActivity extends AppCompatActivity {
                         adapter.setCommUsers(commUsers);
                         myListView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
-                        tv_name.setText(users.get(0).getUsername());
-                        Glide.with(MySelfDynamicActivity.this).load(ConfigUtil.SERVER_ADDR + users.get(0).getHeadImg()).circleCrop().into(iv_head);
+                        tv_name.setText(LoginActivity.currentUserName);
+                        Glide.with(MySelfDynamicActivity.this).load(ConfigUtil.SERVER_ADDR + LoginActivity.currentUserHead).circleCrop().into(iv_head);
+                        if(dynamics.size() == 0){
+                            TextView textView1= new TextView(MySelfDynamicActivity.this);
+                            textView1.setText("你当前尚未发布任何动态，快去发布吧！");
+                            textView1.setTextSize(25);
+                            textView1.setTextColor(Color.BLACK);
+                            linearLayout.addView(textView1);
+                        }
                         break;
                     case 3:
                         dynamics.remove(position);
@@ -94,7 +105,7 @@ public class MySelfDynamicActivity extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
                         String result = (String) msg.obj;
 //                        Toast.makeText(MySelfDynamicActivity.this,result,Toast.LENGTH_SHORT).show();
-
+                        eventBus.postSticky(MySelfDynamicActivity.this);
                         break;
                 }
             }
@@ -210,6 +221,7 @@ public class MySelfDynamicActivity extends AppCompatActivity {
         myListView = findViewById(R.id.trend_person_listview);
         srl = findViewById(R.id.person_trend_srl);
         contentView = findViewById(R.id.hhh);
+        linearLayout = findViewById(R.id.linearlayout_notrend);
     }
 
     public void clickIntoChat(View view) {

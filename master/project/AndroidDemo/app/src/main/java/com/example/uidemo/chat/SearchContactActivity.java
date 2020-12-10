@@ -14,9 +14,12 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.uidemo.ConfigUtil;
+import com.example.uidemo.LoginActivity;
 import com.example.uidemo.R;
 import com.example.uidemo.beans.User;
 import com.google.gson.Gson;
+
+import org.apache.commons.logging.Log;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -67,7 +70,7 @@ public class SearchContactActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 String contact = etName.getText().toString().trim();
-                searchContactServer(ConfigUtil.SERVER_ADDR+"SearchContactServlet?contactName="+contact);
+                searchContactServer(ConfigUtil.SERVER_ADDR+"SearchContactServlet?contactName="+contact+"&userid="+ LoginActivity.currentUserId);
             }
         });
     }

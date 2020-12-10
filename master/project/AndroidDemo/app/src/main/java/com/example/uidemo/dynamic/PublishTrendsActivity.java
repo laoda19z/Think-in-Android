@@ -74,7 +74,6 @@ public class PublishTrendsActivity extends AppCompatActivity {
     private LinearLayout linearLayout;
     private String path;
     private Handler handler;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,6 +87,7 @@ public class PublishTrendsActivity extends AppCompatActivity {
                 switch (msg.what) {
                     case 1:
                         mDialog.dismiss();
+                        eventBus.getDefault().postSticky(PublishTrendsActivity.this);
                         finish();
                         break;
                 }

@@ -50,6 +50,12 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:background="@color/black"/>
+    <LinearLayout
+        android:id="@+id/linearlayout_notrend"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/trends_item_top"
+        ></LinearLayout>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/person_trend_srl"
         android:layout_width="match_parent"
@@ -61,9 +67,7 @@
         <ListView
             android:id="@+id/trend_person_listview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-
-            />
+            android:layout_height="match_parent"/>
         <com.scwang.smartrefresh.layout.footer.ClassicsFooter
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

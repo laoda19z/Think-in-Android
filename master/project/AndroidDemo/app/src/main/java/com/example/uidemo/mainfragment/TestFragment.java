@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,6 +31,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import static com.example.uidemo.ConfigUtil.SERVER_ADDR;
+import static com.example.uidemo.LoginActivity.currentChildId;
 
 public class TestFragment extends FragmentActivity {
     private View view;
@@ -49,26 +51,31 @@ public class TestFragment extends FragmentActivity {
     @Override
     public View onCreateView(@NonNull String name, @NonNull Context context, @NonNull AttributeSet attrs) {
         view = LayoutInflater.from(context).inflate(R.layout.page_test,null);
-        getChildInfoFromServer(SERVER_ADDR+"GetChildServlet",1);
-        tvTest = view.findViewById(R.id.tv_test);
-        tvTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                JsonObject jsonObject = new JsonObject();
-                //创建孩子类
-                Child child = new Gson().fromJson(childData,Child.class);
-                //导入数据
-                jsonObject.addProperty("id",child.getChildId()+"");
-                jsonObject.addProperty("xb",child.getChildSex());
-                jsonObject.addProperty("nl",child.getChildAge()+"");
-                jsonObject.addProperty("nj",child.getChildGrade()+"");
-                Intent intent = new Intent();
-                intent.putExtra("json",jsonObject.toString());
-                intent.setClass(context, BasicInfoActivity.class);
-                context.startActivity(intent);
-                finish();
-            }
-        });
+        Log.e("mll",currentChildId+"");
+        if (currentChildId == 0){
+            Toast.makeText(context, "请输入", Toast.LENGTH_SHORT).show();
+        }else {
+            getChildInfoFromServer(SERVER_ADDR+"GetChildServlet",currentChildId);
+            tvTest = view.findViewById(R.id.tv_test);
+            tvTest.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    JsonObject jsonObject = new JsonObject();
+                    //创建孩子类
+                    Child child = new Gson().fromJson(childData,Child.class);
+                    //导入数据
+                    jsonObject.addProperty("id",child.getChildId()+"");
+                    jsonObject.addProperty("xb",child.getChildSex());
+                    jsonObject.addProperty("nl",child.getChildAge()+"");
+                    jsonObject.addProperty("nj",child.getChildGrade()+"");
+                    Intent intent = new Intent();
+                    intent.putExtra("json",jsonObject.toString());
+                    intent.setClass(context, BasicInfoActivity.class);
+                    context.startActivity(intent);
+                    finish();
+                }
+            });
+        }
         return view;
     }
     public void getChildInfoFromServer(final String s,int childId){

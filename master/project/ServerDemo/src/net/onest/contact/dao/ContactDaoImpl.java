@@ -76,7 +76,7 @@ public class ContactDaoImpl {
 		}
 		return b;
 	}
-	public User searchContact(String contactName) {
+	public User searchContact(String contactName,int userid) {
 		Connection conn = null;
 		PreparedStatement pstm = null;
 		ResultSet rs = null;
@@ -91,6 +91,17 @@ public class ContactDaoImpl {
 				user.setUsername(rs.getString(1));
 				user.setUserId(rs.getInt(3));
 				user.setHeadImg(rs.getString(4));
+				String sql1 = "select * from contact where userid = ? and contactid = ?";
+				pstm = conn.prepareStatement(sql1);
+				pstm.setInt(1,userid);
+				pstm.setInt(2, user.getUserId());
+				rs = pstm.executeQuery();
+				if(rs.next()) {
+					return user;
+				}else {
+					user.setUserId(0);
+					return user;
+				}
 			}
 		}catch (Exception e) {
 			e.printStackTrace();

@@ -60,7 +60,7 @@ public class PictureInfo extends AppCompatActivity {
     private String type;
     private int time;
     private String stringimpression;
-
+    private String testImgpath;
     //两图片
     private ImageView backmark;
     private ImageView shared;
@@ -95,6 +95,7 @@ public class PictureInfo extends AppCompatActivity {
                             //分享的方法:
                             if(imgPath!=""){
                                 sharedWitdQQ(imgPath);
+//                                sharedWitdQQ("/data/user/0/com.example.uidemo/files/imgs/scene2.jpg");
                             }
 
                         }
@@ -129,7 +130,6 @@ public class PictureInfo extends AppCompatActivity {
         impression = findViewById(R.id.tv_impression_total);
         shared=findViewById(R.id.shared);
         backmark=findViewById(R.id.backmark);
-
 
         //先将ImageView加载gif图
         Glide.with(this).asGif().load(R.mipmap.loading).into(ivmark);
@@ -201,7 +201,8 @@ public class PictureInfo extends AppCompatActivity {
     private void sharedWitdQQ(String s) {
         mTencent = Tencent.createInstance(APP_ID, PictureInfo.this.getApplicationContext());
         mIUiListener = new ShareUiListener();
-        shareToQQ(s);
+//        shareToQQ(s);
+        shareToQQImage(s);
     }
     //内部类
     class ShareUiListener implements IUiListener {
@@ -236,32 +237,32 @@ public class PictureInfo extends AppCompatActivity {
     private void shareToQQ(String s) {
         params = new Bundle();
         params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE,QQShare.SHARE_TO_QQ_TYPE_DEFAULT);
-        params.putString(QQShare.SHARE_TO_QQ_TITLE, "QQ分享");
-        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, "欢迎大家加入ThinkInAndroid");
-        params.putString(QQShare.SHARE_TO_QQ_TARGET_URL,"http://www.baidu.com");// 内容地址
-        params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,ConfigUtil.SERVER_ADDR+s);// 网络图片地址　　params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "应用名称");// 应用名称
+        params.putString(QQShare.SHARE_TO_QQ_TITLE, "打卡分享");
+        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, "欢迎大家一起加入乐动云记录孩子成长");
+        params.putString(QQShare.SHARE_TO_QQ_TARGET_URL,s);// 内容地址
+        params.putString(QQShare.SHARE_TO_QQ_IMAGE_URL,s);// 网络图片地址　　params.putString(QQShare.SHARE_TO_QQ_APP_NAME, "应用名称");// 应用名称
         params.putString(QQShare.SHARE_TO_QQ_EXT_INT, "其它附加功能");
+        Log.e("mll","QQ分享"+s);
         mTencent.shareToQQ(PictureInfo.this, params, mIUiListener);
     }
     /**
      * 分享图片
      *
      */
-    private void shareToQQImage(String s){
+    private void shareToQQImage(String file){
         params = new Bundle();
-        params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_DEFAULT);// 设置分享类型为纯图片分享
-        params.putString(QQShare.SHARE_TO_QQ_TITLE, "QQ分享");
-        params.putString(QQShare.SHARE_TO_QQ_SUMMARY, "欢迎大家加入ThinkInAndroid");
-        params.putString(QQShare.SHARE_TO_QQ_TARGET_URL,"http://www.baidu.com");// 内容地址
+        params.putInt(QQShare.SHARE_TO_QQ_KEY_TYPE, QQShare.SHARE_TO_QQ_TYPE_IMAGE);// 设置分享类型为纯图片分享
+        params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, file);
         String path = getFilesDir().getAbsolutePath();
         //需要填写file
-        String file =s;
         Log.e("mll",file);
         File file1 = new File(file);
         if(file1.exists()){
             params.putString(QQShare.SHARE_TO_QQ_IMAGE_LOCAL_URL, file);// 需要分享的本地图片URL
             mTencent.shareToQQ(PictureInfo.this, params, mIUiListener);
         }
+        Log.e("mll","file为："+file);
+
     }
 
 
@@ -316,6 +317,9 @@ public class PictureInfo extends AppCompatActivity {
                     out.write(b);
                 }
             }
+            testImgpath = imgPath;
+            Log.e("mll","imgpath"+imgPath);
+//            shareToQQImage(imgPath);
             //files/imgs/123.1.2020-11-30.jpg
             //将输入流解析成Bitmap对象
             Message msg = handler.obtainMessage();

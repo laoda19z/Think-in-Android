@@ -14,15 +14,22 @@ import androidx.fragment.app.Fragment;
 import com.example.uidemo.ConfigUtil;
 import com.example.uidemo.R;
 import com.example.uidemo.record.entitys.AssessmentReport;
+import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.RadarChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.RadarData;
 import com.github.mikephil.charting.data.RadarDataSet;
 import com.github.mikephil.charting.data.RadarEntry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IValueFormatter;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -42,9 +49,9 @@ import java.util.List;
 
 public class MaxScoreFragment extends Fragment {
     private View root;
-    private RadarChart redarChart;
+    private BarChart bar;
     private List<AssessmentReport> list0;
-    private List<RadarEntry> list;
+    private List<BarEntry> list;
     private int child;
     private Gson gson;
 
@@ -52,7 +59,7 @@ public class MaxScoreFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         root=inflater.inflate(R.layout.frag_maxscore, container, false);
-        redarChart=root.findViewById(R.id.redar);
+        bar=root.findViewById(R.id.redar);
         list=new ArrayList<>();
         gson=new Gson();
 
@@ -128,82 +135,107 @@ public class MaxScoreFragment extends Fragment {
     private void showdata(List<AssessmentReport> list0) {
         AssessmentReport assessmentReport=list0.get(0);
         list=new ArrayList<>();
-        list.add(new RadarEntry(assessmentReport.getBodyScore()));
-        list.add(new RadarEntry(assessmentReport.getDownScore()));
-        list.add(new RadarEntry(assessmentReport.getUpScore()));
+        list.add(new BarEntry(1,assessmentReport.getBodyScore()/10));
+        list.add(new BarEntry(2,assessmentReport.getDownScore()/10));
+        list.add(new BarEntry(3,assessmentReport.getUpScore()/10));
 
-        RadarDataSet radarDataSet=new RadarDataSet(list,"小孩一");
-        radarDataSet.setColor(Color.rgb(	0 ,191 ,255));
-        radarDataSet.setDrawFilled(true);
-        radarDataSet.setLineWidth(2f);
+        BarDataSet barDataSet=new BarDataSet(list,"当前孩子");   //list是你这条线的数据  "语文" 是你对这条线的描述
+        BarData barData=new BarData(barDataSet);
+        bar.setData(barData);
 
 
-        RadarData radarData=new RadarData(radarDataSet);
-        redarChart.setData(radarData);
-        redarChart.setExtraBottomOffset(5f);
-        redarChart.setScaleX(1.1f);
-        redarChart.setScaleY(1.1f);
-        redarChart.setWebLineWidth(2f);
-        // 内部线条宽度，外面的环状线条
-        redarChart.setWebLineWidthInner(2f);
-        // 所有线条WebLine透明度
-        redarChart.setWebAlpha(100);
-        //Y轴最小值不设置会导致数据中最小值默认成为Y轴最小值
-        redarChart.getYAxis().setAxisMinimum(0);
-        //大字的颜色（中心点和各顶点的连线）
-        redarChart.setWebColor(Color.rgb(0,0,0));
-        //所有三角形的颜色
-        redarChart.setWebColorInner(Color.rgb(0,0,0));
-        //整个控件的背景颜色
+        //折线图背景
+        bar.getXAxis().setDrawGridLines(false);  //是否绘制X轴上的网格线（背景里面的竖线）
+        bar.getAxisLeft().setDrawGridLines(false);  //是否绘制Y轴上的网格线（背景里面的横线）
 
-        XAxis xAxis=redarChart.getXAxis();
-        xAxis.setTextColor(Color.rgb(0,0,0));//X轴字体颜色
-        xAxis.setTextSize(20);     //X轴字体大小
-        //自定义X轴坐标描述（也就是五个顶点上的文字,默认是0、1、2、3、4）
-        xAxis.setValueFormatter(new IAxisValueFormatter() {
+        //对于右下角一串字母的操作
+        bar.getDescription().setEnabled(false);                  //是否显示右下角描述
+        bar.getDescription().setText("这是修改那串英文的方法");    //修改右下角字母的显示
+        bar.getDescription().setTextSize(20);                    //字体大小
+        bar.getDescription().setTextColor(Color.RED);             //字体颜色
+
+        //图例
+        Legend legend=bar.getLegend();
+        legend.setEnabled(true);    //是否显示图例
+        legend.setPosition(Legend.LegendPosition.BELOW_CHART_CENTER);    //图例的位置
+
+        //X轴
+        XAxis xAxis=bar.getXAxis();
+        xAxis.setDrawGridLines(false);  //是否绘制X轴上的网格线（背景里面的竖线）
+        xAxis.setAxisLineColor(Color.RED);   //X轴颜色
+        xAxis.setAxisLineWidth(2);           //X轴粗细
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);        //X轴所在位置   默认为上面
+        xAxis.setValueFormatter(new IAxisValueFormatter() {   //X轴自定义坐标
             @Override
             public String getFormattedValue(float v, AxisBase axisBase) {
-                if (v==0){
+                if (v==1){
                     return "身形得分";
                 }
-                if (v==1){
+                if (v==2){
                     return "下肢得分";
                 }
-                if (v==2){
+                if (v==3){
                     return "上肢得分";
+                }
+                return "";//注意这里需要改成 ""
+            }
+        });
+        xAxis.setAxisMaximum(4);   //X轴最大数值
+        xAxis.setAxisMinimum(0);   //X轴最小数值
+        //X轴坐标的个数    第二个参数一般填false     true表示强制设置标签数 可能会导致X轴坐标显示不全等问题
+        xAxis.setLabelCount(4,false);
+
+
+        //Y轴
+        YAxis AxisLeft=bar.getAxisLeft();
+        AxisLeft.setDrawGridLines(false);  //是否绘制Y轴上的网格线（背景里面的横线）
+        AxisLeft.setAxisLineColor(Color.RED);  //Y轴颜色
+        AxisLeft.setAxisLineWidth(2);           //Y轴粗细
+        AxisLeft.setValueFormatter(new IAxisValueFormatter() {  //Y轴自定义坐标
+            @Override
+            public String getFormattedValue(float v, AxisBase axisBase) {
+
+                for (int a=0;a<11;a++){     //用个for循环方便
+                    if (a==v){
+                        return a*10+"";
+                    }
+                }
+
+                return "";
+            }
+        });
+        AxisLeft.setAxisMaximum(11);   //Y轴最大数值
+        AxisLeft.setAxisMinimum(0);   //Y轴最小数值
+        //Y轴坐标的个数    第二个参数一般填false     true表示强制设置标签数 可能会导致X轴坐标显示不全等问题
+        AxisLeft.setLabelCount(11,false);
+
+        //是否隐藏右边的Y轴（不设置的话有两条Y轴 同理可以隐藏左边的Y轴）
+        bar.getAxisRight().setEnabled(false);
+
+
+        //柱子
+//        barDataSet.setColor(Color.BLACK);  //柱子的颜色
+        barDataSet.setColors(Color.BLUE);//设置柱子多种颜色  循环使用
+        barDataSet.setBarBorderWidth(2);       //柱子边框厚度
+        barDataSet.setBarShadowColor(Color.RED);
+        barDataSet.setHighlightEnabled(false);//选中柱子是否高亮显示  默认为true
+        barDataSet.setStackLabels(new String[]{"aaa","bbb","ccc"});
+        //定义柱子上的数据显示    可以实现加单位    以及显示整数（默认是显示小数）
+        barDataSet.setValueTextSize(20);
+        barDataSet.setValueFormatter(new IValueFormatter() {
+            @Override
+            public String getFormattedValue(float v, Entry entry, int i, ViewPortHandler viewPortHandler) {
+                if (entry.getY()==v){
+                    return v*10+"分";
                 }
                 return "";
             }
         });
 
+        //数据更新
+        bar.notifyDataSetChanged();
+        bar.invalidate();
 
-        //是否绘制雷达框上对每个点的数据的标注    和Y轴坐标点一般不同时存在 否则显得很挤  默认为true
-        radarDataSet.setDrawValues(false);
-        radarDataSet.setValueTextSize(20);  //数据值得字体大小（这里只是写在这）
-        radarDataSet.setValueTextColor(Color.CYAN);//数据值得字体颜色（这里只是写在这）
-
-        YAxis yAxis=redarChart.getYAxis();
-        //是否绘制Y轴坐标点  和雷达框数据一般不同时存在 否则显得很挤 默认为true
-        yAxis.setDrawLabels(true);
-        yAxis.setTextColor(Color.rgb(238 ,121, 66));//Y轴坐标数据的颜色
-        yAxis.setAxisMaximum(80);   //Y轴最大数值
-        yAxis.setAxisMinimum(0);   //Y轴最小数值
-        //Y轴坐标的个数    第二个参数一般填false     true表示强制设置标签数 可能会导致X轴坐标显示不全等问题
-        yAxis.setLabelCount(5,false);
-
-
-        //对于右下角一串字母的操作
-        redarChart.getDescription().setEnabled(false);                  //是否显示右下角描述
-        redarChart.getDescription().setText("这是修改那串英文的方法");    //修改右下角字母的显示
-        redarChart.getDescription().setTextSize(20);                    //字体大小
-        redarChart.getDescription().setTextColor(Color.CYAN);             //字体颜色
-
-        //图例
-        Legend legend=redarChart.getLegend();
-        legend.setEnabled(true);    //是否显示图例
-        legend.setDrawInside(true);
-        legend.setFormSize(15);
-        legend.setTextSize(15);
     }
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

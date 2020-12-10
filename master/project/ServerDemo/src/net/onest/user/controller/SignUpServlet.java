@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import cn.hutool.crypto.SecureUtil;
 import net.onest.entity.User;
 import net.onest.user.service.UserServiceImpl;
 
@@ -36,10 +37,10 @@ public class SignUpServlet extends HttpServlet {
 		PrintWriter writer = response.getWriter();
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
-		System.out.println(username);
+		String mima = SecureUtil.md5(password);
 		User user = new User();
 		user.setUsername(username);
-		user.setPassword(password);
+		user.setPassword(mima);
 		UserServiceImpl userServiceImpl = new UserServiceImpl();
 		boolean b = userServiceImpl.signUpUser(user);
 		if(b) {

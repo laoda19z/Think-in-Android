@@ -35,15 +35,23 @@ public class SearchContactServlet extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html;charset=UTF-8");
 		String contactName = request.getParameter("contactName");
-		ContactServiceImpl contactServiceImpl = new ContactServiceImpl();
-	    User user = contactServiceImpl.searchContact(contactName);
-	    if(user.getUserId()==0) {
-	    	response.getWriter().write("false");
-	    }else {
-	    	Gson gson = new Gson();
-		    String result = gson.toJson(user);
-		    response.getWriter().write(result);
-	    }
+		String userName = request.getParameter("userid");
+		if(!"".equals(userName)&&userName!=null) {
+			int userid = Integer.parseInt(userName);
+			ContactServiceImpl contactServiceImpl = new ContactServiceImpl();
+		    User user = contactServiceImpl.searchContact(contactName,userid);
+		    if(user.getUserId()==0) {
+		    	response.getWriter().write("false");
+		    }else {
+		    
+		    	Gson gson = new Gson();
+			    String result = gson.toJson(user);
+			    response.getWriter().write(result);
+		    }
+		}else {
+			response.getWriter().write("false");
+		}
+		
 	    
 	}
 
