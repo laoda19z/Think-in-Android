@@ -8,8 +8,8 @@
     <RelativeLayout
         android:id="@+id/re_seTitle"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:background="#ffffff">
+        android:layout_height="65dp"
+        android:background="#87CEEB">
         <Button
             android:id="@+id/btn_seCenterRet"
             android:layout_width="40dp"
@@ -26,7 +26,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="100dp"
             android:textStyle="bold"
-            android:textColor="#000000"
+            android:textColor="#ffffff"
             android:textSize="20dp"
             android:text="安全中心"/>
     </RelativeLayout>

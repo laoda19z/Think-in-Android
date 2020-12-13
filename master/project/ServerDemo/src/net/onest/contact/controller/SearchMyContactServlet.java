@@ -1,6 +1,7 @@
 package net.onest.contact.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -51,10 +52,15 @@ public class SearchMyContactServlet extends HttpServlet {
 				}
 			}
 			UserServiceImpl userServiceImpl = new UserServiceImpl();
-			List<User> myContact = userServiceImpl.searchTrendUserInfo(contactidList);
 			Gson gson = new Gson();
-			String resStr = gson.toJson(myContact);
+			List<User> myContact = new ArrayList<>();
+			String resStr = "";
+			if(contactidList!="") {
+				 myContact = userServiceImpl.searchTrendUserInfo(contactidList);
+			}
+			resStr= gson.toJson(myContact);
 			response.getWriter().write(resStr);
+			System.out.println(resStr);
 		}
 	}
 

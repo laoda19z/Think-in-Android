@@ -168,8 +168,11 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     protected void onDestroy() {
-        signOut();
         super.onDestroy();
+        LoginActivity.currentChildId = 0;
+        MyselfFragment.index = -1;
+        signOut();
+        Log.e("mll","注销成功");
     }
 
     @Override
@@ -188,11 +191,11 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
             handler.sendEmptyMessageDelayed(0,2000);
         }else {
-            Intent intent = new Intent(Intent.ACTION_MAIN);
-            intent.addCategory(Intent.CATEGORY_HOME);
+//            Intent intent = new Intent(Intent.ACTION_MAIN);
+//            intent.addCategory(Intent.CATEGORY_HOME);
             signOut();
-            startActivity(intent);
-            System.exit(0);
+//            startActivity(intent);
+////            System.exit(0);
         }
     }
 

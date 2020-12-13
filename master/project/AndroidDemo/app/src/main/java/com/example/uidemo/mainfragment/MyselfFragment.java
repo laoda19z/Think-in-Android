@@ -25,9 +25,11 @@ import com.example.uidemo.me.CodeActivity;
 import com.example.uidemo.me.HorizontalListView;
 import com.example.uidemo.me.PersonInfoActivity;
 import com.example.uidemo.me.SecurityActivity;
+import com.example.uidemo.test.ReportListActivity;
 
 import org.greenrobot.eventbus.EventBus;
 
+import static com.example.uidemo.LoginActivity.currentChildId;
 import static com.example.uidemo.LoginActivity.currentUserHead;
 import static com.example.uidemo.LoginActivity.currentUserKids;
 import static com.example.uidemo.LoginActivity.currentUserName;
@@ -44,14 +46,13 @@ public class MyselfFragment extends FragmentActivity {
     private TextView tvName;
     private Button btnNew;
     private EventBus eventBus;
+    private Button btnTest;
+    public static int index=-1;
     @Nullable
     @Override
     public View onCreateView(@NonNull String name, @NonNull final Context context, @NonNull AttributeSet attrs) {
         view = LayoutInflater.from(context).inflate(R.layout.myself_fragment,null);
         eventBus = EventBus.getDefault();
-//        if(!eventBus.isRegistered(MyselfFragment.this)){
-//            eventBus.register(MyselfFragment.this);
-//        }
         ivHeader = view.findViewById(R.id.iv_header);
         btnCode = view.findViewById(R.id.btn_code);
         btnAddKid = view.findViewById(R.id.btn_addKid);
@@ -59,7 +60,8 @@ public class MyselfFragment extends FragmentActivity {
         btnSeCenter = view.findViewById(R.id.btn_seCenter);
         tvName = view.findViewById(R.id.tv_name);
         btnNew = view.findViewById(R.id.btn_fl);
-
+        btnTest = view.findViewById(R.id.btn_test);
+        Log.e("mll","name"+currentUserName);
         tvName.setText(currentUserName);
 
         //设置头像
@@ -74,6 +76,7 @@ public class MyselfFragment extends FragmentActivity {
                     .circleCrop()
                     .into(ivHeader);
         }
+
         //二维码按钮
         btnCode.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,17 +120,38 @@ public class MyselfFragment extends FragmentActivity {
             }
         });
 
+        //我的测评接口
+        btnTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                if (currentChildId == 0){
+                    Toast.makeText(context, "请选择孩子", Toast.LENGTH_SHORT).show();
+                }else {
+                    intent.putExtra("id", currentChildId + "");
+                    intent.setClass(context, ReportListActivity.class);
+                    context.startActivity(intent);
+                }
+            }
+        });
+
         //横向listView显示孩子列表
         HListView = view.findViewById(R.id.horizon_listView);
         HAdapter = new HorizontalListViewAdapter(view.getContext(),currentUserKids);
         Log.e("展示横向孩子列表","");
         HListView.setAdapter(HAdapter);
+        HListView.setSelection(index);
 
+        if(index!=-1){
+            HAdapter.setSelectIndex(index);
+            HAdapter.notifyDataSetChanged();
+        }
         //设置选择孩子的点击事件
         HListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 HAdapter.setSelectIndex(i);
+                index=i;
                 HAdapter.notifyDataSetChanged();
                 eventBus.getDefault().postSticky(MyselfFragment.this);
             }

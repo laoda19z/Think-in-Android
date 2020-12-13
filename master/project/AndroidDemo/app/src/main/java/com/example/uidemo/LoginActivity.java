@@ -103,6 +103,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_layout);
+
         initView();
 
 //        signOut();
@@ -368,6 +369,7 @@ public class LoginActivity extends AppCompatActivity {
                     User user = gson.fromJson(responsestr, User.class);
                     String userId = user.getUserId() + "";
                     currentUserId = userId;
+                    currentUserName = user.getUsername();
                     currentUserHead = user.getHeadImg();
                     currentUserEmail = user.getEmail();
                     currentUserPhoneNum = user.getPhoneNum();

@@ -53,7 +53,7 @@ public class BasicInfoActivity extends AppCompatActivity {
                         jsonObject.addProperty("fhl",fhl+"");
                         Intent intent = new Intent();
                         intent.putExtra("json",jsonObject.toString());
-                        intent.setClass(BasicInfoActivity.this,FiftymeterRunActivity.class);
+                        intent.setClass(BasicInfoActivity.this, FiftymeterRunActivity.class);
                         startActivity(intent);
                         finish();
                     }else {
@@ -66,7 +66,7 @@ public class BasicInfoActivity extends AppCompatActivity {
                     jsonObject.addProperty("fhl",fhl+"");
                     Intent intent = new Intent();
                     intent.putExtra("json",jsonObject.toString());
-                    intent.setClass(BasicInfoActivity.this,FiftymeterRunActivity.class);
+                    intent.setClass(BasicInfoActivity.this, FiftymeterRunActivity.class);
                     startActivity(intent);
                     finish();
                 }

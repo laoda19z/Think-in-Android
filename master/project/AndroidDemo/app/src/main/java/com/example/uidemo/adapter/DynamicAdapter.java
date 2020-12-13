@@ -141,14 +141,14 @@ public class DynamicAdapter extends BaseAdapter {
             linearLayout.setLayoutParams(params);
             TextView textView1= new TextView(context);
             textView1.setText("  "+comment.getContent());
-            textView1.setTextSize(12);
+            textView1.setTextSize(14);
             textView1.setTextColor(Color.BLACK);
             TextView textView2 = new TextView(context);
             for(int m = 0;m < commUsers.size();++m){
                 if (commUsers.get(m).getUserId()==comment.getPublisherId()){
                     textView2.setText(commUsers.get(m).getUsername()+":");
                     textView2.setTextColor(context.getResources().getColor(R.color.test_blue));
-                    textView2.setTextSize(16);
+                    textView2.setTextSize(15);
                     break;
                 }
             }

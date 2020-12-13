@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -30,12 +31,16 @@ import androidx.fragment.app.FragmentActivity;
 
 import com.bigkoo.pickerview.TimePickerView;
 import com.example.uidemo.ConfigUtil;
+import com.example.uidemo.LoginActivity;
+import com.example.uidemo.MainActivity;
 import com.example.uidemo.R;
 import com.example.uidemo.mainfragment.CommunicityFragment;
 import com.example.uidemo.mainfragment.MyselfFragment;
 import com.example.uidemo.mark.Entity.MarkDate;
 import com.example.uidemo.mark.Entity.NeedSearchDate;
 import com.example.uidemo.mark.MarkInformation;
+import com.example.uidemo.mark.MarkSuccess.BUserMark;
+import com.example.uidemo.mark.MarkSuccess.UserMark;
 import com.example.uidemo.mark.calendar.PictureInfo;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -87,6 +92,7 @@ public class CommunicityFragment1 extends FragmentActivity {
     private List<Integer> monthList;
     //日数组
     private List<Integer> dayList;
+    private Context mcontext;
     //更新
     private Handler handler=new Handler(){
         @Override
@@ -142,6 +148,7 @@ public class CommunicityFragment1 extends FragmentActivity {
     @Override
     public View onCreateView(@NonNull String name, @NonNull final Context context, @NonNull AttributeSet attrs) {
         Log.e("mll","执行了一次");
+        mcontext=context;
         view = LayoutInflater.from(context).inflate(R.layout.communicity_fragment1,null);
         calendarView = view.findViewById(R.id.calendarView);
         picker = view.findViewById(R.id.picker);
@@ -154,6 +161,7 @@ public class CommunicityFragment1 extends FragmentActivity {
         if (!eventBus.isRegistered(CommunicityFragment1.this)){
             eventBus.register(CommunicityFragment1.this);
         }
+
         //初始化当前年月
         tvMonth.setText(calendarView.getCurYear() + "年" + calendarView.getCurMonth() + "月");
         nowyear=calendarView.getCurYear();
@@ -161,6 +169,8 @@ public class CommunicityFragment1 extends FragmentActivity {
         nowday=calendarView.getCurDay();
         //查询年月并查询出打卡的连续数和本月总数
 //        searchNowMonth(nowyear,nowmonth,nowday,123,1);
+
+
         //月份切换改变事件
         calendarView.setOnMonthChangeListener(new CalendarView.OnMonthChangeListener() {
             @Override
@@ -171,10 +181,11 @@ public class CommunicityFragment1 extends FragmentActivity {
                 tvMonth.setText(year + "年" + month + "月");
                 //查询年月并查询出打卡的连续数和本月总数
                 int days=searchDaysByYearAndMonth(year,month);
-                searchNowMonth(year,month,days,123,1);
+                Log.e("日历月份切换","uid"+LoginActivity.currentUserId+"cid"+LoginActivity.currentChildId);
+                searchNowMonth(year,month,days,Integer.parseInt(LoginActivity.currentUserId),LoginActivity.currentChildId);
             }
         });
-        //设置点击事件
+//        //设置点击事件
         final boolean[] type = {true, true, false, false, false, false};
         //时间选择器选择年月，对应的日历切换到指定日期
         picker.setOnClickListener(new View.OnClickListener() {
@@ -192,7 +203,8 @@ public class CommunicityFragment1 extends FragmentActivity {
                         int days=searchDaysByYearAndMonth(year,month+1);
                         //通过年月日来绘绿色圈圈
                         //查询年月并查询出打卡的连续数和本月总数(123账号，孩子为1)
-                        searchNowMonth(year,month+1,days,123,1);
+                        Log.e("日历滚动后","uid"+LoginActivity.currentUserId+"cid"+LoginActivity.currentChildId);
+                        searchNowMonth(year,month+1,days, Integer.parseInt(LoginActivity.currentUserId),LoginActivity.currentChildId);
                         //滚动到指定日期
                         calendarView.scrollToCalendar(year,month + 1, 1);
 
@@ -201,7 +213,7 @@ public class CommunicityFragment1 extends FragmentActivity {
                 pvTime.show();
             }
         });
-
+//
         //这个是进入日历某一天看图片的
         calendarView.setOnDateLongClickListener(new CalendarView.OnDateLongClickListener() {
             @Override
@@ -211,8 +223,9 @@ public class CommunicityFragment1 extends FragmentActivity {
                 intent.setClass(context, PictureInfo.class);
                 //2020-11-16
                 intent.putExtra("date",calendar.getYear()+"-"+calendar.getMonth()+"-"+calendar.getDay()+"");
-                intent.putExtra("username","123");
-                intent.putExtra("child","1");
+                Log.e("点击日历那一天","uid"+LoginActivity.currentUserId+"cid"+LoginActivity.currentChildId);
+                intent.putExtra("username",LoginActivity.currentUserId);
+                intent.putExtra("child",LoginActivity.currentChildId+"");
                 context.startActivity(intent);
             }
         });
@@ -222,22 +235,30 @@ public class CommunicityFragment1 extends FragmentActivity {
         btnMark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //传递状态值，用来显示今天是否已经打卡过
-                String status=null;
-                Intent intent=new Intent();
-                intent.setClass(context, MarkInformation.class);
-                //传递用户名和今日的时间
-                intent.putExtra("username",123+"");
-                intent.putExtra("date",nowyear+"-"+nowmonth+"-"+nowday);
-                intent.putExtra("child","1");
-                context.startActivity(intent);
+                if(LoginActivity.currentChildId==0){
+                    Toast.makeText(mcontext,"请选择孩子",Toast.LENGTH_LONG).show();
+                }
+                else{
+                    //传递状态值，用来显示今天是否已经打卡过
+                    String status=null;
+                    Intent intent=new Intent();
+                    intent.setClass(context, MarkInformation.class);
+                    //传递用户名和今日的时间
+                    Log.e("点击日历打卡","uid"+LoginActivity.currentUserId+"cid"+LoginActivity.currentChildId);
+                    intent.putExtra("username",LoginActivity.currentUserId);
+                    intent.putExtra("date",nowyear+"-"+nowmonth+"-"+nowday);
+                    intent.putExtra("child",LoginActivity.currentChildId+"");
+                    context.startActivity(intent);
+                }
             }
         });
 
         return view;
     }
+
     @Subscribe(sticky = true)
     public void onEvent(MyselfFragment fragment){
+        Log.e("mll","执行了");
         calendarView.setOnMonthChangeListener(new CalendarView.OnMonthChangeListener() {
             @Override
             public void onMonthChange(int year, int month) {
@@ -247,10 +268,74 @@ public class CommunicityFragment1 extends FragmentActivity {
                 tvMonth.setText(year + "年" + month + "月");
                 //查询年月并查询出打卡的连续数和本月总数
                 int days=searchDaysByYearAndMonth(year,month);
-                searchNowMonth(year,month,days,12,1);
+                Log.e("黏性事件",LoginActivity.currentChildId+"");
+                searchNowMonth(year,month,days,123, LoginActivity.currentChildId);
+            }
+        });
+
+        //月份切换时间
+        //月份切换改变事件
+        calendarView.setOnMonthChangeListener(new CalendarView.OnMonthChangeListener() {
+            @Override
+            public void onMonthChange(int year, int month) {
+                //清空数组,使上个月绘画数组清空
+                calendarView.clearSchemeDate();
+                //这里获取的是当前月份
+                tvMonth.setText(year + "年" + month + "月");
+                //查询年月并查询出打卡的连续数和本月总数
+                int days=searchDaysByYearAndMonth(year,month);
+                Log.e("黏性时间日历月份切换","uid"+LoginActivity.currentUserId+"cid"+LoginActivity.currentChildId);
+                searchNowMonth(year,month,days,Integer.parseInt(LoginActivity.currentUserId),LoginActivity.currentChildId);
+            }
+        });
+        //滚动器时间
+
+        //设置点击事件
+        final boolean[] type = {true, true, false, false, false, false};
+        //时间选择器选择年月，对应的日历切换到指定日期
+        picker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerView pvTime=new TimePickerView.Builder(mcontext,new TimePickerView.OnTimeSelectListener() {
+                    @Override
+                    public void onTimeSelect(Date date, View v) {
+                        java.util.Calendar c = java.util.Calendar.getInstance();
+                        c.setTime(date);
+                        int year = c.get(java.util.Calendar.YEAR);
+                        int month = c.get(java.util.Calendar.MONTH);
+                        //通过选择的年月份来判断当月的天数
+                        int days=searchDaysByYearAndMonth(year,month+1);
+                        //通过年月日来绘绿色圈圈
+                        //查询年月并查询出打卡的连续数和本月总数(123账号，孩子为1)
+                        Log.e("黏性事件日历滚动后","uid"+LoginActivity.currentUserId+"cid"+LoginActivity.currentChildId);
+                        searchNowMonth(year,month+1,days, Integer.parseInt(LoginActivity.currentUserId),LoginActivity.currentChildId);
+                        //滚动到指定日期
+                        calendarView.scrollToCalendar(year,month + 1, 1);
+                    }
+                }).setType(type).build();
+                pvTime.show();
+            }
+        });
+
+        //打卡点击
+        //打卡按钮的点击事件,跳转到详细的打卡页面,传递打卡状态值参数
+        btnMark.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //传递状态值，用来显示今天是否已经打卡过
+                String status=null;
+                Intent intent=new Intent();
+                intent.setClass(mcontext, MarkInformation.class);
+                //传递用户名和今日的时间
+                Log.e("点击日历打卡","uid"+LoginActivity.currentUserId+"cid"+LoginActivity.currentChildId);
+                intent.putExtra("username",LoginActivity.currentUserId);
+                intent.putExtra("date",nowyear+"-"+nowmonth+"-"+nowday);
+                intent.putExtra("child",LoginActivity.currentChildId+"");
+                mcontext.startActivity(intent);
             }
         });
     }
+
     //通过年月来获得当月的天数
     private int searchDaysByYearAndMonth(int year, int month) {
         int day = 0;
@@ -301,7 +386,7 @@ public class CommunicityFragment1 extends FragmentActivity {
                     OutputStream out=conn.getOutputStream();
                     //将需要传输的数据变为Json串
                     //创建对象
-                    NeedSearchDate need=new NeedSearchDate(username,year+"",month+"",1);
+                    NeedSearchDate need=new NeedSearchDate(username,year+"",month+"",child);
                     Gson gson=new Gson();
                     String sql=gson.toJson(need);
                     out.write(sql.getBytes());
@@ -415,7 +500,7 @@ public class CommunicityFragment1 extends FragmentActivity {
 
         paint1.setStrokeWidth(5);
         paint1.setTextSize(80);
-        paint1.setColor(Color.BLUE);
+        paint1.setColor(0xff1E90FF);
         canvas.drawCircle(200, 200, 120, paint);
         canvas.drawPath(path,paint);
         //通过获取的天数不同来实现位置不一样
@@ -445,7 +530,7 @@ public class CommunicityFragment1 extends FragmentActivity {
         Paint paint1=new Paint();
         paint1.setStrokeWidth(5);
         paint1.setTextSize(80);
-        paint1.setColor(Color.GREEN);
+        paint1.setColor(0xffff3030);
         canvas.drawCircle(200, 200, 120, paint);
         canvas.drawPath(path,paint);
 

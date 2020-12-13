@@ -4,6 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <RelativeLayout
+        android:layout_marginTop="5dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
@@ -12,6 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:textColor="@color/black"
                 android:gravity="center"
                 android:layout_weight="1"
                 android:id="@+id/tv_date"
@@ -19,6 +21,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
             <TextView
+                android:textColor="#dc143c"
                 android:layout_weight="1"
                 android:id="@+id/tv_mark_status"
                 android:textSize="18sp"
@@ -35,6 +38,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
+                android:textColor="@color/black"
+                android:text="2020年12月"
                 android:id="@+id/tv_yearandmonth"
                 android:layout_gravity="center"
                 android:textSize="20sp"
@@ -55,6 +60,7 @@
             app:other_month_text_color="#cccccc"
             app:week_line_background="#e6e6e6"/>
         <TextView
+            android:textColor="@color/black"
             android:layout_alignLeft="@id/btn_background"
             android:layout_below="@id/calendarView"
             android:id="@+id/linear3"
@@ -79,12 +85,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
+                android:textColor="@color/black"
                 android:textSize="18sp"
                 android:id="@+id/aftersport"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
         <TextView
+            android:textColor="@color/black"
             android:layout_marginTop="10dp"
             android:layout_alignLeft="@id/btn_background"
             android:layout_below="@id/linear3"
@@ -110,40 +118,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <TextView
+                android:textColor="@color/black"
                 android:textSize="18sp"
                 android:id="@+id/afterminutes"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </LinearLayout>
-        <LinearLayout
-            android:id="@+id/lenear5"
-            android:layout_below="@id/linear4"
+        <TextView
+            android:textColor="@color/black"
+            android:id="@+id/linear5"
             android:layout_marginTop="20dp"
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_gravity="center"
-                android:textSize="17sp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="欢迎留下你的感想"/>
-            <EditText
-                android:id="@+id/impressions"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center"
-                android:layout_width="280dp"
-                android:layout_height="120dp"
-                android:enabled="true"
-                android:gravity="top"
-                android:minLines="8"
-                android:maxLines="2"
-                android:scrollbars="vertical"
-                android:background="@drawable/textarea_layout"/>
-        </LinearLayout>
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/linear4"
+            android:layout_gravity="center"
+            android:textSize="17sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="欢迎留下你的感想"/>
+        <EditText
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/linear5"
+            android:id="@+id/impressions"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="center"
+            android:layout_width="280dp"
+            android:layout_height="120dp"
+            android:enabled="true"
+            android:gravity="top"
+            android:minLines="8"
+            android:maxLines="2"
+            android:scrollbars="vertical"
+            android:background="@drawable/textarea_layout"/>
         <Button
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/lenear5"
+            android:layout_below="@id/impressions"
             android:background="@drawable/button_circle_shape"
             android:id="@+id/btn_background"
             android:layout_marginTop="20dp"

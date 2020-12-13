@@ -76,7 +76,10 @@
         <activity android:name=".test.BasicInfoActivity" />
         <activity android:name=".test.ResultActivity" />
         <activity android:name=".mark.backgroun.Test" />
-        <activity android:name=".mark.MarkSuccess.BUserMark" /> <!-- QQ -->
+        <activity android:name=".mark.MarkSuccess.BUserMark" />
+        <activity android:name=".test.ReportListActivity"/>
+        <activity android:name=".test.ReportInfoActivity"/>
+        <!-- QQ -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"

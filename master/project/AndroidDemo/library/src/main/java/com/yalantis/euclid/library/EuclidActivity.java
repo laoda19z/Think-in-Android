@@ -21,6 +21,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -79,7 +80,7 @@ public abstract class EuclidActivity extends Activity {
     protected ListView mListView;
     protected FrameLayout mToolbar;
     protected RelativeLayout mToolbarProfile;
-    protected LinearLayout mProfileDetails;
+    protected RelativeLayout mProfileDetails;
     protected TextView mTextViewProfileName;
     protected TextView mTextViewProfileDescription;
     protected View mButtonProfile;//详情页中的小信息图标
@@ -105,6 +106,8 @@ public abstract class EuclidActivity extends Activity {
     //数据列表
     private List<Course> courses;
     private Handler myHandler;
+
+    private Button btnReturn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -133,10 +136,18 @@ public abstract class EuclidActivity extends Activity {
         mListView = (ListView) findViewById(R.id.list_view);//主界面中的list列表（未跳转）
         mToolbar = (FrameLayout) findViewById(R.id.toolbar_list);//标题
         mToolbarProfile = (RelativeLayout) findViewById(R.id.toolbar_profile);//跳转之后的标题布局
-        mProfileDetails = (LinearLayout) findViewById(R.id.wrapper_profile_details);//跳转之后详细信息的布局
+        mProfileDetails = (RelativeLayout) findViewById(R.id.wrapper_profile_details);//跳转之后详细信息的布局
         mTextViewProfileName = (TextView) findViewById(R.id.text_view_profile_name);//姓名
         mTextViewProfileDescription = (TextView) findViewById(R.id.text_view_profile_description);//详细信息
         mButtonProfile = findViewById(R.id.button_profile);//小图标
+        btnReturn = findViewById(R.id.btn_phRet);
+
+        btnReturn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EuclidActivity.this.finish();
+            }
+        });
 
         //用 View.post() or View.postDelay() 来代替 Handler 使用。
         mButtonProfile.post(new Runnable() {

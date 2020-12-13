@@ -1,6 +1,8 @@
 package com.example.uidemo.test;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,6 +17,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.uidemo.ConfigUtil;
 import com.example.uidemo.MainActivity;
 import com.example.uidemo.R;
+import com.github.mikephil.charting.charts.RadarChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.data.RadarData;
+import com.github.mikephil.charting.data.RadarDataSet;
+import com.github.mikephil.charting.data.RadarEntry;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -29,12 +38,14 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
-
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class ResultActivity extends AppCompatActivity {
 
-    private TextView tvResult;
+    private ProgressDialog mDialog;
+    private RadarChart radarChart;
     private TextView tvOverallScore;
     private TextView tvBodyScore;
     private TextView tvUpScore;
@@ -52,7 +63,8 @@ public class ResultActivity extends AppCompatActivity {
                     tvDownScore.setText(report.getDownScore()+"分");
                     tvUpScore.setText(report.getUpScore()+"分");
                     tvOverallScore.setText(report.getOverallScore()+"");
-
+                    initChart(report);
+                    mDialog.dismiss();
             }
         }
     };
@@ -61,6 +73,9 @@ public class ResultActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result);
         String str = getIntent().getStringExtra("json");
+        mDialog = new ProgressDialog(ResultActivity.this);
+        mDialog.setMessage("正在生成报告，请稍后...");
+        mDialog.show();
         Log.i("张绍达",str);
         findViews();
         setListener();
@@ -82,7 +97,6 @@ public class ResultActivity extends AppCompatActivity {
         tvBodyScore = findViewById(R.id.tv_body_score);
         tvDownScore = findViewById(R.id.tv_down_score);
         tvUpScore = findViewById(R.id.tv_up_score);
-        tvSuggestion = findViewById(R.id.tv_suggestion);
         tvOverallScore = findViewById(R.id.tv_overall_score);
         imgBack = findViewById(R.id.img_back);
     }
@@ -124,5 +138,36 @@ public class ResultActivity extends AppCompatActivity {
                 }
             }
         }.start();
+    }
+    public void initChart(Report report){
+        radarChart = (RadarChart) findViewById(R.id.chart_rc);
+        List<RadarEntry> radarEntries = new ArrayList<>();
+        radarEntries.add(new RadarEntry(report.getUpScore()));
+        radarEntries.add(new RadarEntry(report.getBodyScore()));
+        radarEntries.add(new RadarEntry(report.getDownScore()));
+        RadarDataSet iRadarDataSet = new RadarDataSet(radarEntries, "个人成绩");
+        iRadarDataSet.setColor(Color.BLACK);
+        RadarData radarData=new RadarData(iRadarDataSet);
+        radarChart.setData(radarData);
+        radarChart.getYAxis().setAxisMinimum(0);
+        radarChart.setBackgroundColor(Color.parseColor("#71bbe2"));
+        XAxis xAxis=radarChart.getXAxis();
+        xAxis.setTextColor(Color.BLACK);//X轴字体颜色
+        xAxis.setTextSize(16);     //X轴字体大小
+        xAxis.setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float v, AxisBase axisBase) {
+                if (v==0){
+                    return "上肢得分";
+                }
+                if (v==1){
+                    return "身体得分";
+                }
+                if (v==2){
+                    return "下肢得分";
+                }
+                return "";
+            }
+        });
     }
 }

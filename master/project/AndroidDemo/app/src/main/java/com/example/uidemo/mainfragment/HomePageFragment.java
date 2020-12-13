@@ -2,17 +2,14 @@ package com.example.uidemo.mainfragment;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.example.uidemo.R;
@@ -30,54 +27,78 @@ import java.util.List;
 
 public class HomePageFragment extends FragmentActivity {
     private View view;
-    private BannerLayout bannerLayout;
-    private BannerAdapter mAdapter;
+    private BannerLayout bannerLayout;//上方滚动图
+    private BannerAdapter mAdapter;//滚动图的适配器
 
     private LinearLayout btnRecord;
     private LinearLayout btnActivity;
     private LinearLayout btnCourse;
 
-    private HorizontalListView horizontalListView;
+    private HorizontalListView horizontalListView1;//横向滑动listView
+    private HorizontalListView horizontalListView2;
+    private HorizontalListView horizontalListView3;
 
     public int[] urls = new int[]{//轮播图片地址
-            R.drawable.record1,
-            R.drawable.record2,
-            R.drawable.record3,
-            R.drawable.record4,
-            R.drawable.record5,
+            R.drawable.record_new1,
+            R.drawable.record_new2,
+            R.drawable.record_new3,
+            R.drawable.record_new4,
     };
+
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull String name, @NonNull final Context context, @NonNull AttributeSet attrs) {
         view = LayoutInflater.from(context).inflate(R.layout.homepage_fragment,null);
-        bannerLayout=view.findViewById(R.id.recybanner);
-        btnRecord = view.findViewById(R.id.homepage_record);
-        btnActivity = view.findViewById(R.id.homepage_activity);
-        btnCourse = view.findViewById(R.id.homepage_course);
+
+        //加载视图控件
+        findViews();
+        //设置滚动图
         mAdapter = new BannerAdapter(context,urls);
         bannerLayout.setAdapter(mAdapter);
+        //设置横向滑动listView的数据
+        List<Data> list1 = new ArrayList<>();
+        Data page1_data1=new Data(R.drawable.page1_img1,"和爸爸妈妈参加运动会");
+        Data page1_data2=new Data(R.drawable.page1_img2,"教孩子学习跳绳");
+        Data page1_data3=new Data(R.drawable.page1_img3,"带领孩子一起做早操");
+        Data page1_data4=new Data(R.drawable.page1_img4,"去户外极限运动");
+        list1.add(page1_data1);
+        list1.add(page1_data2);
+        list1.add(page1_data3);
+        list1.add(page1_data4);
 
-        horizontalListView=view.findViewById(R.id.hor);
-        List<Data> list=new ArrayList<>();
-        Data data1=new Data(R.drawable.record1,"是联合国是读后感凉山大火");
-        Data data2=new Data(R.drawable.record2,"大圣归来函数的观看");
-        Data data3=new Data(R.drawable.record3,"大圣归来函数的观看");
-        Data data4=new Data(R.drawable.record3,"大圣归来函数的观看");
-        list.add(data1);
-        list.add(data2);
-        list.add(data3);
-        list.add(data4);
-        HomePageHorizontalListViewAdapter homePageHorizontalListViewAdapter =new HomePageHorizontalListViewAdapter(context,list,R.layout.banner2);
-        horizontalListView.setAdapter(homePageHorizontalListViewAdapter);
-        horizontalListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //点击listview中
+        List<Data> list2 = new ArrayList<>();
+        Data page2_data1=new Data(R.drawable.page2_img1,"周末亲子跳绳比赛");
+        Data page2_data2=new Data(R.drawable.page2_img2,"社区亲子会操表演");
+        Data page2_data3=new Data(R.drawable.page2_img3,"少儿消防演练活动");
+        Data page2_data4=new Data(R.drawable.page2_img4,"少儿运动体验馆");
+        list2.add(page2_data1);
+        list2.add(page2_data2);
+        list2.add(page2_data3);
+        list2.add(page2_data4);
 
-            }
-        });
+        List<Data> list3 = new ArrayList<>();
+        Data page3_data1=new Data(R.drawable.page3_img1,"和孩子一起植树的感受");
+        Data page3_data2=new Data(R.drawable.page3_img2,"少儿攀爬馆体验");
+        Data page3_data3=new Data(R.drawable.page3_img3,"快乐周末");
+        Data page3_data4=new Data(R.drawable.page3_img4,"带孩子去骑行");
+        list3.add(page3_data1);
+        list3.add(page3_data2);
+        list3.add(page3_data3);
+        list3.add(page3_data4);
 
+
+        //设置横向滑动listView1
+        HomePageHorizontalListViewAdapter homePageHorizontalListViewAdapter1 =new HomePageHorizontalListViewAdapter(context,list1,R.layout.banner2);
+        horizontalListView1.setAdapter(homePageHorizontalListViewAdapter1);
+        //设置横向滑动listView2
+        HomePageHorizontalListViewAdapter homePageHorizontalListViewAdapter2 =new HomePageHorizontalListViewAdapter(context,list2,R.layout.banner2);
+        horizontalListView2.setAdapter(homePageHorizontalListViewAdapter2);
+        //设置横向滑动listView3
+        HomePageHorizontalListViewAdapter homePageHorizontalListViewAdapter3 =new HomePageHorizontalListViewAdapter(context,list3,R.layout.banner2);
+        horizontalListView3.setAdapter(homePageHorizontalListViewAdapter3);
+        //返回按钮
         btnRecord.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,6 +106,7 @@ public class HomePageFragment extends FragmentActivity {
                 context.startActivity(intent);
             }
         });
+        //活动按钮
         btnActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,6 +115,7 @@ public class HomePageFragment extends FragmentActivity {
                 context.startActivity(intent);
             }
         });
+        //课程按钮
         btnCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,5 +125,15 @@ public class HomePageFragment extends FragmentActivity {
         });
 
         return view;
+    }
+
+    private void findViews() {
+        bannerLayout=view.findViewById(R.id.recybanner);
+        btnRecord = view.findViewById(R.id.homepage_record);
+        btnActivity = view.findViewById(R.id.homepage_activity);
+        btnCourse = view.findViewById(R.id.homepage_course);
+        horizontalListView1=view.findViewById(R.id.hor1);
+        horizontalListView2=view.findViewById(R.id.hor2);
+        horizontalListView3=view.findViewById(R.id.hor3);
     }
 }

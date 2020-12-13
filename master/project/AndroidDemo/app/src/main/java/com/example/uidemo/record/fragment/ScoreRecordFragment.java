@@ -2,6 +2,8 @@ package com.example.uidemo.record.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,6 +55,7 @@ public class ScoreRecordFragment extends Fragment {
     List<Entry> list3=new ArrayList<>();
     List<Entry> list4=new ArrayList<>();
     private Gson gson;
+    private Handler handler;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -66,7 +69,16 @@ public class ScoreRecordFragment extends Fragment {
         Bundle bundle=getActivity().getIntent().getExtras();
         child=bundle.getInt("id");
         GetList();
-
+        handler = new Handler(){
+            @Override
+            public void handleMessage(@NonNull Message msg) {
+                switch (msg.what){
+                    case 1:
+                        showdata(list0);
+                        break;
+                }
+            }
+        };
         return root;
     }
 //    private void GetChildid() {
@@ -119,7 +131,10 @@ public class ScoreRecordFragment extends Fragment {
                     Log.i("scoreRecord",textjson);
                     Type type=new TypeToken<List<AssessmentReport>>(){}.getType();
                     list0=gson.fromJson(textjson,type);
-                    showdata(list0);
+                    Message msg = new Message();
+                    msg.what = 1;
+                    handler.sendMessage(msg);
+
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (UnsupportedEncodingException e) {

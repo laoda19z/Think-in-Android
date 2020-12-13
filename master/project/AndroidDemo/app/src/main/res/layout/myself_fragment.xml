@@ -10,21 +10,15 @@
         android:background="#FFF1F1F1"
         android:orientation="vertical"
         tools:context=".MainActivity">
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="65dp"
             android:background="#87CEEB"
             android:orientation="horizontal">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="20dp"
-                android:src="@mipmap/arrow_left_big"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_centerVertical="true"
                 android:layout_marginLeft="20dp"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -34,10 +28,11 @@
                 android:id="@+id/btn_code"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_gravity="center"
-                android:layout_marginLeft="190dp"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
                 android:background="@mipmap/code"/>
-        </LinearLayout>
+        </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -99,7 +94,7 @@
                     android:layout_height="35dp"
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="10dp"
-                    android:background="@mipmap/fl"/>
+                    android:background="@drawable/fl"/>
 
                 <RelativeLayout
                     android:layout_width="wrap_content"

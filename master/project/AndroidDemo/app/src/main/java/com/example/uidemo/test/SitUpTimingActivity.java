@@ -19,7 +19,6 @@ import com.google.gson.JsonParser;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 
-
 public class SitUpTimingActivity extends AppCompatActivity {
 
     private JCVideoPlayerStandard playerStandard;
@@ -56,6 +55,11 @@ public class SitUpTimingActivity extends AppCompatActivity {
         findViews();
         setListener();
         initVideo();
+        //判断年级
+        String grade = jsonObject.get("nj").getAsString();
+        if (grade.equals("3") || grade.equals("4")){
+            btnNext.setText("生成报告");
+        }
     }
 
     private void setListener() {
@@ -77,14 +81,7 @@ public class SitUpTimingActivity extends AppCompatActivity {
                     minusNum();
                     break;
                 case R.id.btn_next:
-                    String grade = jsonObject.get("nj").getAsString();
-                    if (grade.equals(("3")) || grade.equals("4")) {
-                        btnNext.setText("生成报告");
-                        nextItem(jsonObject);
-                    }else {
-                        btnNext.setText("下一步");
-                        nextItem(jsonObject);
-                    }
+                    nextItem(jsonObject);
                     break;
                 case R.id.tv_time:
                     beginTiming(60);

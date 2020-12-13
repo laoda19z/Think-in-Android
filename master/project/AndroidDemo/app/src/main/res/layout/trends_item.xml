@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="300dp"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:background="@mipmap/e9"
     android:padding="20dp">
@@ -13,8 +13,8 @@
 
         <ImageView
             android:id="@+id/trend_item_head"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
             android:src="@mipmap/trendsbackground" />
 
         <TextView
@@ -25,7 +25,7 @@
             android:layout_toRightOf="@id/trend_item_head"
             android:text="出现错误"
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/trend_item_time"
@@ -46,7 +46,7 @@
         android:layout_marginTop="10dp"
         android:text="内容"
         android:textColor="@color/black"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/trend_item_img"
@@ -57,7 +57,12 @@
         android:layout_marginTop="10dp" />
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="1dp"
+        android:background="#F6F5F5"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
         <ImageView
             android:id="@+id/weizhi"
             android:layout_width="30dp"
@@ -74,7 +79,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/trend_item_img"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="5dp"
         android:orientation="vertical">
         <LinearLayout
             android:id="@+id/trend_comment_list"

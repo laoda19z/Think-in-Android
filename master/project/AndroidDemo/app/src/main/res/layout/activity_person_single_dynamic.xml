@@ -13,7 +13,7 @@
     <View
         android:id="@+id/dynamic_white"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="570dp"
         android:background="@color/white"
         android:alpha="0.8"
         android:layout_alignParentBottom="true" />
@@ -40,15 +40,15 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="30dp"
             android:layout_toRightOf="@id/trend_person_head"
-            android:text="火箭少女101_紫宁"
+            android:text="请稍等"
             android:textColor="@color/black"
             android:textSize="20sp" />
     </RelativeLayout>
     <TextView
-        android:id="@+id/hhh"
+        android:id="@+id/ddd"
         android:layout_below="@+id/trends_item_top"
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="1dp"
         android:background="@color/black"/>
     <LinearLayout
         android:id="@+id/linearlayout_notrend"
@@ -56,6 +56,132 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/trends_item_top"
         ></LinearLayout>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/trends_item_top"
+        android:id="@+id/trends_item_two"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5dp"
+        android:layout_height="60dp">
+        <LinearLayout
+            android:id="@+id/photo"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@mipmap/d2"/>
+            <TextView
+                android:textSize="12sp"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="17dp"
+                android:text="相册"
+                android:gravity="center"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/chat"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@mipmap/d3"/>
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="17dp"
+                android:text="说说"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/personality"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@mipmap/d5"/>
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="17dp"
+                android:text="个性化"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/game"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@mipmap/d1"/>
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="17dp"
+                android:text="小游戏"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/radio"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@mipmap/d4"/>
+            <TextView
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="17dp"
+                android:text="小视频"
+                android:textSize="12sp"
+                android:gravity="center"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/hhh"
+        android:layout_below="@+id/trends_item_two"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/black"/>
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/person_trend_srl"
         android:layout_width="match_parent"
@@ -67,7 +193,8 @@
         <ListView
             android:id="@+id/trend_person_listview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            />
         <com.scwang.smartrefresh.layout.footer.ClassicsFooter
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>

@@ -53,6 +53,11 @@ public class SkipTimingActivity extends AppCompatActivity {
         findViews();
         setListener();
         initVideo();
+        //判断年级发送
+        String grade = jsonObject.get("nj").getAsString();
+        if (grade.equals("1") || grade.equals("2")){
+            btnNext.setText("生成报告");
+        }
     }
     private void setListener() {
         MyListener listener = new MyListener();
@@ -73,14 +78,7 @@ public class SkipTimingActivity extends AppCompatActivity {
                     minusNum();
                     break;
                 case R.id.btn_next:
-                    String grade = jsonObject.get("nj").getAsString();
-                    if (grade.equals(("1")) || grade.equals("2")) {
-                        btnNext.setText("生成报告");
-                        nextItem(jsonObject);
-                    }else {
-                        btnNext.setText("下一步");
-                        nextItem(jsonObject);
-                    }
+                    nextItem(jsonObject);
                     break;
                 case R.id.tv_time:
                     beginTiming(60);

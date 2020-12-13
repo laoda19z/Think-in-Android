@@ -16,6 +16,7 @@ import jxl.Cell;
 import jxl.Sheet;
 import jxl.Workbook;
 import jxl.read.biff.BiffException;
+import net.onest.entity.AssessmentReport;
 import net.onest.entity.Report;
 import net.onest.test.dao.ReportDaoImpl;
 
@@ -293,5 +294,25 @@ public class ReportServiceImpl {
 			Report report = new Report(0, childId, bodyScore, upScore, downScore, overallScore);
 			return report;
 		}
+	}
+	/**
+	 * 根据孩子ID获取报告对象
+	 * @param childId
+	 * @return
+	 */
+	public List<AssessmentReport> getReportsByChildId(int childId){
+		ReportDaoImpl reportDaoImpl = new ReportDaoImpl();
+		List<AssessmentReport> reports= reportDaoImpl.getAssessmentReportsById(childId);
+		return reports;
+	}
+	/**
+	 * 根据报告ID获取单个报告对象
+	 * @param assessmentReportId
+	 * @return
+	 */
+	public AssessmentReport getAssessmentReportByReportId(int assessmentReportId) {
+		ReportDaoImpl reportDaoImpl = new ReportDaoImpl();
+		AssessmentReport assessmentReport = reportDaoImpl.getAssessmentReportById(assessmentReportId);
+		return assessmentReport;
 	}
 }

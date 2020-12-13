@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.uidemo.ConfigUtil;
 import com.example.uidemo.LoginActivity;
@@ -28,6 +29,7 @@ public class RecordActivity extends AppCompatActivity {
         MyApplication myapplication=(MyApplication)this.getApplication();
         flag=0;
         child= LoginActivity.currentChildId;
+        Log.e("mll","当前孩子的id为"+child);
         //判断用户是否有打卡和测评的记录
         new Thread(){
             @Override

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -23,6 +24,8 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.IOException;
@@ -59,6 +62,8 @@ public class UserMark extends AppCompatActivity {
     private int minutes;
     private String impression;
     private int child;
+    //
+    private EventBus eventBus;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,7 +77,7 @@ public class UserMark extends AppCompatActivity {
         writeusername=findViewById(R.id.need_to_write_username);
         writeka=findViewById(R.id.need_to_write_kaluli);
         writeimpression=findViewById(R.id.need_to_write_impression);
-
+        eventBus=EventBus.getDefault();
         Intent intent=getIntent();
         uri=intent.getStringExtra("uri");
         path=intent.getStringExtra("path");
@@ -99,8 +104,9 @@ public class UserMark extends AppCompatActivity {
         //感想
         impression=mark.getImpression();
         if(impression.equals("nulls")){
-
+            Log.e("感想为kong","null");
         }else{
+            Log.e("感想不空","not null");
             writeimpression.setText("感想 : "+impression);
         }
         //孩子id
@@ -118,6 +124,7 @@ public class UserMark extends AppCompatActivity {
         //生成二维码
         createEwm();
 
+        Log.e("长传图片打卡测试"," UserID "+username+" childId "+child);
         okHttpUploadImage();
 
         //设置点击事件
@@ -129,7 +136,7 @@ public class UserMark extends AppCompatActivity {
                 Intent intent1=new Intent();
                 intent1.setClass(UserMark.this, MainActivity.class);
                 intent1.putExtra("flushstatus","需要刷新");
-                startActivityForResult(intent1,1);
+                startActivity(intent1);
             }
         });
     }

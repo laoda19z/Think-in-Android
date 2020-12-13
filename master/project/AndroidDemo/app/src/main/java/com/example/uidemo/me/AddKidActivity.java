@@ -93,10 +93,14 @@ public class AddKidActivity extends AppCompatActivity {
                 addSex = etSex.getText().toString();
                 age = etAge.getText().toString();
                 grade = etGrade.getText().toString();
-
-                //发送构造成的JSON串到服务端，添加到数据库，然后在main中显示出来
-                userToServer(currentUserId,addName,grade,addSex,age);
-                AddKidActivity.this.finish();
+                //判断输入的孩子信息是否完全
+                if(addName.isEmpty() || addSex.isEmpty() || age.isEmpty() || grade.isEmpty() ){
+                    Toast.makeText(AddKidActivity.this,"请正确输入信息！",Toast.LENGTH_SHORT).show();
+                }else{
+                    //发送构造成的JSON串到服务端，添加到数据库，然后在main中显示出来
+                    userToServer(currentUserId,addName,grade,addSex,age);
+                    AddKidActivity.this.finish();
+                }
             }
         });
     }

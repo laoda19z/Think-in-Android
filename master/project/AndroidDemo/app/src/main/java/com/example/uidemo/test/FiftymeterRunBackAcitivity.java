@@ -21,7 +21,6 @@ import com.google.gson.JsonParser;
 import fm.jiecao.jcvideoplayer_lib.JCVideoPlayerStandard;
 
 
-
 public class FiftymeterRunBackAcitivity extends AppCompatActivity {
 
     private JCVideoPlayerStandard playerStandard;

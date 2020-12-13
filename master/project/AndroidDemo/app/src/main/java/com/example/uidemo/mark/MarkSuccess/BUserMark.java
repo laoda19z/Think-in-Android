@@ -17,6 +17,7 @@ import com.bumptech.glide.Glide;
 import com.example.uidemo.ConfigUtil;
 import com.example.uidemo.MainActivity;
 import com.example.uidemo.R;
+import com.example.uidemo.mainfragment.MyselfFragment;
 import com.example.uidemo.mark.Entity.Mark;
 import com.example.uidemo.mark.Entity.TotalMark;
 import com.google.gson.Gson;
@@ -29,6 +30,8 @@ import com.tencent.connect.share.QQShare;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -64,6 +67,8 @@ public class BUserMark extends AppCompatActivity {
     //上传图片的id
     private int id;
     private String name;
+    //
+    private EventBus eventBus;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,6 +83,8 @@ public class BUserMark extends AppCompatActivity {
         writeusername = findViewById(R.id.need_to_write_username);
         writeka = findViewById(R.id.need_to_write_kaluli);
         writeimpression = findViewById(R.id.need_to_write_impression);
+        eventBus=EventBus.getDefault();
+
 
         Intent intent = getIntent();
         String json = intent.getStringExtra("json");
@@ -163,8 +170,7 @@ public class BUserMark extends AppCompatActivity {
 //                //跳转回最初的页面
                 Intent intent1=new Intent();
                 intent1.setClass(BUserMark.this, MainActivity.class);
-                startActivityForResult(intent1,1);
-
+                startActivity(intent1);
             }
         });
 

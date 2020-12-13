@@ -91,6 +91,7 @@ public class UserDaoImpl {
 			rs = pstm.executeQuery();
 			while(rs.next()) {
 				user.setUserId(rs.getInt(3));
+				user.setUsername(rs.getString(1));
 				user.setPassword(rs.getString(2));
 				user.setHeadImg(rs.getString(4));
 				user.setPhoneNum(rs.getString(5));
