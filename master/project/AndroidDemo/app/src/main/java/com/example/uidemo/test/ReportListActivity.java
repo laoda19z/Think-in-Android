@@ -1,19 +1,23 @@
 package com.example.uidemo.test;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.widget.GridView;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import android.widget.TextView;
 
 import com.example.uidemo.ConfigUtil;
 import com.example.uidemo.R;
 import com.example.uidemo.adapter.ReportAdapter;
 import com.example.uidemo.record.entitys.AssessmentReport;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.BufferedReader;
@@ -27,9 +31,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.jmessage.support.qiniu.android.utils.Json;
+
 public class ReportListActivity extends AppCompatActivity {
 
     private ProgressDialog mDialog;
+    private TextView tvNull;
     private List<AssessmentReport> reports = new ArrayList<>();
     private GridView gridView;
     private Handler handler = new Handler(){
@@ -44,6 +51,9 @@ public class ReportListActivity extends AppCompatActivity {
                             R.layout.report_list_item
                     );
                     gridView.setAdapter(reportAdapter);
+                    if (reports.size() == 0){
+                        tvNull.setText("暂无数据");
+                    }
                     mDialog.dismiss();
                     break;
             }
@@ -56,6 +66,7 @@ public class ReportListActivity extends AppCompatActivity {
         mDialog = new ProgressDialog(ReportListActivity.this);
         mDialog.setMessage("获取数据中，请稍后...");
         mDialog.show();
+        tvNull = findViewById(R.id.tv_null);
         gridView = findViewById(R.id.gv_report);
         String str = getIntent().getStringExtra("id");
         int childId = Integer.parseInt(str);

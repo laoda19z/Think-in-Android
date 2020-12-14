@@ -79,6 +79,7 @@
         <activity android:name=".mark.MarkSuccess.BUserMark" />
         <activity android:name=".test.ReportListActivity"/>
         <activity android:name=".test.ReportInfoActivity"/>
+        <activity android:name=".familyactivity.activities.MyLovesActivity"/>
         <!-- QQ -->
         <activity
             android:name="com.tencent.tauth.AuthActivity"

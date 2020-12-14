@@ -1,5 +1,6 @@
 package com.example.uidemo.me;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -87,6 +88,11 @@ public class UpdateNameActivity extends AppCompatActivity {
                 //更新全局用户属性
                 currentUserName = newName;
                 userToServer(currentUserId,newName);
+                Intent intent = new Intent();
+                Bundle bundle = new Bundle();
+                bundle.putString("newName",newName);
+                intent.putExtras(bundle);
+                UpdateNameActivity.this.setResult(2,intent);
                 UpdateNameActivity.this.finish();//返回上一个页面
             }
         });

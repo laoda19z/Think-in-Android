@@ -1,5 +1,6 @@
 package com.example.uidemo.dynamic;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Handler;
@@ -49,6 +50,7 @@ import java.util.Map;
 
 
 public class CommunicityFragment2 extends FragmentActivity {
+    private ProgressDialog dialog;
     private View view;
     private SmartRefreshLayout srl;
     private List<Dynamic> dynamics = new ArrayList<>();
@@ -69,6 +71,7 @@ public class CommunicityFragment2 extends FragmentActivity {
         btnPublishTrend = view.findViewById(R.id.btn_publishtrends);
         btnMyselfTrend = view.findViewById(R.id.btn_myselftrends);
         srl = view.findViewById(R.id.all_trend_srl);
+        dialog = new ProgressDialog(context);
         initData(context);
         eventBus = EventBus.getDefault();
         if(!eventBus.isRegistered(CommunicityFragment2.this)){
@@ -82,8 +85,11 @@ public class CommunicityFragment2 extends FragmentActivity {
                         adapter.setDynamic(dynamics);
                         adapter.setUsers(users);
                         adapter.setCommUsers(commUsers);
-                        adapter.notifyDataSetChanged();
                         listView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                        if(dialog.isShowing()){
+                            dialog.dismiss();
+                        }
                         break;
                 }
             }
@@ -115,6 +121,9 @@ public class CommunicityFragment2 extends FragmentActivity {
         srl.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
+
+                dialog.setMessage("正在刷新，请稍后...");
+                dialog.show();
                 dynamics.clear();
                 showDynamic(ConfigUtil.SERVER_ADDR + "ShowDynamicServlet?page=1");
                 //通知刷新完毕

@@ -41,8 +41,7 @@ public class DetailsActivity extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(DetailsActivity.this,FamilyActivity.class);
-                startActivity(intent1);
+                finish();
             }
         });
     }

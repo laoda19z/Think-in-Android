@@ -46,13 +46,15 @@
         android:layout_height="100dp"
         android:layout_above="@+id/t1"
         android:layout_alignLeft="@+id/t1"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:background="@mipmap/record_mark"/>
     <ImageButton
         android:id="@+id/btn2"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_above="@+id/t2"
         android:layout_alignLeft="@+id/t2"
+        android:background="@mipmap/family"
         android:layout_marginBottom="10dp"/>
     <ImageButton
         android:id="@+id/btn3"
@@ -60,6 +62,7 @@
         android:layout_height="100dp"
         android:layout_above="@+id/t3"
         android:layout_alignLeft="@+id/t3"
+        android:background="@mipmap/record_test"
         android:layout_marginBottom="10dp"/>
 
     <TextView

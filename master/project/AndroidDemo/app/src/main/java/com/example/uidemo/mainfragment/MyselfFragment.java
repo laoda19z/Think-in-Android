@@ -20,6 +20,7 @@ import com.bumptech.glide.Glide;
 import com.example.uidemo.ConfigUtil;
 import com.example.uidemo.R;
 import com.example.uidemo.adapter.HorizontalListViewAdapter;
+import com.example.uidemo.familyactivity.activities.MyLovesActivity;
 import com.example.uidemo.me.AddKidActivity;
 import com.example.uidemo.me.CodeActivity;
 import com.example.uidemo.me.HorizontalListView;
@@ -42,6 +43,7 @@ public class MyselfFragment extends FragmentActivity {
     private Button btnInfo;
     private Button btnSeCenter;
     private Button btnAddKid;
+    private Button btnLove;
     private ImageView ivHeader;
     private TextView tvName;
     private Button btnNew;
@@ -61,6 +63,7 @@ public class MyselfFragment extends FragmentActivity {
         tvName = view.findViewById(R.id.tv_name);
         btnNew = view.findViewById(R.id.btn_fl);
         btnTest = view.findViewById(R.id.btn_test);
+        btnLove = view.findViewById(R.id.btn_love);
         Log.e("mll","name"+currentUserName);
         tvName.setText(currentUserName);
 
@@ -76,7 +79,15 @@ public class MyselfFragment extends FragmentActivity {
                     .circleCrop()
                     .into(ivHeader);
         }
-
+    //我的收藏
+        btnLove.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setClass(context, MyLovesActivity.class);
+                context.startActivity(intent);
+            }
+        });
         //二维码按钮
         btnCode.setOnClickListener(new View.OnClickListener() {
             @Override

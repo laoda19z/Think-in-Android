@@ -57,6 +57,7 @@
         android:layout_marginTop="10dp" />
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_marginTop="5dp"
         android:layout_height="1dp"
         android:background="#F6F5F5"/>
     <LinearLayout

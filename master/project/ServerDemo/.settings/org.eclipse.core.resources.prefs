@@ -1,7 +1,2 @@
 eclipse.preferences.version=1
 encoding//src/net/onest/activity/controller/UpdateDBServlet.java=UTF-8
-encoding//src/net/onest/contact/controller/AddContactServlet.java=UTF-8
-encoding//src/net/onest/dynamic/controller/PublishTrendsServlet.java=UTF-8
-encoding//src/net/onest/test/controller/GetChildServlet.java=UTF-8
-encoding//src/net/onest/test/controller/GetReportServlet.java=UTF-8
-encoding//src/net/onest/test/service/ReportServiceImpl.java=UTF-8

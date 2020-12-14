@@ -10,6 +10,8 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.example.uidemo.ConfigUtil;
@@ -45,12 +47,20 @@ public class FamilyActivity extends AppCompatActivity {
     private String url = ConfigUtil.SERVER_ADDR + "ActivitiesServlet";
     private Handler myHandler;
     private ParentChildActivitiesInfo activitiesInfo;
+    private ImageView btnBack;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_family);
         downLoadActivities(url);
 
+        btnBack = findViewById(R.id.btn_back1);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
         myHandler = new Handler(Looper.getMainLooper()){
             @Override
             public void handleMessage(@NonNull Message msg) {

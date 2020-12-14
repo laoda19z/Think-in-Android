@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,17 +13,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.example.uidemo.ConfigUtil;
 import com.example.uidemo.R;
 import com.example.uidemo.familyactivity.activities.DetailsActivity;
 import com.example.uidemo.familyactivity.beans.ParentChildActivities;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 
 public class ActivitiesAdapter extends BaseAdapter {
     private List<ParentChildActivities> activities;
     private LayoutInflater inflater;
     private int flag = 0;
+    private String info;
 
     public ActivitiesAdapter(Context mContext, List<ParentChildActivities> activities){
         this.activities = activities;
@@ -69,6 +82,9 @@ public class ActivitiesAdapter extends BaseAdapter {
             public void onClick(View v) {
                 if(flag == 0){
                     heartIv.setImageResource(R.drawable.heartafter);
+                    info = String.valueOf(activities.get(position).getActivityId());
+                    //传一个ID到服务端
+                    reToServer();
                     flag = 1;
                 }else{
                     heartIv.setImageResource(R.drawable.heartbefore);
@@ -103,5 +119,38 @@ public class ActivitiesAdapter extends BaseAdapter {
 
         return convertView;
 
+
+    }
+
+    private void reToServer() {
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    URL url = new URL(ConfigUtil.SERVER_ADDR + "/MyLovesInsertServlet");
+                    URLConnection conn = url.openConnection();
+                    conn.setDoOutput(true);
+                    conn.setDoInput(true);
+                    //获取输入流和输出流
+                    OutputStream out = null;
+                    out = conn.getOutputStream();
+                    BufferedWriter writer = new BufferedWriter(
+                            new OutputStreamWriter(out, "utf-8"));
+
+                    writer.write(info);
+                    writer.flush();
+                    InputStream in = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(in, "utf-8"));
+                    String result = reader.readLine();
+                    reader.close();
+                    out.close();
+                    Log.i("result",result);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }.start();
     }
 }

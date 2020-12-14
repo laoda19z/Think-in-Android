@@ -72,7 +72,7 @@ public class PersonInfoActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent();
                 intent.setClass(PersonInfoActivity.this,UpdateNameActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,3);
             }
         });
 
@@ -118,6 +118,11 @@ public class PersonInfoActivity extends AppCompatActivity {
                 tvPersonInfoEmail.setText(newEmail);
 
             }
+        }
+        if(requestCode == 3){
+            Bundle bundle = data.getExtras();
+            String newName = bundle.getString("newName");
+            tvPerInfoName.setText(newName);
         }
     }
 }

@@ -65,6 +65,7 @@
             android:layout_below="@+id/recybanner"
             android:layout_gravity="center"
             android:orientation="horizontal"
+            android:background="#FFFFFF"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
@@ -81,7 +82,7 @@
                     <ImageView
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:src="@mipmap/familys"/>
+                        android:src="@mipmap/lightbluefamily"/>
                     <TextView
                         android:textColor="@color/black"
                         android:textSize="15sp"
@@ -107,7 +108,7 @@
                     <ImageView
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:src="@mipmap/flession1"/>
+                        android:src="@mipmap/lightbluelesssion"/>
                     <TextView
                         android:textSize="15sp"
                         android:gravity="center"
@@ -133,7 +134,7 @@
                     <ImageView
                         android:layout_width="70dp"
                         android:layout_height="70dp"
-                        android:src="@mipmap/records1"/>
+                        android:src="@mipmap/lightbluerecords"/>
                     <TextView
                         android:textSize="15sp"
                         android:gravity="center"

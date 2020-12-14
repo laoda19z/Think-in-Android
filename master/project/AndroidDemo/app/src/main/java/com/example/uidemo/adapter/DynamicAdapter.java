@@ -92,7 +92,10 @@ public class DynamicAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        currentdynamic = lists.get(i);
+//        if(lists.size()>=i){
+            currentdynamic = lists.get(i);
+//        }
+
         okHttpClient = new OkHttpClient();
         handler = new Handler(Looper.myLooper()){
             @Override

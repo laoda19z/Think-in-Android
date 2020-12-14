@@ -7,6 +7,7 @@ import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -124,8 +125,12 @@ public class SkipTimingActivity extends AppCompatActivity {
 
     private void minusNum() {
         int i = Integer.parseInt(tvData.getText().toString());
-        i--;
-        tvData.setText(i+"");
+        if (i == 0){
+            Toast.makeText(this, "无法减少", Toast.LENGTH_SHORT).show();
+        }else {
+            i--;
+            tvData.setText(i+"");
+        }
     }
 
     private void nextItem(JsonObject jo) {

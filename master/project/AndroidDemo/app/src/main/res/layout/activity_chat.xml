@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <!--#21B1F3-->
     <RelativeLayout
         android:background="#21B1F3"
         android:id="@+id/chat_title_bar"
@@ -59,7 +60,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:background="#21B1F3">
-
+<!--#21B1F3-->
         <Button
             android:id="@+id/ec_btn_send"
             android:layout_width="68dp"
@@ -82,7 +83,7 @@
             android:layout_toLeftOf="@id/ec_btn_send"
             android:hint="输入信息"
             android:padding="18dp"
-            android:textColorHint="#E8E4E4"
+            android:textColorHint="#87CEEB"
             android:textStyle="bold" />
     </RelativeLayout>
 </RelativeLayout>

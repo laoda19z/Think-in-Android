@@ -35,7 +35,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:textSize="30sp" />
+                android:textSize="30sp"
+                android:textColor="@color/black"/>
             <RelativeLayout
                 android:layout_width="380dp"
                 android:layout_height="30dp"
@@ -62,7 +63,8 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:text="时间"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp"
+                        android:textColor="@color/black"/>
                 </LinearLayout>
                 <TextView
                     android:id="@+id/activity_details_time"
@@ -70,6 +72,7 @@
                     android:layout_height="match_parent"
                     android:layout_alignParentRight="true"
                     android:gravity="center_vertical|right"
+                    android:textColor="@color/black"
                     />
             </RelativeLayout>
 
@@ -98,7 +101,8 @@
                         android:layout_gravity="center"
                         android:gravity="center"
                         android:text="位置"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp"
+                        android:textColor="@color/black"/>
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="200dp"
@@ -110,6 +114,7 @@
                         android:layout_width="80dp"
                         android:layout_height="match_parent"
                         android:gravity="center"
+                        android:textColor="@color/black"
                         />
                     <ImageView
                         android:layout_width="20dp"
@@ -122,7 +127,8 @@
             <TextView
                 android:id="@+id/activity_details_content"
                 android:layout_width="match_parent"
-                android:layout_height="400dp"/>
+                android:layout_height="400dp"
+                android:textColor="@color/black"/>
         </LinearLayout>
         <LinearLayout
             android:id="@+id/collect_parentchildactivity"
