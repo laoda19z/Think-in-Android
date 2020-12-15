@@ -103,24 +103,28 @@ public class UpdateInfoActivity extends AppCompatActivity {
                 String newPhone = etUpdateInfoPhone.getText().toString().trim();
                 String newEmail = etUpdateInfoEmail.getText().toString().trim();
 
-                //更新全局用户属性
-                currentUserSex = newSex;
-                currentUserRealName = newRealName;
-                currentUserPhoneNum = newPhone;
-                currentUserEmail = newEmail;
-                userToServer(currentUserId,newRealName,newSex,newPhone,newEmail);
+                if(newRealName.isEmpty()||newSex.isEmpty()||newPhone.isEmpty()||newEmail.isEmpty()){
+                    Toast.makeText(UpdateInfoActivity.this,"请将信息输入完整！",Toast.LENGTH_SHORT).show();
+                }else {
+                    //更新全局用户属性
+                    currentUserSex = newSex;
+                    currentUserRealName = newRealName;
+                    currentUserPhoneNum = newPhone;
+                    currentUserEmail = newEmail;
+                    userToServer(currentUserId,newRealName,newSex,newPhone,newEmail);
 
-                //跳转时保存数据
-                //返回信息页时，将数据一同传输
-                Intent intent = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putString("newName",newRealName);
-                bundle.putString("newSex",newSex);
-                bundle.putString("newPhone",newPhone);
-                bundle.putString("newEmail",newEmail);
-                intent.putExtras(bundle);
-                UpdateInfoActivity.this.setResult(2,intent);
-                UpdateInfoActivity.this.finish();
+                    //跳转时保存数据
+                    //返回信息页时，将数据一同传输
+                    Intent intent = new Intent();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("newName",newRealName);
+                    bundle.putString("newSex",newSex);
+                    bundle.putString("newPhone",newPhone);
+                    bundle.putString("newEmail",newEmail);
+                    intent.putExtras(bundle);
+                    UpdateInfoActivity.this.setResult(2,intent);
+                    UpdateInfoActivity.this.finish();
+                }
             }
         });
 

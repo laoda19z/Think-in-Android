@@ -85,15 +85,19 @@ public class UpdateNameActivity extends AppCompatActivity {
                  * 根据用户id修改
                  * */
                 String newName = etNewName.getText().toString();
-                //更新全局用户属性
-                currentUserName = newName;
-                userToServer(currentUserId,newName);
-                Intent intent = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putString("newName",newName);
-                intent.putExtras(bundle);
-                UpdateNameActivity.this.setResult(2,intent);
-                UpdateNameActivity.this.finish();//返回上一个页面
+                if(newName.isEmpty()){
+                    Toast.makeText(UpdateNameActivity.this,"请输入新的昵称！",Toast.LENGTH_SHORT).show();
+                }else{
+                    //更新全局用户属性
+                    currentUserName = newName;
+                    userToServer(currentUserId,newName);
+                    Intent intent = new Intent();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("newName",newName);
+                    intent.putExtras(bundle);
+                    UpdateNameActivity.this.setResult(2,intent);
+                    UpdateNameActivity.this.finish();//返回上一个页面
+                }
             }
         });
     }

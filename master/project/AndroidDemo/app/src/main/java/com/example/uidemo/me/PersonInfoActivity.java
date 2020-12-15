@@ -118,11 +118,11 @@ public class PersonInfoActivity extends AppCompatActivity {
                 tvPersonInfoEmail.setText(newEmail);
 
             }
-        }
-        if(requestCode == 3){
-            Bundle bundle = data.getExtras();
-            String newName = bundle.getString("newName");
-            tvPerInfoName.setText(newName);
+            if(requestCode == 3){
+                Bundle bundle = data.getExtras();
+                String newName = bundle.getString("newName");
+                tvPerInfoName.setText(newName);
+            }
         }
     }
 }

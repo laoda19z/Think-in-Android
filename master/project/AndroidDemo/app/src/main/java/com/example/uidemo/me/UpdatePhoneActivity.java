@@ -87,10 +87,14 @@ public class UpdatePhoneActivity extends AppCompatActivity {
                 /**
                  * 根据用户id，修改电话号码
                  * */
-                //更新全局用户属性
-                currentUserPhoneNum = newPhone;
-                userToServer(currentUserId,newPhone);
-                UpdatePhoneActivity.this.finish();//返回上一个页面
+                if(newPhone.isEmpty()){
+                    Toast.makeText(UpdatePhoneActivity.this,"请输入正确的手机号码！",Toast.LENGTH_SHORT).show();
+                }else{
+                    //更新全局用户属性
+                    currentUserPhoneNum = newPhone;
+                    userToServer(currentUserId,newPhone);
+                    UpdatePhoneActivity.this.finish();//返回上一个页面
+                }
             }
         });
     }
