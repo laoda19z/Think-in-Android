@@ -3,6 +3,7 @@ package com.example.uidemo.familyactivity.activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -43,6 +44,7 @@ import java.util.List;
 import static android.graphics.BitmapFactory.decodeStream;
 
 public class FamilyActivity extends AppCompatActivity {
+    private ProgressDialog mDialog;
     private List<ParentChildActivities> parentChildActivities;
     private String url = ConfigUtil.SERVER_ADDR + "ActivitiesServlet";
     private Handler myHandler;
@@ -52,6 +54,9 @@ public class FamilyActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_family);
+        mDialog = new ProgressDialog(this);
+        mDialog.setMessage("正在加载数据，请稍后...");
+        mDialog.show();
         downLoadActivities(url);
 
         btnBack = findViewById(R.id.btn_back1);
@@ -89,6 +94,7 @@ public class FamilyActivity extends AppCompatActivity {
                                 return new ClassicsFooter(context).setDrawableSize(20);
                             }
                         });
+                        mDialog.dismiss();
                         break;
                 }
             }
