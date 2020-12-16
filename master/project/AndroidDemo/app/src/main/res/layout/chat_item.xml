@@ -20,19 +20,25 @@
 
         <ImageView
             android:id="@+id/chat_item_receiver"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"/>
-        <TextView
-            android:id="@+id/tv_left_text"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginLeft="5dp"/>
+        <LinearLayout
+            android:background="@drawable/qipaolast1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:background="@android:color/holo_blue_light"
-            android:gravity="center_vertical"
-            android:padding="20dp"
-            android:text="你好，我叫小可爱"
-            android:textColor="@android:color/white" />
+            android:layout_marginLeft="5dp">
+            <TextView
+                android:id="@+id/tv_left_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:padding="20dp"
+                android:text="你好，我叫小可爱"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
     </LinearLayout>
 
 
@@ -42,22 +48,27 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right">
 
-        <TextView
-            android:id="@+id/tv_right_text"
+        <LinearLayout
+            android:background="@drawable/qipaolast"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:background="@android:color/holo_blue_light"
-            android:gravity="center_vertical"
-            android:padding="20sp"
-            android:text="你好，你会些什么啊"
-            android:textColor="@android:color/white" />
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_right_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:gravity="center_vertical"
+                android:padding="20sp"
+                android:text="你好，你会些什么啊"
+                android:textColor="@android:color/black" />
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/chat_item_publisher"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="10dp"/>
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginRight="5dp"/>
     </LinearLayout>
 
 </LinearLayout>

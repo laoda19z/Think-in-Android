@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <!-- 按钮颜色 -->
-    <solid android:color="#EC4E4E" />
+    <solid android:color="#AAEC4E4E" />
     <!--圆角 -->
     <corners android:radius="20dip" />
 </shape>
